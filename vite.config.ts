@@ -13,7 +13,16 @@ const config = defineConfig({
     devtools(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      // prerender: {
+      //   enabled: true,
+      //   crawlLinks: true,
+      // },
+      sitemap: {
+        enabled: true,
+        host: 'https://gayatri-law-offices.pages.dev',
+      },
+    }),
     viteReact(),
   ],
 })

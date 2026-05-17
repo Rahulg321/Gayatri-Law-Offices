@@ -3,5 +3,20 @@
   "name": "gayatri-law-offices",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+  "main": "@tanstack/react-start/server-entry",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gayatri-law-offices-db",
+      "database_id": "f72eac8b-bb8c-4657-920a-87ee3fd100e4",
+      "migrations_dir": "drizzle",
+      "remote": true
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "ASSETS",
+      "bucket_name": "gayatri-law-offices-assets"
+    }
+  ]
 }

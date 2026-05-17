@@ -1,117 +1,229 @@
-import { Link } from '@tanstack/react-router'
-import BetterAuthHeader from '../integrations/better-auth/header-user.tsx'
-import ThemeToggle from './ThemeToggle'
+import { useState, useCallback } from "react";
+import { Link } from "@tanstack/react-router";
+import ThemeToggle from "./ThemeToggle";
+import { Button } from "./ui/button";
+
+const SERVICES_CHILDREN = [
+  { slug: "contract-drafting", label: "Contract Drafting" },
+  { slug: "document-review", label: "Document Review" },
+  { slug: "legal-research", label: "Legal Research" },
+  { slug: "litigation-support", label: "Litigation Support" },
+  { slug: "due-diligence", label: "Due Diligence" },
+  { slug: "ip-support", label: "IP Support" },
+  { slug: "paralegal-services", label: "Paralegal Services" },
+] as const;
+
+const NAV_LINKS = [
+  { to: "/" as const, label: "Home" },
+  { to: "/about" as const, label: "About" },
+  { label: "Services", children: SERVICES_CHILDREN },
+  { to: "/why-us" as const, label: "Why Us" },
+  { to: "/testimonials" as const, label: "Testimonials" },
+  { to: "/resources" as const, label: "Resources" },
+] as const;
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [servicesHover, setServicesHover] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+    setMobileServicesOpen(false);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--header-bg)] px-4 backdrop-blur-lg">
-      <nav className="page-wrap flex flex-wrap items-center gap-x-3 gap-y-2 py-3 sm:py-4">
-        <h2 className="m-0 flex-shrink-0 text-base font-semibold tracking-tight">
+    <>
+      <header className="fixed top-0 left-1/2 z-50 mt-5 -translate-x-1/2 sm:mt-6">
+        <nav className="flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--header-bg)] px-2.5 py-2 shadow-[0_8px_32px_rgba(26,29,35,0.06)] backdrop-blur-2xl sm:gap-2 sm:px-3.5 sm:py-2.5">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--chip-line)] bg-[var(--chip-bg)] px-3 py-1.5 text-sm text-[var(--sea-ink)] no-underline shadow-[0_8px_24px_rgba(30,90,72,0.08)] sm:px-4 sm:py-2"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-2 py-1 text-sm font-semibold text-[var(--charcoal)] no-underline sm:px-2.5"
+            onClick={closeMenu}
           >
-            <span className="h-2 w-2 rounded-full bg-[linear-gradient(90deg,#56c6be,#7ed3bf)]" />
-            TanStack Start
+            <span className="h-2 w-2 rounded-full bg-[linear-gradient(135deg,var(--gold),var(--gold-light))]" />
+            <span className="hidden sm:inline">Gayatri Law Offices</span>
+            <span className="sm:hidden">GLO</span>
           </Link>
-        </h2>
 
-        <div className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 pb-1 text-sm font-semibold sm:order-none sm:w-auto sm:flex-nowrap sm:pb-0">
-          <Link
-            to="/"
-            className="nav-link"
-            activeProps={{ className: 'nav-link is-active' }}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="nav-link"
-            activeProps={{ className: 'nav-link is-active' }}
-          >
-            About
-          </Link>
-          <a
-            href="https://tanstack.com/start/latest/docs/framework/react/overview"
-            className="nav-link"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Docs
-          </a>
-          <details className="relative w-full sm:w-auto">
-            <summary className="nav-link list-none cursor-pointer">
-              Demos
-            </summary>
-            <div className="mt-2 min-w-56 rounded-xl border border-[var(--line)] bg-[var(--header-bg)] p-2 shadow-lg sm:absolute sm:right-0">
-              <a
-                href="/demo/drizzle"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
+          <div className="hidden items-center gap-0.5 lg:flex">
+            {NAV_LINKS.map((link) =>
+              "children" in link ? (
+                <div
+                  key={link.label}
+                  className="relative"
+                  onMouseEnter={() => setServicesHover(true)}
+                  onMouseLeave={() => setServicesHover(false)}
+                >
+                  <button className="nav-link cursor-pointer px-2.5 py-1.5 text-sm font-medium">
+                    {link.label}
+                    <svg
+                      className="ml-0.5 inline-block size-3"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  {servicesHover && (
+                    <div className="absolute left-0 top-full mt-1.5 min-w-52 rounded-2xl border border-[var(--line)] bg-[var(--header-bg)] p-1.5 shadow-[0_16px_48px_rgba(26,29,35,0.08)] backdrop-blur-2xl">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.slug}
+                          to="/services/$slug"
+                          params={{ slug: child.slug }}
+                          className="block rounded-xl px-3 py-2.5 text-sm text-[var(--charcoal-soft)] no-underline transition-colors hover:bg-[var(--link-bg-hover)] hover:text-[var(--charcoal)]"
+                          onClick={() => setServicesHover(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                      <Link
+                        to="/services"
+                        className="block rounded-xl px-3 py-2.5 text-sm font-medium text-[var(--charcoal)] no-underline transition-colors hover:bg-[var(--link-bg-hover)]"
+                        onClick={() => setServicesHover(false)}
+                      >
+                        View All Services →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="nav-link px-2.5 py-1.5 text-sm font-medium"
+                  activeProps={{ className: "nav-link is-active" }}
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
+          </div>
+
+          <div className="flex items-center gap-1 sm:gap-1.5">
+            <Link to="/contact" className="hidden sm:block">
+              <Button
+                size="sm"
+                className="cursor-pointer rounded-full bg-[var(--gold)] px-3.5 py-1.5 text-xs font-semibold text-white shadow-[0_2px_8px_rgba(184,134,11,0.25)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] hover:shadow-[0_4px_14px_rgba(184,134,11,0.35)] active:scale-[0.97]"
               >
-                Drizzle
-              </a>
-              <a
-                href="/demo/form/simple"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                Simple Form
-              </a>
-              <a
-                href="/demo/form/address"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                Address Form
-              </a>
-              <a
-                href="/demo/table"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                TanStack Table
-              </a>
-              <a
-                href="/demo/better-auth"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                Better Auth
-              </a>
+                Get a Quote
+              </Button>
+            </Link>
+            <ThemeToggle />
+            <button
+              className="flex cursor-pointer flex-col items-center justify-center gap-[4.5px] rounded-full p-2 transition-colors hover:bg-[var(--link-bg-hover)] lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+            >
+              <span
+                className={`block h-[1.5px] w-5 rounded-full bg-[var(--charcoal)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? "translate-y-[6px] rotate-45" : ""}`}
+              />
+              <span
+                className={`block h-[1.5px] w-5 rounded-full bg-[var(--charcoal)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? "scale-x-0 opacity-0" : ""}`}
+              />
+              <span
+                className={`block h-[1.5px] w-5 rounded-full bg-[var(--charcoal)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${menuOpen ? "-translate-y-[6px] -rotate-45" : ""}`}
+              />
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {menuOpen && (
+        <div className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-[var(--header-bg)] backdrop-blur-3xl lg:hidden">
+          <nav className="mt-24 flex flex-col items-center gap-5 px-6 pb-12">
+            {NAV_LINKS.map((link, i) =>
+              "children" in link ? (
+                <div
+                  key={link.label}
+                  className="flex w-full flex-col items-center gap-2"
+                >
+                  <button
+                    className="flex items-center gap-1 text-lg font-semibold text-[var(--charcoal)]"
+                    onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                    style={{
+                      opacity: 0,
+                      animation: `rise-in 600ms cubic-bezier(0.32,0.72,0,1) ${150 + i * 80}ms forwards`,
+                    }}
+                  >
+                    {link.label}
+                    <svg
+                      className={`size-4 transition-transform duration-300 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </button>
+                  {mobileServicesOpen && (
+                    <div className="flex flex-col items-center gap-1.5">
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.slug}
+                          to="/services/$slug"
+                          params={{ slug: child.slug }}
+                          className="text-base text-[var(--charcoal-soft)] no-underline transition-colors hover:text-[var(--charcoal)]"
+                          onClick={closeMenu}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                      <Link
+                        to="/services"
+                        className="text-base font-medium text-[var(--charcoal)] no-underline"
+                        onClick={closeMenu}
+                      >
+                        View All Services
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="text-lg font-semibold text-[var(--charcoal)] no-underline"
+                  activeProps={{ className: "text-[var(--gold)]" }}
+                  onClick={closeMenu}
+                  style={{
+                    opacity: 0,
+                    animation: `rise-in 600ms cubic-bezier(0.32,0.72,0,1) ${150 + i * 80}ms forwards`,
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
+            <div
+              className="mt-6"
+              style={{
+                opacity: 0,
+                animation: `rise-in 600ms cubic-bezier(0.32,0.72,0,1) ${150 + NAV_LINKS.length * 80}ms forwards`,
+              }}
+            >
+              <Link to="/contact" onClick={closeMenu}>
+                <Button className="cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_8px_rgba(184,134,11,0.25)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] active:scale-[0.97]">
+                  Get a Quote
+                </Button>
+              </Link>
             </div>
-          </details>
+          </nav>
         </div>
-
-        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          <a
-            href="https://x.com/tan_stack"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden rounded-xl p-2 text-[var(--sea-ink-soft)] transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)] sm:block"
-          >
-            <span className="sr-only">Follow TanStack on X</span>
-            <svg viewBox="0 0 16 16" aria-hidden="true" width="24" height="24">
-              <path
-                fill="currentColor"
-                d="M12.6 1h2.2L10 6.48 15.64 15h-4.41L7.78 9.82 3.23 15H1l5.14-5.84L.72 1h4.52l3.12 4.73L12.6 1zm-.77 12.67h1.22L4.57 2.26H3.26l8.57 11.41z"
-              />
-            </svg>
-          </a>
-          <a
-            href="https://github.com/TanStack"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden rounded-xl p-2 text-[var(--sea-ink-soft)] transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)] sm:block"
-          >
-            <span className="sr-only">Go to TanStack GitHub</span>
-            <svg viewBox="0 0 16 16" aria-hidden="true" width="24" height="24">
-              <path
-                fill="currentColor"
-                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-              />
-            </svg>
-          </a>
-          <BetterAuthHeader />
-
-          <ThemeToggle />
-        </div>
-      </nav>
-    </header>
-  )
+      )}
+    </>
+  );
 }

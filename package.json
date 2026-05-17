@@ -12,12 +12,10 @@
     "test": "vitest run",
     "deploy": "bun run build && wrangler deploy",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:pull": "drizzle-kit pull",
+    "db:migrate:local": "wrangler d1 migrations apply gayatri-law-offices-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply gayatri-law-offices-db --remote",
     "db:studio": "drizzle-kit studio",
     "cf-types": "wrangler types"
-    
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.26.0",
@@ -32,6 +30,8 @@
     "@tanstack/react-start": "latest",
     "@tanstack/react-table": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "@uiw/react-md-editor": "^4.1.0",
+    "aws4fetch": "^1.0.20",
     "better-auth": "^1.5.3",
     "better-sqlite3": "^12.6.2",
     "class-variance-authority": "^0.7.1",
@@ -65,11 +65,9 @@
     "vitest": "^4.1.5",
     "wrangler": "^4.70.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss",
-      "better-sqlite3"
-    ]
-  }
+  "trustedDependencies": [
+    "esbuild",
+    "lightningcss",
+    "better-sqlite3"
+  ]
 }
