@@ -1,6 +1,14 @@
-import { asc, count, desc, eq } from 'drizzle-orm'
+import { and, asc, count, desc, eq, inArray, sql } from 'drizzle-orm'
 import { getDb } from '#/db/index'
 import { blogPosts, portfolioProjects, practiceAreas } from '#/db/schema'
+import {
+  mapBlogPost,
+  mapPortfolioProject,
+  mapPracticeArea,
+  type BlogPost,
+  type PortfolioProject,
+  type PracticeArea,
+} from '#/lib/cms'
 import { seedCmsFromStaticData } from '#/lib/seed.server'
 
 let seedPromise: Promise<void> | null = null
@@ -15,14 +23,14 @@ export async function ensureCmsSeeded() {
   }
   await seedPromise
 }
-import {
-  mapBlogPost,
-  mapPortfolioProject,
-  mapPracticeArea,
-  type BlogPost,
-  type PortfolioProject,
-  type PracticeArea,
-} from '#/lib/cms'
+
+/** Posts visible on the public site (published/scheduled and not future-dated). */
+export function blogPostIsPubliclyVisible() {
+  return and(
+    inArray(blogPosts.status, ['published', 'scheduled']),
+    sql`date(${blogPosts.publishedAt}) <= date('now')`,
+  )
+}
 
 export async function listPublishedPracticeAreas(): Promise<PracticeArea[]> {
   const rows = await getDb()
@@ -50,15 +58,19 @@ export async function listPublishedBlogPosts(): Promise<BlogPost[]> {
   const rows = await getDb()
     .select()
     .from(blogPosts)
-    .where(eq(blogPosts.published, true))
+    .where(blogPostIsPubliclyVisible())
     .orderBy(desc(blogPosts.publishedAt))
   return rows.map(mapBlogPost)
 }
 
 export async function getPublishedBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  const rows = await getDb().select().from(blogPosts).where(eq(blogPosts.slug, slug)).limit(1)
+  const rows = await getDb()
+    .select()
+    .from(blogPosts)
+    .where(and(eq(blogPosts.slug, slug), blogPostIsPubliclyVisible()))
+    .limit(1)
   const row = rows[0]
-  if (!row || !row.published) return null
+  if (!row) return null
   return mapBlogPost(row)
 }
 
@@ -67,7 +79,23 @@ export async function listPublishedPortfolioProjects(): Promise<PortfolioProject
     .select()
     .from(portfolioProjects)
     .where(eq(portfolioProjects.published, true))
-    .orderBy(desc(portfolioProjects.year), asc(portfolioProjects.sortOrder))
+    .orderBy(
+      desc(portfolioProjects.featured),
+      asc(portfolioProjects.sortOrder),
+      desc(portfolioProjects.year),
+    )
+  return rows.map(mapPortfolioProject)
+}
+
+export async function listFeaturedPublishedPortfolioProjects(
+  limit = 6,
+): Promise<PortfolioProject[]> {
+  const rows = await getDb()
+    .select()
+    .from(portfolioProjects)
+    .where(and(eq(portfolioProjects.published, true), eq(portfolioProjects.featured, true)))
+    .orderBy(asc(portfolioProjects.sortOrder), desc(portfolioProjects.year))
+    .limit(limit)
   return rows.map(mapPortfolioProject)
 }
 
@@ -116,7 +144,11 @@ export async function listAllPortfolioProjects() {
   const rows = await getDb()
     .select()
     .from(portfolioProjects)
-    .orderBy(desc(portfolioProjects.year), asc(portfolioProjects.sortOrder))
+    .orderBy(
+      desc(portfolioProjects.featured),
+      asc(portfolioProjects.sortOrder),
+      desc(portfolioProjects.year),
+    )
   return rows.map(mapPortfolioProject)
 }
 

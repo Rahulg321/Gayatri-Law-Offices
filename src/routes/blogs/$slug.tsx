@@ -1,9 +1,14 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Markdown } from "#/components/Markdown";
-import { Card, CardContent } from "#/components/ui/card";
 import { Badge } from "#/components/ui/badge";
+import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
-import { seoDescription, seoTitle } from "#/lib/cms";
+import {
+  categoryBreadcrumb,
+  displayAuthorName,
+  socialImageUrl,
+} from "#/lib/cms";
+import { blogPostHeadMeta } from "#/lib/blog-head";
 import { loadBlogPost } from "#/lib/cms-public";
 import {
   PUBLIC_CMS_GC_MS,
@@ -24,39 +29,29 @@ export const Route = createFileRoute("/blogs/$slug")({
   head: ({ loaderData }) => {
     const post = loaderData?.post;
     if (!post) return {};
-    const title = seoTitle(post.title, post.metaTitle);
-    const description = seoDescription(post.excerpt, post.metaDescription);
-    return {
-      meta: [
-        { title: `${title} — Gayatri Law Offices` },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        ...(post.ogImageUrl
-          ? [{ property: "og:image", content: post.ogImageUrl }]
-          : []),
-      ],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description,
-            datePublished: post.date,
-          }),
-        },
-      ],
-    };
+    return blogPostHeadMeta(post);
   },
 
   component: BlogPostPage,
 });
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 function BlogPostPage() {
   const { post, related } = Route.useLoaderData();
+  const heroImage = socialImageUrl(post);
+  const authorName = displayAuthorName(post.author);
+  const publishedLabel = formatDate(post.date);
+  const updatedLabel = formatDate(post.updatedAt.toISOString());
+  const showUpdated =
+    post.updatedAt.getTime() >
+    new Date(post.date).getTime() + 24 * 60 * 60 * 1000;
 
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
@@ -65,26 +60,76 @@ function BlogPostPage() {
           variant="secondary"
           className="mb-4 rounded-full bg-[var(--gold-pale)] text-[11px] text-[var(--gold-deep)]"
         >
-          {post.category}
+          {categoryBreadcrumb(post.category, post.categoryParent)}
         </Badge>
         <h1 className="display-title mb-4 text-4xl leading-[1.08] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">
           {post.title}
         </h1>
-        <div className="mb-8 flex items-center gap-3 text-sm text-[var(--slate-soft)]">
-          <span>
-            {new Date(post.date).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-          <span>·</span>
-          <span>{post.readTime}</span>
+
+        <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-[var(--slate-soft)]">
+          {post.author.imageUrl ? (
+            <img
+              src={post.author.imageUrl}
+              alt=""
+              className="size-10 rounded-full object-cover"
+            />
+          ) : null}
+          <div>
+            <p className="font-medium text-[var(--charcoal)]">{authorName}</p>
+            <p>
+              <time dateTime={post.date}>{publishedLabel}</time>
+              {showUpdated ? (
+                <>
+                  {" "}
+                  · Updated <time dateTime={post.updatedAt.toISOString()}>{updatedLabel}</time>
+                </>
+              ) : null}
+              {" "}
+              · {post.readTime}
+            </p>
+          </div>
         </div>
+
+        {post.series.title ? (
+          <p className="mb-4 text-sm text-[var(--charcoal-soft)]">
+            Part of <span className="font-medium">{post.series.title}</span>
+            {post.series.slug ? (
+              <span className="text-muted-foreground"> ({post.series.slug})</span>
+            ) : null}
+          </p>
+        ) : null}
+
+        {post.author.bio ? (
+          <p className="mb-6 text-sm leading-relaxed text-[var(--charcoal-soft)]">
+            {post.author.bio}
+          </p>
+        ) : null}
+
+        {heroImage ? (
+          <img
+            src={heroImage}
+            alt=""
+            className="mb-8 aspect-[16/9] w-full rounded-xl object-cover"
+          />
+        ) : null}
 
         <p className="lead mb-8 text-lg leading-relaxed text-[var(--charcoal-soft)]">
           {post.excerpt}
         </p>
+
+        {post.tags.length > 0 ? (
+          <div className="mb-8 flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <Badge
+                key={tag}
+                variant="outline"
+                className="rounded-full text-xs font-normal"
+              >
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
 
         <Markdown
           content={post.bodyMarkdown}
@@ -112,7 +157,10 @@ function BlogPostPage() {
                     variant="secondary"
                     className="mb-2 rounded-full bg-[var(--gold-pale)] text-[11px] text-[var(--gold-deep)]"
                   >
-                    {relatedPost.category}
+                    {categoryBreadcrumb(
+                      relatedPost.category,
+                      relatedPost.categoryParent,
+                    )}
                   </Badge>
                   <h3 className="mb-1 text-base font-semibold text-[var(--charcoal)]">
                     {relatedPost.title}

@@ -11,12 +11,38 @@ function r2Env(name: string): string | undefined {
   return process.env[name]
 }
 
-const R2_BUCKET =
-  r2Env('R2_BUCKET_NAME') ?? 'gayatri-law-offices-assets'
-const R2_ACCOUNT_ID = r2Env('R2_ACCOUNT_ID')
+type R2WorkerStringVars = {
+  R2_PUBLIC_BASE_URL?: string
+  R2_BUCKET_NAME?: string
+  R2_ACCOUNT_ID?: string
+}
+
+/** Wrangler `vars` are on Worker `env`, not reliably on `process.env` during Vite dev — read both. */
+function readR2PublicBaseUrl(): string | undefined {
+  const fromProcess = r2Env('R2_PUBLIC_BASE_URL')?.trim()
+  if (fromProcess) return fromProcess
+  const fromWorker = (cloudflareEnv as Env & R2WorkerStringVars).R2_PUBLIC_BASE_URL
+  return typeof fromWorker === 'string' && fromWorker.trim() ? fromWorker.trim() : undefined
+}
+
+function readR2BucketName(): string {
+  const fromProcess = r2Env('R2_BUCKET_NAME')?.trim()
+  if (fromProcess) return fromProcess
+  const fromWorker = (cloudflareEnv as Env & R2WorkerStringVars).R2_BUCKET_NAME
+  return typeof fromWorker === 'string' && fromWorker.trim()
+    ? fromWorker.trim()
+    : 'gayatri-law-offices-assets'
+}
+
+function readR2AccountId(): string | undefined {
+  const fromProcess = r2Env('R2_ACCOUNT_ID')?.trim()
+  if (fromProcess) return fromProcess
+  const fromWorker = (cloudflareEnv as Env & R2WorkerStringVars).R2_ACCOUNT_ID
+  return typeof fromWorker === 'string' && fromWorker.trim() ? fromWorker.trim() : undefined
+}
+
 const R2_ACCESS_KEY_ID = r2Env('R2_ACCESS_KEY_ID')
 const R2_SECRET_ACCESS_KEY = r2Env('R2_SECRET_ACCESS_KEY')
-const R2_PUBLIC_BASE_URL = r2Env('R2_PUBLIC_BASE_URL')
 
 type EnvWithOptionalUploads = Env & { UPLOADS?: R2Bucket }
 
@@ -33,12 +59,8 @@ export const getAssetsBucket = getR2Bucket
 let r2Aws: AwsClient | null | undefined
 
 function getS3ApiClient(): AwsClient | null {
-  if (
-    !R2_BUCKET ||
-    !R2_ACCOUNT_ID ||
-    !R2_ACCESS_KEY_ID ||
-    !R2_SECRET_ACCESS_KEY
-  ) {
+  const accountId = readR2AccountId()
+  if (!accountId || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
     return null
   }
   if (r2Aws === undefined) {
@@ -52,18 +74,22 @@ function getS3ApiClient(): AwsClient | null {
   return r2Aws
 }
 
-const r2BaseUrl =
-  R2_ACCOUNT_ID && R2_BUCKET
-    ? `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`
-    : null
+function r2CloudStorageBaseUrl(): string | null {
+  const accountId = readR2AccountId()
+  const bucket = readR2BucketName()
+  if (!accountId || !bucket) return null
+  return `https://${accountId}.r2.cloudflarestorage.com`
+}
 
 function encodeS3KeySegments(key: string): string {
   return key.split('/').map(encodeURIComponent).join('/')
 }
 
 function objectUrl(key: string): string | null {
-  if (!r2BaseUrl || !R2_BUCKET) return null
-  return `${r2BaseUrl}/${encodeURIComponent(R2_BUCKET)}/${encodeS3KeySegments(key)}`
+  const r2BaseUrl = r2CloudStorageBaseUrl()
+  const bucket = readR2BucketName()
+  if (!r2BaseUrl || !bucket) return null
+  return `${r2BaseUrl}/${encodeURIComponent(bucket)}/${encodeS3KeySegments(key)}`
 }
 
 function sanitizeUserId(userId: string): string {
@@ -79,6 +105,55 @@ export function buildObjectKey(userId: string, fileName: string): string {
   const ext = fileName.split('.').pop() || ''
   const safeExt = ext ? `.${ext}` : ''
   return `uploads/${sanitizedUserId}/${timestamp}-${randomString}${safeExt}`
+}
+
+function sanitizeCmsSegment(segment: string): string {
+  const s = segment
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80)
+  if (!s) throw new Error('Invalid CMS segment')
+  return s
+}
+
+/** CMS asset key under `cms/{kind}/{segment}/…`. */
+export function buildCmsKey(kind: string, segment: string, fileName: string): string {
+  const safeKind = sanitizeCmsSegment(kind)
+  const safeSegment = sanitizeCmsSegment(segment)
+  const timestamp = Date.now()
+  const randomString = crypto.randomBytes(8).toString('hex')
+  const ext = fileName.split('.').pop() || ''
+  const safeExt = ext ? `.${ext.replace(/[^a-zA-Z0-9]/g, '')}` : ''
+  return `cms/${safeKind}/${safeSegment}/${timestamp}-${randomString}${safeExt}`
+}
+
+export async function uploadCmsFileBuffer(
+  buffer: Buffer | Uint8Array,
+  kind: string,
+  segment: string,
+  fileName: string,
+  mimetype: string,
+): Promise<string | null> {
+  try {
+    if (!buffer?.byteLength || !fileName?.trim()) {
+      throw new Error('Invalid input parameters')
+    }
+    const key = buildCmsKey(kind, segment, fileName)
+    await putObject(key, bodyBytes(buffer), mimetype)
+    const out = publicUrlForKey(key)
+    if (!out) {
+      console.error(
+        '[storage] Object stored but no public URL: set R2_PUBLIC_BASE_URL or R2_ACCOUNT_ID + R2_BUCKET_NAME',
+      )
+      return null
+    }
+    return out
+  } catch (error) {
+    console.error('[storage] CMS upload failed:', error)
+    return null
+  }
 }
 
 function bodyBytes(
@@ -97,12 +172,15 @@ function bodyBytes(
 }
 
 export function publicUrlForKey(key: string): string | null {
-  if (R2_PUBLIC_BASE_URL) {
-    const base = R2_PUBLIC_BASE_URL.replace(/\/+$/, '')
+  const publicBase = readR2PublicBaseUrl()
+  if (publicBase) {
+    const base = publicBase.replace(/\/+$/, '')
     return `${base}/${key}`
   }
-  if (R2_ACCOUNT_ID && R2_BUCKET) {
-    return `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${R2_BUCKET}/${key}`
+  const accountId = readR2AccountId()
+  const bucketName = readR2BucketName()
+  if (accountId && bucketName) {
+    return `https://${accountId}.r2.cloudflarestorage.com/${bucketName}/${encodeS3KeySegments(key)}`
   }
   return null
 }
@@ -208,13 +286,15 @@ export async function deleteFile(fileUrl: string): Promise<boolean> {
 
     let key: string | null = null
 
-    if (R2_PUBLIC_BASE_URL && fileUrl.startsWith(R2_PUBLIC_BASE_URL)) {
-      const base = R2_PUBLIC_BASE_URL.replace(/\/+$/, '')
+    const publicBase = readR2PublicBaseUrl()
+    if (publicBase && fileUrl.startsWith(publicBase)) {
+      const base = publicBase.replace(/\/+$/, '')
       key = fileUrl.replace(`${base}/`, '')
-    } else if (fileUrl.startsWith('https://') && R2_BUCKET) {
+    } else if (fileUrl.startsWith('https://')) {
+      const bucketName = readR2BucketName()
       const url = new URL(fileUrl)
       const parts = url.pathname.split('/').filter(Boolean)
-      if (parts.length >= 2 && parts[0] === R2_BUCKET) {
+      if (parts.length >= 2 && parts[0] === bucketName) {
         key = parts.slice(1).join('/')
       }
     }

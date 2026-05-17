@@ -15,6 +15,7 @@ export const PUBLIC_CMS_S_MAXAGE_SEC = 120
 export const PUBLIC_CMS_SWR_SEC = 300
 
 const PUBLIC_CMS_ROUTE_IDS = new Set([
+  '/',
   '/blogs/',
   '/blogs/$slug',
   '/services/',

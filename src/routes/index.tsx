@@ -1,10 +1,24 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { ArrowUpRight } from 'lucide-react'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import { Badge } from '#/components/ui/badge'
+import { portfolioSocialImage } from '#/lib/cms'
+import { loadFeaturedPortfolioProjects } from '#/lib/cms-public'
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from '#/lib/cms-route-cache'
 import { services, testimonials, stats } from '#/lib/data'
 
 export const Route = createFileRoute('/')({
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
+  loader: () => {
+    applyPublicCmsCacheHeaders()
+    return loadFeaturedPortfolioProjects()
+  },
   head: () => ({
     meta: [
       { title: 'Gayatri Law Offices — Expert Legal Process Outsourcing from India' },
@@ -26,6 +40,8 @@ export const Route = createFileRoute('/')({
 })
 
 function HomePage() {
+  const featuredProjects = Route.useLoaderData()
+
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
       <section className="island-shell rise-in-blur relative overflow-hidden rounded-[2.5rem] px-6 py-12 sm:px-12 sm:py-20">
@@ -69,6 +85,63 @@ function HomePage() {
           </div>
         ))}
       </section>
+
+      {featuredProjects.length > 0 ? (
+        <section className="mt-14 sm:mt-20">
+          <div className="mb-10 text-center sm:mb-12">
+            <Badge variant="outline" className="mb-3 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">
+              Featured projects
+            </Badge>
+            <h2 className="display-title text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Highlighted engagements</h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
+              A curated set of engagements with clear scope and measurable outcomes.
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {featuredProjects.map((project, i) => {
+              const thumb = portfolioSocialImage(project)
+              return (
+                <Link key={project.slug} to="/projects/$slug" params={{ slug: project.slug }} className="group no-underline">
+                  <Card
+                    className="feature-card rise-in flex h-full flex-col overflow-hidden border-[var(--line)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-[var(--gold)]/30"
+                    style={{ animationDelay: `${i * 80}ms` }}
+                  >
+                    <div className="bg-[var(--gold-pale)]/25 relative aspect-[16/10] shrink-0 border-b border-[var(--line)]">
+                      {thumb ? (
+                        <img src={thumb} alt="" className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                      ) : (
+                        <div className="flex size-full items-center justify-center bg-gradient-to-br from-white/70 to-[var(--gold-pale)]/40 text-[10px] text-[var(--slate-soft)]">
+                          Project preview
+                        </div>
+                      )}
+                    </div>
+                    <CardHeader className="pb-2">
+                      <div className="mb-2 flex flex-wrap gap-2">
+                        <Badge variant="secondary" className="rounded-full bg-[var(--gold-pale)] text-[10px] text-[var(--gold-deep)]">{project.category}</Badge>
+                      </div>
+                      <CardTitle className="flex items-start justify-between gap-2 text-base font-semibold leading-snug text-[var(--charcoal)] transition-colors group-hover:text-[var(--gold)]">
+                        <span>{project.title}</span>
+                        <ArrowUpRight className="mt-0.5 size-4 shrink-0 opacity-50 transition-opacity group-hover:opacity-100" aria-hidden />
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                      <CardDescription className="line-clamp-3 text-sm leading-relaxed text-[var(--charcoal-soft)]">{project.excerpt}</CardDescription>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
+            })}
+          </div>
+          <div className="mt-8 text-center">
+            <Link to="/projects">
+              <Button variant="outline" className="cursor-pointer rounded-full border-[var(--line)] bg-white/60 px-6 py-2.5 text-sm font-semibold text-[var(--charcoal)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-[var(--gold)]/30 hover:bg-white/80 active:scale-[0.97]">
+                View all projects
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </Button>
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="mt-14 sm:mt-20">
         <div className="mb-10 text-center sm:mb-14">

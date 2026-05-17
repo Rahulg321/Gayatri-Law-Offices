@@ -8,6 +8,7 @@ import { Button } from '#/components/ui/button'
 import { Field, FieldError, FieldLabel } from '#/components/ui/field'
 import { Input } from '#/components/ui/input'
 import { Switch } from '#/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
 import { Textarea } from '#/components/ui/textarea'
 import type { PracticeArea } from '#/lib/cms'
 import {
@@ -17,6 +18,7 @@ import {
 } from '#/lib/cms-admin'
 import { adminPracticeAreaFormSchema } from '#/lib/cms-schemas'
 import { invalidateCmsRoutes } from '#/lib/cms-route-cache'
+import { syncSlugFromTitle } from '#/lib/sync-slug-from-title'
 
 export const Route = createFileRoute('/admin/practice-areas/$slug')({
   loader: ({ params }) =>
@@ -107,6 +109,13 @@ function PracticeAreaEditForm() {
           void form.handleSubmit()
         }}
       >
+        <Tabs defaultValue="content" className="w-full gap-4">
+          <TabsList variant="line" className="w-full flex-wrap justify-start">
+            <TabsTrigger value="content">Content</TabsTrigger>
+            <TabsTrigger value="publishing">Publishing</TabsTrigger>
+            <TabsTrigger value="seo">SEO</TabsTrigger>
+          </TabsList>
+          <TabsContent value="content" className="mt-6 space-y-6">
         <div className="grid gap-4 sm:grid-cols-2">
           <form.Field name="slug">
             {(field) => {
@@ -159,7 +168,11 @@ function PracticeAreaEditForm() {
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  onChange={(e) => {
+                    const title = e.target.value
+                    field.handleChange(title)
+                    syncSlugFromTitle(form, title)
+                  }}
                   aria-invalid={isInvalid}
                 />
                 {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
@@ -222,51 +235,57 @@ function PracticeAreaEditForm() {
             )
           }}
         </form.Field>
-        <div className="flex flex-wrap items-center gap-6">
-          <form.Field name="published">
-            {(field) => {
-              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-              return (
-                <Field orientation="horizontal" data-invalid={isInvalid}>
-                  <Switch
-                    id="admin-pa-published"
-                    name={field.name}
-                    checked={field.state.value}
-                    onCheckedChange={(v) => field.handleChange(v)}
-                    aria-invalid={isInvalid}
-                  />
-                  <FieldLabel htmlFor="admin-pa-published">Published</FieldLabel>
-                  {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
-                </Field>
-              )
-            }}
-          </form.Field>
-          <form.Field name="sortOrder">
-            {(field) => {
-              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Sort order</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    type="number"
-                    className="w-24"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => {
-                      const n = Number(e.target.value)
-                      field.handleChange(Number.isNaN(n) ? 0 : n)
-                    }}
-                    aria-invalid={isInvalid}
-                  />
-                  {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
-                </Field>
-              )
-            }}
-          </form.Field>
-        </div>
-        <SeoFields form={form} />
+          </TabsContent>
+          <TabsContent value="publishing" className="mt-6 space-y-6">
+            <div className="flex flex-wrap items-center gap-6">
+              <form.Field name="published">
+                {(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field orientation="horizontal" data-invalid={isInvalid}>
+                      <Switch
+                        id="admin-pa-published"
+                        name={field.name}
+                        checked={field.state.value}
+                        onCheckedChange={(v) => field.handleChange(v)}
+                        aria-invalid={isInvalid}
+                      />
+                      <FieldLabel htmlFor="admin-pa-published">Published</FieldLabel>
+                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                    </Field>
+                  )
+                }}
+              </form.Field>
+              <form.Field name="sortOrder">
+                {(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Sort order</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="number"
+                        className="w-24"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => {
+                          const n = Number(e.target.value)
+                          field.handleChange(Number.isNaN(n) ? 0 : n)
+                        }}
+                        aria-invalid={isInvalid}
+                      />
+                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                    </Field>
+                  )
+                }}
+              </form.Field>
+            </div>
+          </TabsContent>
+          <TabsContent value="seo" className="mt-6 space-y-6">
+            <SeoFields form={form} />
+          </TabsContent>
+        </Tabs>
         {error ? <p className="text-destructive text-sm">{error}</p> : null}
         <div className="flex gap-3">
           <Button type="submit" disabled={saving} className="bg-accent text-accent-foreground hover:bg-accent/90">

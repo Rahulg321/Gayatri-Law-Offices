@@ -16,8 +16,11 @@
   "r2_buckets": [
     {
       "binding": "ASSETS",
-      "bucket_name": "gayatri-law-offices-assets"
-    }
+      "bucket_name": "gayatri-law-offices-assets",
+    },
   ],
-
+  /** Public asset base URL (R2 bucket custom domain). Used after successful `bucket.put` to build return URLs — available as `env` in Workers alongside `process.env`. */
+  "vars": {
+    "R2_PUBLIC_BASE_URL": "https://cdn.gayatrilawoffices.in",
+  },
 }

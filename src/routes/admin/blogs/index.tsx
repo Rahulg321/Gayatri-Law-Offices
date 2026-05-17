@@ -2,12 +2,30 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { Pencil, Plus } from 'lucide-react'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
+import type { BlogPostStatus } from '#/db/schema'
 import { adminListBlogPosts } from '#/lib/cms-admin'
 
 export const Route = createFileRoute('/admin/blogs/')({
   loader: () => adminListBlogPosts(),
   component: AdminBlogsListPage,
 })
+
+function statusBadgeVariant(status: BlogPostStatus) {
+  switch (status) {
+    case 'published':
+      return 'default' as const
+    case 'scheduled':
+      return 'outline' as const
+    case 'draft':
+      return 'secondary' as const
+    case 'private':
+      return 'secondary' as const
+    case 'archived':
+      return 'secondary' as const
+    default:
+      return 'secondary' as const
+  }
+}
 
 function AdminBlogsListPage() {
   const items = Route.useLoaderData()
@@ -36,7 +54,11 @@ function AdminBlogsListPage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              {!item.published ? <Badge variant="secondary">Draft</Badge> : null}
+              {item.status !== 'published' ? (
+                <Badge variant={statusBadgeVariant(item.status)}>
+                  {item.status}
+                </Badge>
+              ) : null}
               <Link to="/admin/blogs/$slug" params={{ slug: item.slug }}>
                 <Button type="button" variant="outline" size="sm">
                   <Pencil className="size-4" />

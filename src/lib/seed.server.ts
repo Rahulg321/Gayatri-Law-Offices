@@ -1,7 +1,7 @@
 import { count } from 'drizzle-orm'
 import { getDb } from '#/db/index'
 import { blogPosts, portfolioProjects, practiceAreas } from '#/db/schema'
-import { stringifyJsonArray } from '#/lib/cms'
+import { stringifyJson, stringifyJsonArray } from '#/lib/cms'
 import { blogPosts as staticBlogs, portfolioProjects as staticProjects, services } from '#/lib/data'
 
 const DEFAULT_BLOG_MARKDOWN = `Legal process outsourcing continues to evolve rapidly. As law firms face increasing pressure to deliver more value at lower costs, the role of LPO providers has never been more critical.
@@ -50,7 +50,9 @@ export async function seedCmsFromStaticData() {
         publishedAt: post.date,
         readTime: post.readTime,
         bodyMarkdown: DEFAULT_BLOG_MARKDOWN,
-        published: true,
+        status: 'published' as const,
+        tags: '[]',
+        twitterCard: 'summary_large_image',
         metaTitle: `${post.title} — Gayatri Law Offices`,
         metaDescription: post.excerpt,
       })),
@@ -69,12 +71,27 @@ export async function seedCmsFromStaticData() {
         duration: project.duration,
         role: project.role,
         summary: project.summary,
+        bodyMarkdown: '',
+        ongoing: false,
+        projectStatus: 'completed',
+        projectType: 'agency',
+        featured: false,
+        skills: stringifyJsonArray([]),
+        metrics: stringifyJsonArray([]),
+        galleryJson: stringifyJson([]),
+        videosJson: stringifyJson([]),
+        linksJson: stringifyJson([]),
+        attachmentsJson: stringifyJson([]),
+        testimonialsJson: stringifyJson([]),
+        challengesMarkdown: '',
+        tags: stringifyJsonArray([]),
         scope: stringifyJsonArray([...project.scope]),
         deliverables: stringifyJsonArray([...project.deliverables]),
         outcomes: stringifyJsonArray([...project.outcomes]),
         tools: stringifyJsonArray([...project.tools]),
         published: true,
         sortOrder: i,
+        twitterCard: 'summary_large_image',
         metaTitle: `${project.title} — Projects | Gayatri Law Offices`,
         metaDescription: project.excerpt,
       })),

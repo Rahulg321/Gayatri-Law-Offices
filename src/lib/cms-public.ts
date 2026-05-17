@@ -4,6 +4,7 @@ import {
   getPublishedBlogPostBySlug,
   getPublishedPortfolioProjectBySlug,
   getPublishedPracticeAreaBySlug,
+  listFeaturedPublishedPortfolioProjects,
   listPublishedBlogPosts,
   listPublishedPortfolioProjects,
   listPublishedPracticeAreas,
@@ -41,6 +42,11 @@ export const loadBlogPost = createServerFn({ method: 'GET' })
 export const loadPortfolioProjects = createServerFn({ method: 'GET' }).handler(async () => {
   await ensureCmsSeeded()
   return listPublishedPortfolioProjects()
+})
+
+export const loadFeaturedPortfolioProjects = createServerFn({ method: 'GET' }).handler(async () => {
+  await ensureCmsSeeded()
+  return listFeaturedPublishedPortfolioProjects()
 })
 
 export const loadPortfolioProject = createServerFn({ method: 'GET' })
