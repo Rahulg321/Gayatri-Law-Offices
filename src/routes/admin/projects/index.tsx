@@ -16,22 +16,22 @@ function AdminProjectsListPage() {
     <div>
       <div className="mb-8 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold text-[var(--charcoal)]">Projects</h1>
-          <p className="text-sm text-[var(--charcoal-soft)]">{items.length} projects</p>
+          <h1 className="text-3xl font-semibold">Projects</h1>
+          <p className="text-muted-foreground text-sm">{items.length} projects</p>
         </div>
         <Link to="/admin/projects/$slug" params={{ slug: 'new' }}>
-          <Button className="rounded-full bg-[var(--gold)] text-white hover:bg-[var(--gold-deep)]">
+          <Button className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full">
             <Plus className="mr-2 size-4" />
             New project
           </Button>
         </Link>
       </div>
-      <ul className="divide-y divide-[var(--line)] rounded-xl border border-[var(--line)] bg-white">
+      <ul className="divide-border bg-card divide-y rounded-xl border border-border">
         {items.map((item) => (
           <li key={item.slug} className="flex items-center justify-between gap-4 px-4 py-3">
             <div>
-              <p className="font-medium text-[var(--charcoal)]">{item.title}</p>
-              <p className="text-xs text-[var(--slate-soft)]">
+              <p className="font-medium">{item.title}</p>
+              <p className="text-muted-foreground text-xs">
                 {item.category} · {item.year}
               </p>
             </div>

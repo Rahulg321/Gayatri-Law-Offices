@@ -5,9 +5,17 @@ import { Badge } from "#/components/ui/badge";
 import { Separator } from "#/components/ui/separator";
 import { seoDescription, seoTitle } from "#/lib/cms";
 import { loadBlogPost } from "#/lib/cms-public";
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from "#/lib/cms-route-cache";
 
 export const Route = createFileRoute("/blogs/$slug")({
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
   loader: async ({ params }) => {
+    applyPublicCmsCacheHeaders();
     const data = await loadBlogPost({ data: params.slug });
     if (!data) throw notFound();
     return data;

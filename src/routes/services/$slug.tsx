@@ -10,8 +10,15 @@ import {
 import { Badge } from "#/components/ui/badge";
 import { seoDescription, seoTitle } from "#/lib/cms";
 import { loadPracticeArea } from "#/lib/cms-public";
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from "#/lib/cms-route-cache";
 
 export const Route = createFileRoute("/services/$slug")({
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
   head: ({ loaderData }) => {
     const svc = loaderData;
     if (!svc) return {};
@@ -30,6 +37,7 @@ export const Route = createFileRoute("/services/$slug")({
     };
   },
   loader: async ({ params }) => {
+    applyPublicCmsCacheHeaders();
     const service = await loadPracticeArea({ data: params.slug });
     if (!service) throw notFound();
     return service;

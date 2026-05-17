@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import type { z } from "zod";
@@ -16,6 +16,7 @@ import {
   adminGetBlogPost,
   adminSaveBlogPost,
 } from "#/lib/cms-admin";
+import { invalidateCmsRoutes } from "#/lib/cms-route-cache";
 
 export const Route = createFileRoute("/admin/blogs/$slug")({
   loader: ({ params }) =>
@@ -52,6 +53,7 @@ function AdminBlogEditPage() {
 }
 
 function BlogEditForm() {
+  const router = useRouter();
   const navigate = useNavigate();
   const initial = Route.useLoaderData();
   const isNew = Route.useParams().slug === "new";
@@ -76,6 +78,7 @@ function BlogEditForm() {
             ogImageUrl: value.ogImageUrl || null,
           },
         });
+        await invalidateCmsRoutes(router);
         await navigate({ to: "/admin/blogs" });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Save failed");
@@ -88,10 +91,10 @@ function BlogEditForm() {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold text-[var(--charcoal)]">
+        <h1 className="text-3xl font-semibold">
           {isNew ? "New blog post" : "Edit blog post"}
         </h1>
-        <Link to="/admin/blogs" className="text-sm text-[var(--gold)]">
+        <Link to="/admin/blogs" className="text-accent text-sm hover:underline">
           Back to list
         </Link>
       </div>
@@ -284,12 +287,12 @@ function BlogEditForm() {
           }}
         </form.Field>
         <SeoFields form={form} />
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? <p className="text-destructive text-sm">{error}</p> : null}
         <div className="flex gap-3">
           <Button
             type="submit"
             disabled={saving}
-            className="bg-[var(--gold)] text-white"
+            className="bg-accent text-accent-foreground hover:bg-accent/90"
           >
             {saving ? "Saving…" : "Save"}
           </Button>
@@ -300,6 +303,7 @@ function BlogEditForm() {
               onClick={async () => {
                 if (!confirm("Delete this post?")) return;
                 await adminDeleteBlogPost({ data: form.getFieldValue("slug") });
+                await invalidateCmsRoutes(router);
                 await navigate({ to: "/admin/blogs" });
               }}
             >

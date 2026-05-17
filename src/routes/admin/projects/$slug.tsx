@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { useForm } from "@tanstack/react-form";
 import { useState } from "react";
 import type { z } from "zod";
@@ -16,6 +16,7 @@ import {
   adminSaveProject,
 } from "#/lib/cms-admin";
 import { adminPortfolioProjectFormSchema } from "#/lib/cms-schemas";
+import { invalidateCmsRoutes } from "#/lib/cms-route-cache";
 
 export const Route = createFileRoute("/admin/projects/$slug")({
   loader: ({ params }) =>
@@ -57,6 +58,7 @@ function AdminProjectEditPage() {
 }
 
 function ProjectEditForm() {
+  const router = useRouter();
   const navigate = useNavigate();
   const initial = Route.useLoaderData();
   const isNew = Route.useParams().slug === "new";
@@ -85,6 +87,7 @@ function ProjectEditForm() {
             ogImageUrl: value.ogImageUrl || null,
           },
         });
+        await invalidateCmsRoutes(router);
         await navigate({ to: "/admin/projects" });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Save failed");
@@ -97,10 +100,10 @@ function ProjectEditForm() {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold text-[var(--charcoal)]">
+        <h1 className="text-3xl font-semibold">
           {isNew ? "New project" : "Edit project"}
         </h1>
-        <Link to="/admin/projects" className="text-sm text-[var(--gold)]">
+        <Link to="/admin/projects" className="text-accent text-sm hover:underline">
           Back to list
         </Link>
       </div>
@@ -420,12 +423,12 @@ function ProjectEditForm() {
           </form.Field>
         </div>
         <SeoFields form={form} />
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? <p className="text-destructive text-sm">{error}</p> : null}
         <div className="flex gap-3">
           <Button
             type="submit"
             disabled={saving}
-            className="bg-[var(--gold)] text-white"
+            className="bg-accent text-accent-foreground hover:bg-accent/90"
           >
             {saving ? "Saving…" : "Save"}
           </Button>
@@ -436,6 +439,7 @@ function ProjectEditForm() {
               onClick={async () => {
                 if (!confirm("Delete this project?")) return;
                 await adminDeleteProject({ data: form.getFieldValue("slug") });
+                await invalidateCmsRoutes(router);
                 await navigate({ to: "/admin/projects" });
               }}
             >

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { cn } from '#/lib/utils'
 
 type ThemeMode = 'light' | 'dark' | 'auto'
 
@@ -8,6 +9,8 @@ function getInitialMode(): ThemeMode {
   if (stored === 'light' || stored === 'dark' || stored === 'auto') return stored
   return 'auto'
 }
+
+const THEME_MODE_SYNC = 'gayatri-law-offices:theme-mode'
 
 function applyThemeMode(mode: ThemeMode) {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -22,13 +25,24 @@ function applyThemeMode(mode: ThemeMode) {
   document.documentElement.style.colorScheme = resolved
 }
 
-export default function ThemeToggle() {
+export function useThemeMode() {
   const [mode, setMode] = useState<ThemeMode>('auto')
 
   useEffect(() => {
     const initialMode = getInitialMode()
     setMode(initialMode)
     applyThemeMode(initialMode)
+  }, [])
+
+  useEffect(() => {
+    const onSync = (e: Event) => {
+      const detail = (e as CustomEvent<ThemeMode>).detail
+      if (detail === 'light' || detail === 'dark' || detail === 'auto') {
+        setMode(detail)
+      }
+    }
+    window.addEventListener(THEME_MODE_SYNC, onSync)
+    return () => window.removeEventListener(THEME_MODE_SYNC, onSync)
   }, [])
 
   useEffect(() => {
@@ -39,26 +53,42 @@ export default function ThemeToggle() {
     return () => media.removeEventListener('change', onChange)
   }, [mode])
 
-  function toggleMode() {
+  function cycleMode() {
     const nextMode: ThemeMode =
       mode === 'light' ? 'dark' : mode === 'dark' ? 'auto' : 'light'
     setMode(nextMode)
     applyThemeMode(nextMode)
     window.localStorage.setItem('theme', nextMode)
+    window.dispatchEvent(new CustomEvent(THEME_MODE_SYNC, { detail: nextMode }))
   }
 
   const label =
     mode === 'auto'
-      ? 'Theme mode: auto. Click to switch.'
-      : `Theme mode: ${mode}. Click to switch.`
+      ? 'Theme: system. Click to use light.'
+      : mode === 'light'
+        ? 'Theme: light. Click to use dark.'
+        : 'Theme: dark. Click to use system.'
+
+  return { mode, cycleMode, label }
+}
+
+type ThemeToggleProps = {
+  className?: string
+}
+
+export default function ThemeToggle({ className }: ThemeToggleProps) {
+  const { mode, cycleMode, label } = useThemeMode()
 
   return (
     <button
       type="button"
-      onClick={toggleMode}
+      onClick={cycleMode}
       aria-label={label}
       title={label}
-      className="rounded-full border border-[var(--line)] bg-[var(--chip-bg)] px-2.5 py-1 text-xs font-semibold text-[var(--charcoal)] transition-colors hover:bg-[var(--link-bg-hover)]"
+      className={cn(
+        'rounded-full border border-[var(--line)] bg-[var(--chip-bg)] px-2.5 py-1 text-xs font-semibold text-[var(--charcoal)] transition-colors hover:bg-[var(--link-bg-hover)]',
+        className,
+      )}
     >
       {mode === 'auto' ? (
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>

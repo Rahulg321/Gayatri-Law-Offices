@@ -35,10 +35,8 @@ export function SeoFields<TFormData extends SeoShape>({
   form: SeoFormApi<TFormData>;
 }) {
   return (
-    <fieldset className="space-y-4 rounded-xl border border-[var(--line)] p-4">
-      <legend className="px-1 text-sm font-semibold text-[var(--charcoal)]">
-        SEO
-      </legend>
+    <fieldset className="border-border space-y-4 rounded-xl border p-4">
+      <legend className="px-1 text-sm font-semibold">SEO</legend>
       <form.Field name="metaTitle">
         {(field) => {
           const isInvalid =

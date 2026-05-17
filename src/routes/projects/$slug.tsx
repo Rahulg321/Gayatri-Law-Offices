@@ -5,8 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Separator } from '#/components/ui/separator'
 import { seoDescription, seoTitle } from '#/lib/cms'
 import { loadPortfolioProject } from '#/lib/cms-public'
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/projects/$slug')({
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
   head: ({ loaderData }) => {
     const project = loaderData?.project
     if (!project) return {}
@@ -37,6 +44,7 @@ export const Route = createFileRoute('/projects/$slug')({
     }
   },
   loader: async ({ params }) => {
+    applyPublicCmsCacheHeaders()
     const data = await loadPortfolioProject({ data: params.slug })
     if (!data) throw notFound()
     return data

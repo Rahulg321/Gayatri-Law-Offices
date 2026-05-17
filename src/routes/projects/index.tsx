@@ -3,9 +3,19 @@ import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '#/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import { loadPortfolioProjects } from '#/lib/cms-public'
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/projects/')({
-  loader: () => loadPortfolioProjects(),
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
+  loader: () => {
+    applyPublicCmsCacheHeaders()
+    return loadPortfolioProjects()
+  },
   head: () => ({
     meta: [
       { title: 'Experience & Projects — Gayatri Law Offices' },

@@ -8,9 +8,19 @@ import {
   CardTitle,
 } from "#/components/ui/card";
 import { loadBlogPosts } from "#/lib/cms-public";
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from "#/lib/cms-route-cache";
 
 export const Route = createFileRoute("/blogs/")({
-  loader: () => loadBlogPosts(),
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
+  loader: () => {
+    applyPublicCmsCacheHeaders();
+    return loadBlogPosts();
+  },
   head: () => ({
     meta: [
       { title: "Blog — LPO Insights, Trends & Legal Tech" },

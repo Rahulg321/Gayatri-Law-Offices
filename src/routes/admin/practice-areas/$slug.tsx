@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { useState } from 'react'
 import type { z } from 'zod'
@@ -16,6 +16,7 @@ import {
   adminSavePracticeArea,
 } from '#/lib/cms-admin'
 import { adminPracticeAreaFormSchema } from '#/lib/cms-schemas'
+import { invalidateCmsRoutes } from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/admin/practice-areas/$slug')({
   loader: ({ params }) =>
@@ -51,6 +52,7 @@ function AdminPracticeAreaEditPage() {
 }
 
 function PracticeAreaEditForm() {
+  const router = useRouter()
   const navigate = useNavigate()
   const initial = Route.useLoaderData()
   const isNew = Route.useParams().slug === 'new'
@@ -77,6 +79,7 @@ function PracticeAreaEditForm() {
             ogImageUrl: value.ogImageUrl || null,
           },
         })
+        await invalidateCmsRoutes(router)
         await navigate({ to: '/admin/practice-areas' })
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Save failed')
@@ -89,10 +92,10 @@ function PracticeAreaEditForm() {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-semibold text-[var(--charcoal)]">
+        <h1 className="text-3xl font-semibold">
           {isNew ? 'New practice area' : 'Edit practice area'}
         </h1>
-        <Link to="/admin/practice-areas" className="text-sm text-[var(--gold)]">
+        <Link to="/admin/practice-areas" className="text-accent text-sm hover:underline">
           Back to list
         </Link>
       </div>
@@ -264,9 +267,9 @@ function PracticeAreaEditForm() {
           </form.Field>
         </div>
         <SeoFields form={form} />
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
+        {error ? <p className="text-destructive text-sm">{error}</p> : null}
         <div className="flex gap-3">
-          <Button type="submit" disabled={saving} className="bg-[var(--gold)] text-white">
+          <Button type="submit" disabled={saving} className="bg-accent text-accent-foreground hover:bg-accent/90">
             {saving ? 'Saving…' : 'Save'}
           </Button>
           {!isNew ? (
@@ -276,6 +279,7 @@ function PracticeAreaEditForm() {
               onClick={async () => {
                 if (!confirm('Delete this practice area?')) return
                 await adminDeletePracticeArea({ data: form.getFieldValue('slug') })
+                await invalidateCmsRoutes(router)
                 await navigate({ to: '/admin/practice-areas' })
               }}
             >

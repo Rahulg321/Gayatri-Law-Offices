@@ -1,8 +1,14 @@
 import { Outlet, createFileRoute, redirect, useRouterState } from '@tanstack/react-router'
 import { AdminShell } from '#/components/admin/AdminShell'
 import { getAdminSession } from '#/lib/admin-auth'
+import { applyAdminNoStoreHeaders } from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/admin')({
+  staleTime: 0,
+  loader: () => {
+    applyAdminNoStoreHeaders()
+    return {}
+  },
   beforeLoad: async ({ location }) => {
     const isLogin = location.pathname === '/admin/login'
     const session = await getAdminSession()

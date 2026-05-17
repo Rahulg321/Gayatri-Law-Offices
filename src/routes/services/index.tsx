@@ -3,9 +3,19 @@ import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
 import { loadPracticeAreas } from '#/lib/cms-public'
+import {
+  PUBLIC_CMS_GC_MS,
+  PUBLIC_CMS_STALE_MS,
+  applyPublicCmsCacheHeaders,
+} from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/services/')({
-  loader: () => loadPracticeAreas(),
+  staleTime: PUBLIC_CMS_STALE_MS,
+  gcTime: PUBLIC_CMS_GC_MS,
+  loader: () => {
+    applyPublicCmsCacheHeaders()
+    return loadPracticeAreas()
+  },
   head: () => ({
     meta: [
       { title: 'LPO Services — Contract, Research & Litigation Support' },
