@@ -7,7 +7,8 @@ const QUICK_LINKS = [
   { to: '/services', label: 'Services' },
   { to: '/why-us', label: 'Why Choose Us' },
   { to: '/testimonials', label: 'Testimonials' },
-  { to: '/resources', label: 'Resources' },
+  { to: '/projects', label: 'Projects' },
+  { to: '/blogs', label: 'Blogs' },
   { to: '/contact', label: 'Contact' },
 ]
 

@@ -139,6 +139,184 @@ export const blogPosts = [
   },
 ]
 
+export const portfolioProjects = [
+  {
+    slug: 'us-litigation-privilege-review',
+    title: 'Privilege & Responsiveness Review for Federal Litigation',
+    category: 'Document review & LPO',
+    excerpt:
+      'Multi-phase review of 85,000+ documents for a US commercial dispute, including privilege tagging, responsiveness coding, and QC sampling.',
+    year: '2025',
+    duration: '6 months',
+    role: 'Senior review attorney & QC lead',
+    summary:
+      'Led a dedicated review cohort for an AmLaw 200 firm, coordinating responsiveness, confidentiality, and privilege determinations across a complex factual record with overlapping custodians.',
+    scope: [
+      'Initial coding pass with issue-specific tagging',
+      'Privilege log preparation and escalation workflow',
+      'Random and targeted QC to calibrate reviewer consistency',
+      'Daily throughput reporting and escalation of ambiguous calls',
+    ],
+    deliverables: [
+      'Coded population in Relativity with agreed-upon issue tags',
+      'Privilege log spreadsheets and privilege narrative templates',
+      'QC reports with reconciled coding decisions',
+    ],
+    outcomes: [
+      'Met aggressive discovery deadlines without scale-up churn',
+      'Reduced clawback exposure through consistent privilege application',
+      'Firm renewed for follow-on phased review',
+    ],
+    tools: ['Relativity', 'Microsoft Excel', 'Secure client VDR'],
+  },
+  {
+    slug: 'cre-lease-abstraction-program',
+    title: 'Nationwide Lease Abstraction for Portfolio Roll-Up',
+    category: 'Paralegal & remote support',
+    excerpt:
+      'Abstracted 400+ commercial leases for a real estate investment group, standardizing key dates, options, and rent structures for portfolio reporting.',
+    year: '2024',
+    duration: '4 months',
+    role: 'Remote paralegal program lead',
+    summary:
+      'Built a repeatable abstraction playbook and trained a small remote team to deliver consistent fields into the client’s lease management system while flagging non-standard provisions for counsel.',
+    scope: [
+      'Template design aligned with client reporting fields',
+      'Dual-pass quality control on high-value assets',
+      'Escalation path for ambiguous lease amendments',
+      'Weekly status reporting to US-based asset managers',
+    ],
+    deliverables: [
+      'Structured lease abstracts in agreed spreadsheet format',
+      'Exception memo for outliers and conflicting rider language',
+      'Audit trail linking each field to cited lease language',
+    ],
+    outcomes: [
+      'Cut average abstraction time versus prior vendor by roughly 35%',
+      'Portfolio reporting timelines moved up by two quarters',
+      'Engagement extended into ongoing “triage” abstraction',
+    ],
+    tools: ['Excel / Google Sheets', 'PDF redaction tooling', 'Client LM platform'],
+  },
+  {
+    slug: 'ma-due-diligence-data-room',
+    title: 'Sell-Side Due Diligence Support in Strategic Acquisition',
+    category: 'Corporate & transactional',
+    excerpt:
+      'Contract-heavy data room review for a mid-market technology acquisition, concentrating on commercial terms, IP assignments, and change-of-control triggers.',
+    year: '2024',
+    duration: '8 weeks',
+    role: 'Diligence workstream owner (contracts)',
+    summary:
+      'Partnered with buyer’s counsel to triage a dense data room, surface material contract risks, and produce digestible summaries for negotiations and disclosure schedules.',
+    scope: [
+      'Material contract identification and red-flag matrix',
+      'Cross-check of IP assignment and license chains',
+      'Support for disclosure schedule cross-references',
+      'Coordination with specialists on privacy and open-source issues',
+    ],
+    deliverables: [
+      'Issue list with severity ratings and suggested follow-ups',
+      'Contract summaries for top revenue agreements',
+      'Annotated references for reps & warranties discussions',
+    ],
+    outcomes: [
+      'Helped counsel focus partner time on a short list of true blockers',
+      'Closing timeline held despite late-arriving documents',
+      'Repeat engagement on the buyer’s next platform deal',
+    ],
+    tools: ['Datasite / Intralinks-style VDR', 'Excel', 'Shared issue tracker'],
+  },
+  {
+    slug: 'deposition-digests-trial-prep',
+    title: 'Deposition Summaries & Trial Notebook Support',
+    category: 'Litigation support',
+    excerpt:
+      'Page-line deposition digests, exhibit cross-references, and trial binder organization for a multi-defendant business torts matter.',
+    year: '2023',
+    duration: '12 weeks',
+    role: 'Litigation support specialist (remote)',
+    summary:
+      'Supported a trial team under tight pretrial deadlines by producing accurate digests, linking testimony to exhibits, and maintaining a master chronology used in openings and impeachment prep.',
+    scope: [
+      'Page-line summaries for 30+ depositions',
+      'Exhibit list hygiene and consistent naming',
+      'Chronology maintenance keyed to source testimony',
+      'Trial binder assembly against court’s exhibit rules',
+    ],
+    deliverables: [
+      'Deposition digests in firm template with pull quotes',
+      'Master chronology and cast-of-characters reference',
+      'Trial binders with indexed sections and exhibit tabs',
+    ],
+    outcomes: [
+      'Associates spent less time re-reading raw transcripts',
+      'Fewer last-minute exhibit numbering errors in court',
+      'Team referenced chronology through verdict',
+    ],
+    tools: ['Adobe Acrobat', 'Word', 'Firm trial prep templates'],
+  },
+  {
+    slug: 'multi-jurisdiction-research-memos',
+    title: 'Comparative Employment Law Research (US / UK / EU)',
+    category: 'Legal research & writing',
+    excerpt:
+      'Series of memoranda on restrictive covenants and remote-work compliance for a global employer updating HR policy playbooks.',
+    year: '2023',
+    duration: 'Ongoing (phase 1: 10 weeks)',
+    role: 'Research attorney',
+    summary:
+      'Delivered jurisdiction-specific guidance with primary authority and practical “if/then” recommendations for in-house counsel implementing a hybrid workforce policy.',
+    scope: [
+      'Statutory and leading-case research across three regions',
+      'Plain-language summaries for non-lawyer HR stakeholders',
+      'Citation integrity checks and update memos when law shifted',
+    ],
+    deliverables: [
+      'Modular memoranda by topic and jurisdiction',
+      'Executive one-pagers for leadership review',
+      'Source lists with hyperlinks to materials behind paywalls (as licensed)',
+    ],
+    outcomes: [
+      'Enabled faster sign-off on policy updates in multiple regions',
+      'Reduced outside counsel spend on foundational questions',
+      'Retained for quarterly “law update” supplements',
+    ],
+    tools: ['Westlaw / Lexis', 'Bluebook / OSCOLA formatting', 'Word'],
+  },
+  {
+    slug: 'boutique-firm-remote-paralegal-desk',
+    title: 'Embedded Remote Paralegal Desk for Litigation Boutique',
+    category: 'Paralegal & remote support',
+    excerpt:
+      'Full-time equivalent remote support: docketing, calendaring, discovery coordination, and hearing prep for a five-attorney litigation shop.',
+    year: '2022',
+    duration: '18+ months',
+    role: 'Dedicated remote paralegal',
+    summary:
+      'Functioned as an extension of the firm’s staff—managing deadlines, preparing filings packages, and keeping discovery workflows moving while attorneys stayed client-facing.',
+    scope: [
+      'Court rule research and deadline calculation',
+      'Discovery calendar and meet-and-confer tracking',
+      'Drafting shell discovery responses under attorney direction',
+      'Hearing support: binders, exhibit stickers, and logistics checklists',
+    ],
+    deliverables: [
+      'Weekly docket and upcoming-deadlines report',
+      'Filing-ready PDF packages for attorney sign-off',
+      'Organized discovery correspondence and production logs',
+    ],
+    outcomes: [
+      'Missed-deadline incidents dropped to zero across the engagement',
+      'Attorneys reported more bandwidth for motion practice',
+      'Firm expanded hours as caseload grew',
+    ],
+    tools: ['Clio / MyCase-class tools', 'State e-filing portals', 'Excel'],
+  },
+] as const
+
+export type PortfolioProject = (typeof portfolioProjects)[number]
+
 export const teamMembers = [
   {
     name: 'Priya Sharma',
