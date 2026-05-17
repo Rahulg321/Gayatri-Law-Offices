@@ -73,7 +73,14 @@ Optional S3 API fallback (local scripts / no binding): set in `.env.local` or `.
 3. `bun run db:migrate:remote` — apply migrations to **remote** D1 (this matches what you use in dev and production)
 4. `bun run db:migrate:local` — optional; only for Miniflare’s **local** simulated D1 (when not using `remote: true`)
 
-Optional remote Drizzle Kit (needs `.env.local`): `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `D1_DATABASE_ID`.
+**Drizzle Studio (remote D1):** add to `.env.local` (see `.env.example`):
+
+- `DRIZZLE_CLOUDFLARE_API_TOKEN` — [API token](https://dash.cloudflare.com/profile/api-tokens) with D1 Read (D1-only is fine)
+- `CLOUDFLARE_ACCOUNT_ID` — from `bunx wrangler whoami` or the Cloudflare dashboard
+
+Prefer `DRIZZLE_CLOUDFLARE_API_TOKEN` over `CLOUDFLARE_API_TOKEN` in `.env.local`. Wrangler loads `CLOUDFLARE_API_TOKEN` during `bun run dev`; a D1-only token causes edge-preview **auth error 10000**. The `dev` script clears that var so Wrangler uses OAuth; or use a token with **Workers** permissions if you keep `CLOUDFLARE_API_TOKEN`.
+
+`bun run db:studio` targets the same remote D1 as dev (`remote: true` in `wrangler.jsonc`). Without the token, Drizzle Kit falls back to an empty local SQLite file and Studio shows no rows.
 
 ## Server vs client
 
@@ -131,6 +138,8 @@ See `.cursorrules` for the same rule.
 | `bun run db:generate` | Drizzle Kit generate |
 | `bun run db:migrate:local` | D1 migrations (local simulation only) |
 | `bun run db:migrate:remote` | D1 migrations (remote / production DB) |
+| `bun run db:studio` | Drizzle Studio (remote D1; needs `CLOUDFLARE_API_TOKEN` in `.env.local`) |
+| `bun run db:studio:local` | Drizzle Studio (local Miniflare SQLite only) |
 | `bun run cf-types` | Regenerate Worker types |
 
 ## Skills

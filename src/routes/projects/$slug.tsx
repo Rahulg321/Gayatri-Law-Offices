@@ -3,19 +3,23 @@ import { ArrowLeft } from 'lucide-react'
 import { Badge } from '#/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '#/components/ui/card'
 import { Separator } from '#/components/ui/separator'
-import { portfolioProjects } from '#/lib/data'
+import { seoDescription, seoTitle } from '#/lib/cms'
+import { loadPortfolioProject } from '#/lib/cms-public'
 
 export const Route = createFileRoute('/projects/$slug')({
-  head: ({ params }) => {
-    const project = portfolioProjects.find((p) => p.slug === params.slug)
+  head: ({ loaderData }) => {
+    const project = loaderData?.project
     if (!project) return {}
+    const title = seoTitle(project.title, project.metaTitle)
+    const description = seoDescription(project.excerpt, project.metaDescription)
     return {
       meta: [
-        { title: `${project.title} — Projects | Gayatri Law Offices` },
-        { name: 'description', content: project.excerpt },
-        { property: 'og:title', content: project.title },
-        { property: 'og:description', content: project.excerpt },
+        { title: `${title} — Projects | Gayatri Law Offices` },
+        { name: 'description', content: description },
+        { property: 'og:title', content: title },
+        { property: 'og:description', content: description },
         { property: 'og:type', content: 'article' },
+        ...(project.ogImageUrl ? [{ property: 'og:image', content: project.ogImageUrl }] : []),
       ],
       scripts: [
         {
@@ -24,7 +28,7 @@ export const Route = createFileRoute('/projects/$slug')({
             '@context': 'https://schema.org',
             '@type': 'CreativeWork',
             name: project.title,
-            description: project.excerpt,
+            description,
             datePublished: `${project.year}-01-01`,
             about: project.category,
           }),
@@ -32,18 +36,16 @@ export const Route = createFileRoute('/projects/$slug')({
       ],
     }
   },
-  loader: ({ params }) => {
-    const project = portfolioProjects.find((p) => p.slug === params.slug)
-    if (!project) throw notFound()
-    return { project }
+  loader: async ({ params }) => {
+    const data = await loadPortfolioProject({ data: params.slug })
+    if (!data) throw notFound()
+    return data
   },
   component: ProjectDetailPage,
 })
 
 function ProjectDetailPage() {
-  const { project } = Route.useLoaderData()
-
-  const related = portfolioProjects.filter((p) => p.slug !== project.slug).slice(0, 2)
+  const { project, related } = Route.useLoaderData()
 
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
@@ -115,7 +117,7 @@ function ProjectDetailPage() {
               ))}
             </ul>
           </section>
-          {project.tools?.length ? (
+          {project.tools.length ? (
             <section>
               <h2 className="display-title mb-4 text-xl font-semibold text-[var(--charcoal)]">Tools & platforms</h2>
               <div className="flex flex-wrap gap-2">

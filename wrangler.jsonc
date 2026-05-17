@@ -18,5 +18,9 @@
       "binding": "ASSETS",
       "bucket_name": "gayatri-law-offices-assets"
     }
-  ]
+  ],
+  "vars": {
+    "BETTER_AUTH_URL": "http://localhost:3000",
+    "ADMIN_EMAILS": ""
+  }
 }

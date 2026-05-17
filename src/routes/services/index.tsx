@@ -2,9 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
-import { services } from '#/lib/data'
+import { loadPracticeAreas } from '#/lib/cms-public'
 
 export const Route = createFileRoute('/services/')({
+  loader: () => loadPracticeAreas(),
   head: () => ({
     meta: [
       { title: 'LPO Services — Contract, Research & Litigation Support' },
@@ -19,6 +20,8 @@ export const Route = createFileRoute('/services/')({
 })
 
 function ServicesIndexPage() {
+  const services = Route.useLoaderData()
+
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
       <section className="text-center">

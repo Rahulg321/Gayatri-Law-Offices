@@ -2,9 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from '#/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
-import { portfolioProjects } from '#/lib/data'
+import { loadPortfolioProjects } from '#/lib/cms-public'
 
 export const Route = createFileRoute('/projects/')({
+  loader: () => loadPortfolioProjects(),
   head: () => ({
     meta: [
       { title: 'Experience & Projects — Gayatri Law Offices' },
@@ -19,6 +20,8 @@ export const Route = createFileRoute('/projects/')({
 })
 
 function ProjectsIndexPage() {
+  const portfolioProjects = Route.useLoaderData()
+
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
       <section className="text-center">

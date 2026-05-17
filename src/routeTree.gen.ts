@@ -21,16 +21,25 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogsRouteImport } from './routes/blogs'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs/$slug'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminProjectsIndexRouteImport } from './routes/admin/projects/index'
+import { Route as AdminPracticeAreasIndexRouteImport } from './routes/admin/practice-areas/index'
+import { Route as AdminBlogsIndexRouteImport } from './routes/admin/blogs/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AdminProjectsSlugRouteImport } from './routes/admin/projects/$slug'
+import { Route as AdminPracticeAreasSlugRouteImport } from './routes/admin/practice-areas/$slug'
+import { Route as AdminBlogsSlugRouteImport } from './routes/admin/blogs/$slug'
 
 const WhyUsRoute = WhyUsRouteImport.update({
   id: '/why-us',
@@ -92,6 +101,11 @@ const BlogsRoute = BlogsRouteImport.update({
   path: '/blogs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -117,6 +131,11 @@ const BlogsIndexRoute = BlogsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => BlogsRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -137,15 +156,51 @@ const BlogsSlugRoute = BlogsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => BlogsRoute,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPracticeAreasIndexRoute = AdminPracticeAreasIndexRouteImport.update({
+  id: '/practice-areas/',
+  path: '/practice-areas/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsIndexRoute = AdminBlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProjectsSlugRoute = AdminProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPracticeAreasSlugRoute = AdminPracticeAreasSlugRouteImport.update({
+  id: '/practice-areas/$slug',
+  path: '/practice-areas/$slug',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsSlugRoute = AdminBlogsSlugRouteImport.update({
+  id: '/blogs/$slug',
+  path: '/blogs/$slug',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -158,14 +213,22 @@ export interface FileRoutesByFullPath {
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/blogs/': typeof BlogsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/blogs/$slug': typeof AdminBlogsSlugRoute
+  '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
+  '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/blogs/': typeof AdminBlogsIndexRoute
+  '/admin/practice-areas/': typeof AdminPracticeAreasIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -179,19 +242,28 @@ export interface FileRoutesByTo {
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/blogs': typeof BlogsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/admin/blogs/$slug': typeof AdminBlogsSlugRoute
+  '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
+  '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/blogs': typeof AdminBlogsIndexRoute
+  '/admin/practice-areas': typeof AdminPracticeAreasIndexRoute
+  '/admin/projects': typeof AdminProjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/blogs': typeof BlogsRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
@@ -204,20 +276,29 @@ export interface FileRoutesById {
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/blogs/': typeof BlogsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/admin/blogs/$slug': typeof AdminBlogsSlugRoute
+  '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
+  '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/blogs/': typeof AdminBlogsIndexRoute
+  '/admin/practice-areas/': typeof AdminPracticeAreasIndexRoute
+  '/admin/projects/': typeof AdminProjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/blogs'
     | '/contact'
     | '/faq'
@@ -230,14 +311,22 @@ export interface FileRouteTypes {
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/admin/login'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/blogs/'
     | '/projects/'
     | '/services/'
+    | '/admin/blogs/$slug'
+    | '/admin/practice-areas/$slug'
+    | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/admin/blogs/'
+    | '/admin/practice-areas/'
+    | '/admin/projects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -251,18 +340,27 @@ export interface FileRouteTypes {
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/admin/login'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
     | '/services/$slug'
+    | '/admin'
     | '/blogs'
     | '/projects'
     | '/services'
+    | '/admin/blogs/$slug'
+    | '/admin/practice-areas/$slug'
+    | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/admin/blogs'
+    | '/admin/practice-areas'
+    | '/admin/projects'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/blogs'
     | '/contact'
     | '/faq'
@@ -275,19 +373,28 @@ export interface FileRouteTypes {
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/admin/login'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
     | '/services/$slug'
+    | '/admin/'
     | '/blogs/'
     | '/projects/'
     | '/services/'
+    | '/admin/blogs/$slug'
+    | '/admin/practice-areas/$slug'
+    | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/admin/blogs/'
+    | '/admin/practice-areas/'
+    | '/admin/projects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   BlogsRoute: typeof BlogsRouteWithChildren
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
@@ -389,6 +496,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -424,6 +538,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsIndexRouteImport
       parentRoute: typeof BlogsRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/services/$slug': {
       id: '/services/$slug'
       path: '/$slug'
@@ -452,6 +573,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsSlugRouteImport
       parentRoute: typeof BlogsRoute
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/': {
+      id: '/admin/projects/'
+      path: '/projects'
+      fullPath: '/admin/projects/'
+      preLoaderRoute: typeof AdminProjectsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/practice-areas/': {
+      id: '/admin/practice-areas/'
+      path: '/practice-areas'
+      fullPath: '/admin/practice-areas/'
+      preLoaderRoute: typeof AdminPracticeAreasIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs/': {
+      id: '/admin/blogs/'
+      path: '/blogs'
+      fullPath: '/admin/blogs/'
+      preLoaderRoute: typeof AdminBlogsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -459,8 +608,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/projects/$slug': {
+      id: '/admin/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/admin/projects/$slug'
+      preLoaderRoute: typeof AdminProjectsSlugRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/practice-areas/$slug': {
+      id: '/admin/practice-areas/$slug'
+      path: '/practice-areas/$slug'
+      fullPath: '/admin/practice-areas/$slug'
+      preLoaderRoute: typeof AdminPracticeAreasSlugRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs/$slug': {
+      id: '/admin/blogs/$slug'
+      path: '/blogs/$slug'
+      fullPath: '/admin/blogs/$slug'
+      preLoaderRoute: typeof AdminBlogsSlugRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminBlogsSlugRoute: typeof AdminBlogsSlugRoute
+  AdminPracticeAreasSlugRoute: typeof AdminPracticeAreasSlugRoute
+  AdminProjectsSlugRoute: typeof AdminProjectsSlugRoute
+  AdminBlogsIndexRoute: typeof AdminBlogsIndexRoute
+  AdminPracticeAreasIndexRoute: typeof AdminPracticeAreasIndexRoute
+  AdminProjectsIndexRoute: typeof AdminProjectsIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminLoginRoute: AdminLoginRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminBlogsSlugRoute: AdminBlogsSlugRoute,
+  AdminPracticeAreasSlugRoute: AdminPracticeAreasSlugRoute,
+  AdminProjectsSlugRoute: AdminProjectsSlugRoute,
+  AdminBlogsIndexRoute: AdminBlogsIndexRoute,
+  AdminPracticeAreasIndexRoute: AdminPracticeAreasIndexRoute,
+  AdminProjectsIndexRoute: AdminProjectsIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface BlogsRouteChildren {
   BlogsSlugRoute: typeof BlogsSlugRoute
@@ -517,6 +711,7 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   BlogsRoute: BlogsRouteWithChildren,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,

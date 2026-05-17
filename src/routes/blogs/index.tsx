@@ -1,23 +1,32 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { Badge } from '#/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
-import { blogPosts } from '#/lib/data'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Badge } from "#/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "#/components/ui/card";
+import { loadBlogPosts } from "#/lib/cms-public";
 
-export const Route = createFileRoute('/blogs/')({
+export const Route = createFileRoute("/blogs/")({
+  loader: () => loadBlogPosts(),
   head: () => ({
     meta: [
-      { title: 'Blog — LPO Insights, Trends & Legal Tech' },
+      { title: "Blog — LPO Insights, Trends & Legal Tech" },
       {
-        name: 'description',
+        name: "description",
         content:
-          'Insights on legal process outsourcing trends, practice area guides, and tips for law firms. Stay informed with Gayatri Law Offices.',
+          "Insights on legal process outsourcing trends, practice area guides, and tips for law firms. Stay informed with Gayatri Law Offices.",
       },
     ],
   }),
   component: BlogsIndexPage,
-})
+});
 
 function BlogsIndexPage() {
+  const blogPosts = Route.useLoaderData();
+
   return (
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
       <section className="text-center">
@@ -31,14 +40,19 @@ function BlogsIndexPage() {
           Insights & Knowledge Center
         </h1>
         <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Stay informed with the latest trends in legal process outsourcing, practice area guides, and practical tips for law
-          firms.
+          Stay informed with the latest trends in legal process outsourcing,
+          practice area guides, and practical tips for law firms.
         </p>
       </section>
 
       <section className="mt-12 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
         {blogPosts.map((post, i) => (
-          <Link key={post.slug} to="/blogs/$slug" params={{ slug: post.slug }} className="no-underline">
+          <Link
+            key={post.slug}
+            to="/blogs/$slug"
+            params={{ slug: post.slug }}
+            className="no-underline"
+          >
             <Card
               className="feature-card rise-in group h-full border-[var(--line)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:border-[var(--gold)]/30"
               style={{ animationDelay: `${i * 100}ms` }}
@@ -55,9 +69,17 @@ function BlogsIndexPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="mb-4 text-sm leading-relaxed text-[var(--charcoal-soft)]">{post.excerpt}</CardDescription>
+                <CardDescription className="mb-4 text-sm leading-relaxed text-[var(--charcoal-soft)]">
+                  {post.excerpt}
+                </CardDescription>
                 <div className="flex items-center gap-3 text-xs text-[var(--slate-soft)]">
-                  <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  <span>
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
                   <span>·</span>
                   <span>{post.readTime}</span>
                 </div>
@@ -67,5 +89,5 @@ function BlogsIndexPage() {
         ))}
       </section>
     </main>
-  )
+  );
 }

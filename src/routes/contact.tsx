@@ -1,11 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
+import { useState } from 'react'
+import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/components/ui/card'
-import { Input } from '#/components/ui/input'
-import { Textarea } from '#/components/ui/textarea'
-import { Label } from '#/components/ui/label'
-import { Badge } from '#/components/ui/badge'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '#/components/ui/accordion'
+import { Field, FieldContent, FieldError, FieldLabel } from '#/components/ui/field'
+import { Input } from '#/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select'
+import { Textarea } from '#/components/ui/textarea'
+import { contactInquiryFormSchema } from '#/lib/cms-schemas'
 import { services as servicesData } from '#/lib/data'
 
 export const Route = createFileRoute('/contact')({
@@ -37,45 +47,7 @@ function ContactPage() {
               <CardDescription className="text-sm">Fill out the form below and we'll get back to you within 24 hours.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-xs font-semibold text-[var(--charcoal)]">Full Name *</Label>
-                    <Input id="name" placeholder="John Doe" className="rounded-xl border-[var(--line)] text-sm" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-xs font-semibold text-[var(--charcoal)]">Email Address *</Label>
-                    <Input id="email" type="email" placeholder="john@lawfirm.com" className="rounded-xl border-[var(--line)] text-sm" />
-                  </div>
-                </div>
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-xs font-semibold text-[var(--charcoal)]">Phone Number</Label>
-                    <Input id="phone" type="tel" placeholder="+1 (555) 000-0000" className="rounded-xl border-[var(--line)] text-sm" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="firm" className="text-xs font-semibold text-[var(--charcoal)]">Law Firm / Company</Label>
-                    <Input id="firm" placeholder="Your Law Firm" className="rounded-xl border-[var(--line)] text-sm" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="service" className="text-xs font-semibold text-[var(--charcoal)]">Service Interested In *</Label>
-                  <select id="service" className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm text-[var(--charcoal)]">
-                    <option value="">Select a service...</option>
-                    {servicesData.map((s) => (
-                      <option key={s.slug} value={s.slug}>{s.title}</option>
-                    ))}
-                    <option value="other">Other / Multiple Services</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="text-xs font-semibold text-[var(--charcoal)]">Message *</Label>
-                  <Textarea id="message" placeholder="Tell us about your project, timeline, and requirements..." className="min-h-32 rounded-xl border-[var(--line)] text-sm" />
-                </div>
-                <Button type="submit" className="w-full cursor-pointer rounded-full bg-[var(--gold)] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] sm:w-auto">
-                  Submit Inquiry
-                </Button>
-              </form>
+              <ContactInquiryForm />
             </CardContent>
           </Card>
         </div>
@@ -133,5 +105,226 @@ function ContactPage() {
         </div>
       </section>
     </main>
+  )
+}
+
+function ContactInquiryForm() {
+  const [sent, setSent] = useState(false)
+
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      firm: '',
+      service: '',
+      message: '',
+    },
+    validators: {
+      onSubmit: contactInquiryFormSchema,
+      onBlur: contactInquiryFormSchema,
+    },
+    onSubmit: async () => {
+      setSent(true)
+      form.reset()
+    },
+  })
+
+  return (
+    <form
+      noValidate
+      className="space-y-5"
+      onSubmit={(e) => {
+        e.preventDefault()
+        void form.handleSubmit()
+      }}
+    >
+      {sent ? (
+        <p className="rounded-xl border border-[var(--line)] bg-[#f6f4f0] px-4 py-3 text-sm text-[var(--charcoal)]">
+          Thank you — your inquiry was received. We will respond within 24 hours.
+        </p>
+      ) : null}
+      <div className="grid gap-5 sm:grid-cols-2">
+        <form.Field name="name">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel
+                  htmlFor="contact-name"
+                  className="text-xs font-semibold text-[var(--charcoal)]"
+                >
+                  Full Name *
+                </FieldLabel>
+                <Input
+                  id="contact-name"
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="John Doe"
+                  aria-invalid={isInvalid}
+                  className="rounded-xl border-[var(--line)] text-sm"
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+        <form.Field name="email">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel
+                  htmlFor="contact-email"
+                  className="text-xs font-semibold text-[var(--charcoal)]"
+                >
+                  Email Address *
+                </FieldLabel>
+                <Input
+                  id="contact-email"
+                  name={field.name}
+                  type="email"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="john@lawfirm.com"
+                  aria-invalid={isInvalid}
+                  className="rounded-xl border-[var(--line)] text-sm"
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <form.Field name="phone">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel
+                  htmlFor="contact-phone"
+                  className="text-xs font-semibold text-[var(--charcoal)]"
+                >
+                  Phone Number
+                </FieldLabel>
+                <Input
+                  id="contact-phone"
+                  name={field.name}
+                  type="tel"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="+1 (555) 000-0000"
+                  aria-invalid={isInvalid}
+                  className="rounded-xl border-[var(--line)] text-sm"
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+        <form.Field name="firm">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel
+                  htmlFor="contact-firm"
+                  className="text-xs font-semibold text-[var(--charcoal)]"
+                >
+                  Law Firm / Company
+                </FieldLabel>
+                <Input
+                  id="contact-firm"
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  placeholder="Your Law Firm"
+                  aria-invalid={isInvalid}
+                  className="rounded-xl border-[var(--line)] text-sm"
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+      </div>
+      <form.Field name="service">
+        {(field) => {
+          const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+          return (
+            <Field orientation="responsive" data-invalid={isInvalid}>
+              <FieldContent>
+                <FieldLabel
+                  htmlFor="contact-service"
+                  className="text-xs font-semibold text-[var(--charcoal)]"
+                >
+                  Service Interested In *
+                </FieldLabel>
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </FieldContent>
+              <Select
+                name={field.name}
+                value={field.state.value || undefined}
+                onValueChange={(v) => field.handleChange(v)}
+              >
+                <SelectTrigger
+                  id="contact-service"
+                  aria-invalid={isInvalid}
+                  className="h-auto min-h-9 w-full rounded-xl border-[var(--line)] py-2 text-sm"
+                >
+                  <SelectValue placeholder="Select a service..." />
+                </SelectTrigger>
+                <SelectContent position="item-aligned">
+                  {servicesData.map((s) => (
+                    <SelectItem key={s.slug} value={s.slug}>
+                      {s.title}
+                    </SelectItem>
+                  ))}
+                  <SelectItem value="other">Other / Multiple Services</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          )
+        }}
+      </form.Field>
+      <form.Field name="message">
+        {(field) => {
+          const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+          return (
+            <Field data-invalid={isInvalid}>
+              <FieldLabel
+                htmlFor="contact-message"
+                className="text-xs font-semibold text-[var(--charcoal)]"
+              >
+                Message *
+              </FieldLabel>
+              <Textarea
+                id="contact-message"
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                placeholder="Tell us about your project, timeline, and requirements..."
+                aria-invalid={isInvalid}
+                className="min-h-32 rounded-xl border-[var(--line)] text-sm"
+              />
+              {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+            </Field>
+          )
+        }}
+      </form.Field>
+      <Button
+        type="submit"
+        className="w-full cursor-pointer rounded-full bg-[var(--gold)] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] sm:w-auto"
+      >
+        Submit Inquiry
+      </Button>
+    </form>
   )
 }
