@@ -1,4 +1,4 @@
-import { Link, useRouterState } from '@tanstack/react-router'
+import { Link, useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
 import { BookOpen, FolderKanban, Gavel, LayoutDashboard, LogOut, Monitor, Moon, Sun } from 'lucide-react'
 import { useThemeMode } from '#/components/ThemeToggle'
 import { Button } from '#/components/ui/button'
@@ -54,6 +54,14 @@ export function AdminShell({
   user: { name: string; email: string }
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
+  const navigate = useNavigate()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    await authClient.signOut()
+    await router.invalidate()
+    await navigate({ to: '/admin/login', replace: true })
+  }
 
   return (
     <SidebarProvider>
@@ -108,7 +116,7 @@ export function AdminShell({
               'w-full justify-start gap-2 shadow-none',
               'group-data-[collapsible=icon]:size-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0',
             )}
-            onClick={() => authClient.signOut()}
+            onClick={() => void handleSignOut()}
             title="Sign out"
           >
             <LogOut className="size-4 shrink-0" />
