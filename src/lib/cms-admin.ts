@@ -22,6 +22,7 @@ import {
   listAllPortfolioProjects,
   listAllPracticeAreas,
 } from '#/lib/cms-queries.server'
+import { purgePublicCmsWorkersCache } from '#/lib/cms-workers-cache.server'
 import { seedCmsFromStaticData } from '#/lib/seed.server'
 
 type PracticeAreaInput = z.infer<typeof practiceAreaSchema>
@@ -137,7 +138,9 @@ function normalizeBlogPost(data: BlogPostInput) {
 
 export const adminSeedCms = createServerFn({ method: 'POST' }).handler(async () => {
   await requireAdminSession()
-  return seedCmsFromStaticData()
+  const result = await seedCmsFromStaticData()
+  await purgePublicCmsWorkersCache()
+  return result
 })
 
 export const adminListPracticeAreas = createServerFn({ method: 'GET' }).handler(async () => {
@@ -178,6 +181,7 @@ export const adminSavePracticeArea = createServerFn({ method: 'POST' })
     } else {
       await db.insert(practiceAreas).values(values)
     }
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })
 
@@ -186,6 +190,7 @@ export const adminDeletePracticeArea = createServerFn({ method: 'POST' })
   .handler(async ({ data: slug }) => {
     await requireAdminSession()
     await getDb().delete(practiceAreas).where(eq(practiceAreas.slug, slug))
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })
 
@@ -237,6 +242,7 @@ export const adminSaveBlogPost = createServerFn({ method: 'POST' })
     } else {
       await db.insert(blogPosts).values(values)
     }
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })
 
@@ -302,6 +308,7 @@ export const adminDeleteBlogPost = createServerFn({ method: 'POST' })
   .handler(async ({ data: slug }) => {
     await requireAdminSession()
     await getDb().delete(blogPosts).where(eq(blogPosts.slug, slug))
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })
 
@@ -372,6 +379,7 @@ export const adminSaveProject = createServerFn({ method: 'POST' })
     } else {
       await db.insert(portfolioProjects).values(values)
     }
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })
 
@@ -380,5 +388,6 @@ export const adminDeleteProject = createServerFn({ method: 'POST' })
   .handler(async ({ data: slug }) => {
     await requireAdminSession()
     await getDb().delete(portfolioProjects).where(eq(portfolioProjects.slug, slug))
+    await purgePublicCmsWorkersCache()
     return { ok: true }
   })

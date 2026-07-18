@@ -37,6 +37,8 @@ Configured in `wrangler.jsonc`. Types in `worker-configuration.d.ts` (regenerate
 | `DB` | `D1Database` | `gayatri-law-offices-db` ( **`remote: true`** — local dev uses the same Cloudflare D1 as production, not a local SQLite copy ) |
 | `ASSETS` | `R2Bucket` | `gayatri-law-offices-assets` |
 
+**Workers Cache:** enabled via `"cache": { "enabled": true }` in `wrangler.jsonc`. Public CMS HTML sets `Cloudflare-CDN-Cache-Control` + `Cache-Tag: cms` in `src/lib/cms-route-cache.ts`. CMS writes purge via `purgePublicCmsWorkersCache()` in `src/lib/cms-workers-cache.server.ts`. Admin/auth responses use `Cache-Control: private, no-store`. Verify with `Cf-Cache-Status` after deploy.
+
 Access bindings with `import { env } from 'cloudflare:workers'` — not `process.env` at module scope.
 
 **Local dev + D1:** `DB` is configured with `remote: true` in `wrangler.jsonc`, so `bun run dev` talks to the **remote** database. Writes hit real data and billing applies. To use a local simulated D1 instead, remove `remote: true` or run with remote bindings disabled per [Wrangler docs](https://developers.cloudflare.com/workers/development-testing/#remote-bindings).

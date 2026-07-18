@@ -4,6 +4,10 @@
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
+  /** Workers Cache: serve cacheable responses from the edge without running the Worker (see Cache-Control on public CMS routes). */
+  "cache": {
+    "enabled": true,
+  },
   "d1_databases": [
     {
       "binding": "DB",
