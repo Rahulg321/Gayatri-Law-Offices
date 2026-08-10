@@ -3,7 +3,7 @@ import { eq, sql } from 'drizzle-orm'
 import type { z } from 'zod'
 import { getDb } from '#/db/index'
 import { blogPosts, portfolioProjects, practiceAreas } from '#/db/schema'
-import { requireAdminSession } from '#/lib/admin-auth'
+import { requireAdminSession } from '#/lib/admin-auth.server'
 import { stringifyJson, stringifyJsonArray } from '#/lib/cms'
 import {
   blogPostSchema,
