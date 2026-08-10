@@ -1,5 +1,5 @@
 export function getAdminEmails(): string[] {
-  return ['gayatri@gayatrilawoffices.in', 'rahulguptax14@gmail.com', 'advocategayatrigupta@gmail.com', 'gayatrigupta.law@gmail.com', "shivamchopra.in@gmail.com"]
+  return ['gayatri@gayatrilawoffices.in', 'rahulguptax14@gmail.com', 'advocategayatrigupta@gmail.com', 'gayatrigupta.law@gmail.com', "shivamchopra.in@gmail.com", "parthasus7973@gmail.com"]
 }
 
 export function isAdminEmail(email: string | null | undefined): boolean {
