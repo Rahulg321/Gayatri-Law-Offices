@@ -10,6 +10,9 @@ const AUTH_ERROR_MESSAGES: Record<string, string> = {
   no_code: 'Google did not return an authorization code. Please try again.',
   state_not_found: 'Sign-in state expired. Please try again.',
   email_not_found: 'Google did not return an email address for this account.',
+  invalid_origin:
+    'This site origin is not allowed for admin sign-in. Use the primary domain or update auth trusted hosts.',
+  missing_or_null_origin: 'Sign-in request was missing an origin. Please try again.',
 }
 
 export function getAuthErrorMessage(

@@ -15,10 +15,25 @@ function assertAdminEmail(email: string | null | undefined) {
   }
 }
 
+/** Hosts that may serve this Worker (OAuth redirect_uri + CSRF origin checks). */
+const AUTH_ALLOWED_HOSTS = [
+  'gayatrilegalsolutions.com',
+  'www.gayatrilegalsolutions.com',
+  'gayatrilawoffices.in',
+  'www.gayatrilawoffices.in',
+  'gayatri-law-offices.pages.dev',
+  'localhost:3000',
+  '127.0.0.1:3000',
+]
+
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL,
+  // Resolve base URL from the request host so Google OAuth + cookies stay on the
+  // same domain (gayatrilegalsolutions.com vs gayatrilawoffices.in).
+  baseURL: {
+    allowedHosts: AUTH_ALLOWED_HOSTS,
+    fallback: process.env.BETTER_AUTH_URL || 'https://gayatrilegalsolutions.com',
+  },
   secret: process.env.BETTER_AUTH_SECRET,
-  trustedOrigins: process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : undefined,
   onAPIError: {
     errorURL: '/admin/login',
   },

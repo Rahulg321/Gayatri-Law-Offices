@@ -16,17 +16,41 @@ export const Route = createFileRoute('/admin/login')({
 function AdminLoginPage() {
   const { error, error_description } = Route.useSearch()
   const [isSigningIn, setIsSigningIn] = useState(false)
-  const authError = getAuthErrorMessage(error, error_description)
+  const [clientError, setClientError] = useState<string | null>(null)
+  const authError =
+    clientError ?? getAuthErrorMessage(error, error_description)
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true)
+    setClientError(null)
     try {
-      await authClient.signIn.social({
+      const result = await authClient.signIn.social({
         provider: 'google',
         callbackURL: '/admin',
         errorCallbackURL: '/admin/login',
       })
-    } catch {
+      if (result.error) {
+        setClientError(
+          result.error.message?.trim() ||
+            getAuthErrorMessage(result.error.code, undefined) ||
+            'Sign-in failed. Please try again.',
+        )
+        setIsSigningIn(false)
+        return
+      }
+      const url = result.data?.url
+      if (url && typeof window !== 'undefined') {
+        window.location.assign(url)
+        return
+      }
+      setClientError('Could not start Google sign-in. Please try again.')
+      setIsSigningIn(false)
+    } catch (err) {
+      setClientError(
+        err instanceof Error && err.message.trim()
+          ? err.message
+          : 'Sign-in failed. Please try again.',
+      )
       setIsSigningIn(false)
     }
   }
