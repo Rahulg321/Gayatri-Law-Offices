@@ -1,6 +1,6 @@
 import { Link, createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
-import { useForm } from '@tanstack/react-form'
-import { useState } from 'react'
+import { useForm, useStore } from '@tanstack/react-form'
+import { useMemo, useState } from 'react'
 import type { z } from 'zod'
 import { SeoFields } from '#/components/admin/SeoFields'
 import { StringListField } from '#/components/admin/StringListField'
@@ -91,6 +91,22 @@ function PracticeAreaEditForm() {
     },
   })
 
+  const fieldMeta = useStore(form.store, (state) => state.fieldMeta)
+  const formErrors = useStore(form.store, (state) => state.errors)
+  const validationErrors = useMemo(() => {
+    type ErrorItem = { message?: string } | undefined
+    const out: string[] = []
+    for (const meta of Object.values(fieldMeta)) {
+      for (const err of (meta?.errors ?? []) as ErrorItem[]) {
+        if (err?.message) out.push(err.message)
+      }
+    }
+    for (const err of formErrors as ErrorItem[]) {
+      if (err?.message) out.push(err.message)
+    }
+    return out
+  }, [fieldMeta, formErrors])
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
@@ -171,7 +187,7 @@ function PracticeAreaEditForm() {
                   onChange={(e) => {
                     const title = e.target.value
                     field.handleChange(title)
-                    syncSlugFromTitle(form, title)
+                    if (isNew) syncSlugFromTitle(form, title)
                   }}
                   aria-invalid={isInvalid}
                 />
@@ -286,6 +302,18 @@ function PracticeAreaEditForm() {
             <SeoFields form={form} />
           </TabsContent>
         </Tabs>
+        {validationErrors.length > 0 ? (
+          <div className="border-destructive/30 bg-destructive/5 rounded-lg border p-4">
+            <p className="text-destructive text-sm font-semibold">
+              Please fix the following before saving:
+            </p>
+            <ul className="text-destructive mt-2 list-disc space-y-1 pl-5 text-sm">
+              {validationErrors.map((msg, i) => (
+                <li key={i}>{msg}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         {error ? <p className="text-destructive text-sm">{error}</p> : null}
         <div className="flex gap-3">
           <Button type="submit" disabled={saving} className="bg-accent text-accent-foreground hover:bg-accent/90">

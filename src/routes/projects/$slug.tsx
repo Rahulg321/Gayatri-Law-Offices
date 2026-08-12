@@ -21,18 +21,36 @@ function formatStatusLabel(raw: string) {
 export const Route = createFileRoute('/projects/$slug')({
   staleTime: PUBLIC_CMS_STALE_MS,
   gcTime: PUBLIC_CMS_GC_MS,
-  head: ({ loaderData }) => {
-    const project = loaderData?.project
-    if (!project) return {}
-    return portfolioProjectHeadMeta(project)
-  },
   loader: async ({ params }) => {
     applyPublicCmsCacheHeaders()
     const data = await loadPortfolioProject({ data: params.slug })
     if (!data) throw notFound()
     return data
   },
+  head: ({ loaderData }) => {
+    const project = loaderData?.project
+    if (!project) return {}
+    return portfolioProjectHeadMeta(project)
+  },
   component: ProjectDetailPage,
+  notFoundComponent: () => (
+    <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
+      <div className="mx-auto max-w-xl text-center">
+        <h1 className="display-title mb-4 text-3xl font-semibold text-[var(--charcoal)]">
+          Project not found
+        </h1>
+        <p className="text-[var(--charcoal-soft)]">
+          This project may have been removed.
+        </p>
+        <Link
+          to="/projects"
+          className="mt-6 inline-block text-sm font-medium text-[var(--gold-deep)] hover:underline"
+        >
+          Back to all projects
+        </Link>
+      </div>
+    </main>
+  ),
 })
 
 function ProjectDetailPage() {
@@ -119,9 +137,11 @@ function ProjectDetailPage() {
           <img src={hero} alt="" className="mb-8 aspect-[16/9] w-full rounded-xl border border-[var(--line)] object-cover" />
         ) : null}
 
-        <div className="prose prose-lg mb-10 max-w-none text-[var(--charcoal-soft)]">
-          <p className="lead text-lg leading-relaxed">{project.summary}</p>
-        </div>
+        {project.summary.trim() ? (
+          <div className="prose prose-lg mb-10 max-w-none text-[var(--charcoal-soft)]">
+            <p className="lead text-lg leading-relaxed">{project.summary}</p>
+          </div>
+        ) : null}
 
         {project.tags.length ? (
           <div className="mb-10 flex flex-wrap gap-2">

@@ -1,8 +1,10 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
-import { Pencil, Plus } from 'lucide-react'
+import { Link, createFileRoute, useRouter } from '@tanstack/react-router'
+import { ArrowDown, ArrowUp, Pencil, Plus } from 'lucide-react'
+import { useState } from 'react'
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
-import { adminListPracticeAreas } from '#/lib/cms-admin'
+import { adminListPracticeAreas, adminMovePracticeArea } from '#/lib/cms-admin'
+import { invalidateCmsRoutes } from '#/lib/cms-route-cache'
 
 export const Route = createFileRoute('/admin/practice-areas/')({
   loader: () => adminListPracticeAreas(),
@@ -10,7 +12,21 @@ export const Route = createFileRoute('/admin/practice-areas/')({
 })
 
 function AdminPracticeAreasListPage() {
+  const router = useRouter()
   const items = Route.useLoaderData()
+  const [moving, setMoving] = useState<string | null>(null)
+
+  async function handleMove(slug: string, direction: 'up' | 'down') {
+    setMoving(slug)
+    try {
+      const result = await adminMovePracticeArea({ data: { slug, direction } })
+      if (result.ok) {
+        await invalidateCmsRoutes(router)
+      }
+    } finally {
+      setMoving(null)
+    }
+  }
 
   return (
     <div>
@@ -27,15 +43,39 @@ function AdminPracticeAreasListPage() {
         </Link>
       </div>
       <ul className="divide-border bg-card divide-y rounded-xl border border-border">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <li key={item.slug} className="flex items-center justify-between gap-4 px-4 py-3">
             <div>
               <p className="font-medium">
                 {item.icon} {item.title}
               </p>
-              <p className="text-muted-foreground text-xs">{item.slug}</p>
+              <p className="text-muted-foreground text-xs">
+                {item.slug} · sort {item.sortOrder}
+              </p>
             </div>
             <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  disabled={index === 0 || moving !== null}
+                  onClick={() => void handleMove(item.slug, 'up')}
+                  aria-label={`Move ${item.title} up`}
+                >
+                  <ArrowUp className="size-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  disabled={index === items.length - 1 || moving !== null}
+                  onClick={() => void handleMove(item.slug, 'down')}
+                  aria-label={`Move ${item.title} down`}
+                >
+                  <ArrowDown className="size-4" />
+                </Button>
+              </div>
               {!item.published ? <Badge variant="secondary">Draft</Badge> : null}
               <Link to="/admin/practice-areas/$slug" params={{ slug: item.slug }}>
                 <Button type="button" variant="outline" size="sm">

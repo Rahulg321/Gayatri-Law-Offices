@@ -174,7 +174,7 @@ function BlogEditForm() {
                     onChange={(e) => {
                       const title = e.target.value;
                       field.handleChange(title);
-                      syncSlugFromTitle(form, title);
+                      if (isNew) syncSlugFromTitle(form, title);
                     }}
                     aria-invalid={isInvalid}
                   />

@@ -2,8 +2,9 @@ import type { AnyRouter } from '@tanstack/react-router'
 import { createIsomorphicFn } from '@tanstack/react-start'
 import { setResponseHeaders } from '@tanstack/react-start/server'
 
-/** Router loader cache: treat CMS data as fresh for this long (ms). */
-export const PUBLIC_CMS_STALE_MS = 60_000
+/** Router loader cache: never reuse stale CMS data — always refetch on navigation.
+ * Keeping this at 0 guarantees admin edits/deletes show up on public pages without a hard refresh. */
+export const PUBLIC_CMS_STALE_MS = 0
 
 /** Router loader cache: keep unused CMS loader data for this long (ms). */
 export const PUBLIC_CMS_GC_MS = 30 * 60_000
@@ -42,13 +43,13 @@ function applyResponseHeaderRecord(headers: Record<string, string>) {
 }
 
 export const applyPublicCmsCacheHeaders = createIsomorphicFn()
-  .client(() => {})
+  .client(() => { })
   .server(() => {
     applyResponseHeaderRecord(publicCmsCacheHeaders())
   })
 
 export const applyAdminNoStoreHeaders = createIsomorphicFn()
-  .client(() => {})
+  .client(() => { })
   .server(() => {
     applyResponseHeaderRecord({ 'Cache-Control': 'private, no-store' })
   })

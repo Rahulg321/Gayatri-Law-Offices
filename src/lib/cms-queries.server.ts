@@ -80,8 +80,8 @@ export async function listPublishedPortfolioProjects(): Promise<PortfolioProject
     .from(portfolioProjects)
     .where(eq(portfolioProjects.published, true))
     .orderBy(
-      desc(portfolioProjects.featured),
       asc(portfolioProjects.sortOrder),
+      desc(portfolioProjects.featured),
       desc(portfolioProjects.year),
     )
   return rows.map(mapPortfolioProject)
@@ -144,11 +144,7 @@ export async function listAllPortfolioProjects() {
   const rows = await getDb()
     .select()
     .from(portfolioProjects)
-    .orderBy(
-      desc(portfolioProjects.featured),
-      asc(portfolioProjects.sortOrder),
-      desc(portfolioProjects.year),
-    )
+    .orderBy(asc(portfolioProjects.sortOrder), asc(portfolioProjects.title))
   return rows.map(mapPortfolioProject)
 }
 

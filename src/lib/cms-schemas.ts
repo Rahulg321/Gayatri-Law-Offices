@@ -120,7 +120,7 @@ export const portfolioProjectSchema = z
     year: z.string().min(1).max(10),
     duration: z.string().min(1).max(100),
     role: z.string().min(1).max(200),
-    summary: z.string().min(1),
+    summary: z.string(),
     bodyMarkdown: z.string(),
     featuredImageUrl: z.string().max(2000).optional().nullable(),
     startDate: z.string().max(40).optional().nullable(),
@@ -220,7 +220,7 @@ export const adminPortfolioProjectFormSchema = z
     year: z.string().min(1).max(10),
     duration: z.string().min(1).max(100),
     role: z.string().min(1).max(200),
-    summary: z.string().min(1),
+    summary: z.string(),
     bodyMarkdown: z.string(),
     featuredImageUrl: z.string().max(2000),
     startDate: z.string().max(40),
@@ -253,22 +253,6 @@ export const adminPortfolioProjectFormSchema = z
     ogImageUrl: z.string().max(2000),
     canonicalUrl: z.string().max(2000),
     twitterCard: twitterCardSchema,
-  })
-  .superRefine((data, ctx) => {
-    const check = (key: 'scope' | 'deliverables' | 'outcomes' | 'tools', message: string) => {
-      const filtered = data[key].map((s) => s.trim()).filter(Boolean)
-      if (filtered.length === 0) {
-        ctx.addIssue({
-          code: 'custom',
-          message,
-          path: [key],
-        })
-      }
-    }
-    check('scope', 'Add at least one scope item.')
-    check('deliverables', 'Add at least one deliverable.')
-    check('outcomes', 'Add at least one outcome.')
-    check('tools', 'Add at least one tool.')
   })
 
 export const cmsBlogUploadSchema = z.object({

@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { eq, sql } from 'drizzle-orm'
-import type { z } from 'zod'
+import { z } from 'zod'
 import { getDb } from '#/db/index'
 import { blogPosts, portfolioProjects, practiceAreas } from '#/db/schema'
 import { requireAdminSession } from '#/lib/admin-auth.server'
@@ -62,7 +62,7 @@ function normalizePortfolioProject(data: ProjectInput): ProjectInput {
     .map((g, i) => ({
       url: g.url.trim(),
       alt: g.alt.trim(),
-      caption: g.caption?.trim() ? g.caption.trim() : null,
+      caption: g.caption?.trim() ? g.caption.trim() : undefined,
       sortOrder: typeof g.sortOrder === 'number' ? g.sortOrder : i,
     }))
     .filter((g) => g.url.length > 0)
@@ -71,21 +71,21 @@ function normalizePortfolioProject(data: ProjectInput): ProjectInput {
     .map((v) => ({
       kind: v.kind,
       url: v.url.trim(),
-      title: v.title?.trim() ? v.title.trim() : null,
+      title: v.title?.trim() ? v.title.trim() : undefined,
     }))
     .filter((v) => v.url.length > 0)
   const links = data.links
     .map((l) => ({
       title: l.title.trim(),
       url: l.url.trim(),
-      icon: l.icon?.trim() ? l.icon.trim() : null,
+      icon: l.icon?.trim() ? l.icon.trim() : undefined,
     }))
     .filter((l) => l.title.length > 0 && l.url.length > 0)
   const attachments = data.attachments
     .map((a) => ({
       fileUrl: a.fileUrl.trim(),
       filename: a.filename.trim(),
-      fileType: a.fileType?.trim() ? a.fileType.trim() : null,
+      fileType: a.fileType?.trim() ? a.fileType.trim() : undefined,
       sizeBytes: a.sizeBytes ?? null,
     }))
     .filter((a) => a.fileUrl.length > 0 && a.filename.length > 0)
@@ -93,7 +93,7 @@ function normalizePortfolioProject(data: ProjectInput): ProjectInput {
     .map((t) => ({
       quote: t.quote.trim(),
       clientName: t.clientName.trim(),
-      clientPhotoUrl: t.clientPhotoUrl?.trim() ? t.clientPhotoUrl.trim() : null,
+      clientPhotoUrl: t.clientPhotoUrl?.trim() ? t.clientPhotoUrl.trim() : undefined,
     }))
     .filter((t) => t.quote.length > 0 && t.clientName.length > 0)
 
@@ -388,6 +388,67 @@ export const adminDeleteProject = createServerFn({ method: 'POST' })
   .handler(async ({ data: slug }) => {
     await requireAdminSession()
     await getDb().delete(portfolioProjects).where(eq(portfolioProjects.slug, slug))
+    await purgePublicCmsWorkersCache()
+    return { ok: true }
+  })
+
+const moveDirectionSchema = z.object({
+  slug: slugSchema,
+  direction: z.enum(['up', 'down']),
+})
+
+function computeReordered<T extends { slug: string; sortOrder: number }>(
+  list: T[],
+  slug: string,
+  direction: 'up' | 'down',
+): T[] | null {
+  const index = list.findIndex((item) => item.slug === slug)
+  const target = direction === 'up' ? index - 1 : index + 1
+  if (index === -1 || target < 0 || target >= list.length) {
+    return null
+  }
+  const reordered = [...list]
+  const [moved] = reordered.splice(index, 1)
+  reordered.splice(target, 0, moved)
+  return reordered
+}
+
+export const adminMoveProject = createServerFn({ method: 'POST' })
+  .inputValidator((input: unknown) => moveDirectionSchema.parse(input))
+  .handler(async ({ data }) => {
+    await requireAdminSession()
+    const list = await listAllPortfolioProjects()
+    const reordered = computeReordered(list, data.slug, data.direction)
+    if (!reordered) return { ok: false }
+    const db = getDb()
+    for (const [i, item] of reordered.entries()) {
+      if (item.sortOrder !== i) {
+        await db
+          .update(portfolioProjects)
+          .set({ sortOrder: i, updatedAt: sql`(unixepoch())` })
+          .where(eq(portfolioProjects.slug, item.slug))
+      }
+    }
+    await purgePublicCmsWorkersCache()
+    return { ok: true }
+  })
+
+export const adminMovePracticeArea = createServerFn({ method: 'POST' })
+  .inputValidator((input: unknown) => moveDirectionSchema.parse(input))
+  .handler(async ({ data }) => {
+    await requireAdminSession()
+    const list = await listAllPracticeAreas()
+    const reordered = computeReordered(list, data.slug, data.direction)
+    if (!reordered) return { ok: false }
+    const db = getDb()
+    for (const [i, item] of reordered.entries()) {
+      if (item.sortOrder !== i) {
+        await db
+          .update(practiceAreas)
+          .set({ sortOrder: i, updatedAt: sql`(unixepoch())` })
+          .where(eq(practiceAreas.slug, item.slug))
+      }
+    }
     await purgePublicCmsWorkersCache()
     return { ok: true }
   })

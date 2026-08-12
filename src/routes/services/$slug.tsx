@@ -19,6 +19,12 @@ import {
 export const Route = createFileRoute("/services/$slug")({
   staleTime: PUBLIC_CMS_STALE_MS,
   gcTime: PUBLIC_CMS_GC_MS,
+  loader: async ({ params }) => {
+    applyPublicCmsCacheHeaders();
+    const service = await loadPracticeArea({ data: params.slug });
+    if (!service) throw notFound();
+    return service;
+  },
   head: ({ loaderData }) => {
     const svc = loaderData;
     if (!svc) return {};
@@ -36,13 +42,25 @@ export const Route = createFileRoute("/services/$slug")({
       ],
     };
   },
-  loader: async ({ params }) => {
-    applyPublicCmsCacheHeaders();
-    const service = await loadPracticeArea({ data: params.slug });
-    if (!service) throw notFound();
-    return service;
-  },
   component: ServiceDetailPage,
+  notFoundComponent: () => (
+    <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
+      <div className="mx-auto max-w-xl text-center">
+        <h1 className="display-title mb-4 text-3xl font-semibold text-[var(--charcoal)]">
+          Service not found
+        </h1>
+        <p className="text-[var(--charcoal-soft)]">
+          This service may have been removed.
+        </p>
+        <Link
+          to="/services"
+          className="mt-6 inline-block text-sm font-medium text-[var(--gold-deep)] hover:underline"
+        >
+          Back to all services
+        </Link>
+      </div>
+    </main>
+  ),
 });
 
 function ServiceDetailPage() {

@@ -33,6 +33,24 @@ export const Route = createFileRoute("/blogs/$slug")({
   },
 
   component: BlogPostPage,
+  notFoundComponent: () => (
+    <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
+      <div className="mx-auto max-w-xl text-center">
+        <h1 className="display-title mb-4 text-3xl font-semibold text-[var(--charcoal)]">
+          Post not found
+        </h1>
+        <p className="text-[var(--charcoal-soft)]">
+          This post may have been removed.
+        </p>
+        <Link
+          to="/blogs"
+          className="mt-6 inline-block text-sm font-medium text-[var(--gold-deep)] hover:underline"
+        >
+          Back to all posts
+        </Link>
+      </div>
+    </main>
+  ),
 });
 
 function formatDate(iso: string) {

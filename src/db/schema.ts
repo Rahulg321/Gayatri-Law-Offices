@@ -120,6 +120,9 @@ export const portfolioProjectStatuses = [
   'archived',
 ] as const
 
+
+
+
 export type PortfolioProjectStatus = (typeof portfolioProjectStatuses)[number]
 
 export const portfolioProjectTypes = [
