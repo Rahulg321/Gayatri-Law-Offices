@@ -2,20 +2,19 @@ import type { AnyRouter } from '@tanstack/react-router'
 import { createIsomorphicFn } from '@tanstack/react-start'
 import { setResponseHeaders } from '@tanstack/react-start/server'
 
-/** Router loader cache: never reuse stale CMS data — always refetch on navigation.
- * Keeping this at 0 guarantees admin edits/deletes show up on public pages without a hard refresh. */
-export const PUBLIC_CMS_STALE_MS = 0
+/** In-browser: treat CMS loader data as fresh for this long, then refetch on the next visit. */
+export const PUBLIC_CMS_STALE_MS = 60_000
 
-/** Router loader cache: keep unused CMS loader data for this long (ms). */
+/** In-browser: keep unused CMS loader data in memory for this long (ms). */
 export const PUBLIC_CMS_GC_MS = 30 * 60_000
 
-/** Workers Cache / CDN fresh TTL for public CMS HTML (seconds). */
-export const PUBLIC_CMS_S_MAXAGE_SEC = 120
+/** Workers Cache: serve public CMS HTML from the edge for this long (seconds). */
+export const PUBLIC_CMS_S_MAXAGE_SEC = 300
 
-/** Serve stale HTML while revalidating at the edge (seconds). */
-export const PUBLIC_CMS_SWR_SEC = 300
+/** After TTL, keep serving cached HTML while Cloudflare refreshes it (seconds). */
+export const PUBLIC_CMS_SWR_SEC = 3600
 
-/** Cache-Tag used by Workers Cache; purged on CMS writes. */
+/** Cache-Tag on public HTML; purged when CMS content is saved/deleted. */
 export const PUBLIC_CMS_CACHE_TAG = 'cms'
 
 const PUBLIC_CMS_ROUTE_IDS = new Set([
@@ -30,7 +29,7 @@ const PUBLIC_CMS_ROUTE_IDS = new Set([
 
 export function publicCmsCacheHeaders(): Record<string, string> {
   return {
-    // Browsers revalidate; Workers Cache uses Cloudflare-CDN-Cache-Control.
+    // Browsers always revalidate. Cloudflare caches the HTML at the edge.
     'Cache-Control': 'public, max-age=0, must-revalidate',
     'Cloudflare-CDN-Cache-Control': `public, max-age=${PUBLIC_CMS_S_MAXAGE_SEC}, stale-while-revalidate=${PUBLIC_CMS_SWR_SEC}`,
     'Cache-Tag': PUBLIC_CMS_CACHE_TAG,

@@ -98,7 +98,7 @@ export const portfolioAttachmentSchema = z.object({
 export const portfolioTestimonialSchema = z.object({
   quote: z.string().max(5000),
   clientName: z.string().max(200),
-  clientPhotoUrl: z.string().max(2000).optional(),
+  clientPhotoUrl: z.string().max(2000).optional().nullable(),
 })
 
 const portfolioJsonFieldsSchema = z.object({
@@ -253,6 +253,26 @@ export const adminPortfolioProjectFormSchema = z
     ogImageUrl: z.string().max(2000),
     canonicalUrl: z.string().max(2000),
     twitterCard: twitterCardSchema,
+  })
+  .superRefine((data, ctx) => {
+    data.testimonials.forEach((t, i) => {
+      const hasAny = Boolean(t.quote.trim() || t.clientName.trim() || t.clientPhotoUrl?.trim())
+      if (!hasAny) return
+      if (!t.quote.trim()) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Testimonial quote is required.',
+          path: ['testimonials', i, 'quote'],
+        })
+      }
+      if (!t.clientName.trim()) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Testimonial client name is required.',
+          path: ['testimonials', i, 'clientName'],
+        })
+      }
+    })
   })
 
 export const cmsBlogUploadSchema = z.object({

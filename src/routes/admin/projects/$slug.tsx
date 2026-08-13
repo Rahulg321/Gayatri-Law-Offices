@@ -264,7 +264,7 @@ function ProjectEditForm() {
             <TabsTrigger value="media">Media</TabsTrigger>
             <TabsTrigger value="publishing">Publishing</TabsTrigger>
           </TabsList>
-          <TabsContent value="basics" className="mt-6 space-y-8">
+          <TabsContent value="basics" forceMount className="mt-6 space-y-8 data-[state=inactive]:hidden">
         <fieldset className="border-border space-y-4 rounded-xl border p-4">
           <legend className="px-1 text-sm font-semibold">Identification</legend>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -553,7 +553,7 @@ function ProjectEditForm() {
           </form.Field>
         </fieldset>
           </TabsContent>
-          <TabsContent value="content" className="mt-6 space-y-8">
+          <TabsContent value="content" forceMount className="mt-6 space-y-8 data-[state=inactive]:hidden">
 
         <fieldset className="border-border space-y-4 rounded-xl border p-4">
           <legend className="px-1 text-sm font-semibold">Narrative</legend>
@@ -683,7 +683,7 @@ function ProjectEditForm() {
           </form.Field>
         </fieldset>
           </TabsContent>
-          <TabsContent value="media" className="mt-6 space-y-8">
+          <TabsContent value="media" forceMount className="mt-6 space-y-8 data-[state=inactive]:hidden">
 
         <fieldset className="border-border space-y-4 rounded-xl border p-4">
           <legend className="px-1 text-sm font-semibold">Media</legend>
@@ -967,11 +967,11 @@ function ProjectEditForm() {
           </form.Field>
         </fieldset>
           </TabsContent>
-          <TabsContent value="publishing" className="mt-6 space-y-8">
+          <TabsContent value="publishing" forceMount className="mt-6 space-y-8 data-[state=inactive]:hidden">
 
         <fieldset className="border-border space-y-4 rounded-xl border p-4">
           <legend className="px-1 text-sm font-semibold">Testimonials</legend>
-          <form.Field name="testimonials">
+          <form.Field name="testimonials" mode="array">
             {(field) => (
               <div className="border-border mt-2 space-y-6 rounded-xl border p-4">
                 {field.state.value.map((item, idx) => (

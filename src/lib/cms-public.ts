@@ -10,24 +10,25 @@ import {
   listPublishedPracticeAreas,
 } from '#/lib/cms-queries.server'
 
-export const loadPracticeAreas = createServerFn({ method: 'GET' }).handler(async () => {
+/** POST so Workers Cache cannot store these (GET 200s with no Cache-Control are cached for 2h). */
+export const loadPracticeAreas = createServerFn({ method: 'POST' }).handler(async () => {
   await ensureCmsSeeded()
   return listPublishedPracticeAreas()
 })
 
-export const loadPracticeArea = createServerFn({ method: 'GET' })
+export const loadPracticeArea = createServerFn({ method: 'POST' })
   .inputValidator((slug: string) => slug)
   .handler(async ({ data: slug }) => {
     await ensureCmsSeeded()
     return getPublishedPracticeAreaBySlug(slug)
   })
 
-export const loadBlogPosts = createServerFn({ method: 'GET' }).handler(async () => {
+export const loadBlogPosts = createServerFn({ method: 'POST' }).handler(async () => {
   await ensureCmsSeeded()
   return listPublishedBlogPosts()
 })
 
-export const loadBlogPost = createServerFn({ method: 'GET' })
+export const loadBlogPost = createServerFn({ method: 'POST' })
   .inputValidator((slug: string) => slug)
   .handler(async ({ data: slug }) => {
     await ensureCmsSeeded()
@@ -39,17 +40,17 @@ export const loadBlogPost = createServerFn({ method: 'GET' })
     return { post, related }
   })
 
-export const loadPortfolioProjects = createServerFn({ method: 'GET' }).handler(async () => {
+export const loadPortfolioProjects = createServerFn({ method: 'POST' }).handler(async () => {
   await ensureCmsSeeded()
   return listPublishedPortfolioProjects()
 })
 
-export const loadFeaturedPortfolioProjects = createServerFn({ method: 'GET' }).handler(async () => {
+export const loadFeaturedPortfolioProjects = createServerFn({ method: 'POST' }).handler(async () => {
   await ensureCmsSeeded()
   return listFeaturedPublishedPortfolioProjects()
 })
 
-export const loadPortfolioProject = createServerFn({ method: 'GET' })
+export const loadPortfolioProject = createServerFn({ method: 'POST' })
   .inputValidator((slug: string) => slug)
   .handler(async ({ data: slug }) => {
     await ensureCmsSeeded()

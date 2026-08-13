@@ -4,7 +4,7 @@
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
-  /** Workers Cache: serve cacheable responses from the edge without running the Worker (see Cache-Control on public CMS routes). */
+  /** Workers Cache: public CMS HTML is cached at the edge (see applyPublicCmsCacheHeaders). */
   "cache": {
     "enabled": true,
   },
@@ -14,8 +14,8 @@
       "database_name": "gayatri-law-offices-db",
       "database_id": "f72eac8b-bb8c-4657-920a-87ee3fd100e4",
       "migrations_dir": "drizzle",
-      "remote": true
-    }
+      "remote": true,
+    },
   ],
   "r2_buckets": [
     {
