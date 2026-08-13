@@ -417,7 +417,7 @@ export function ProjectDetailPage({
             <div className="space-y-6">
               {project.testimonials.map((t, i) => (
                 <blockquote
-                  key={`${t.clientName}-${i}`}
+                  key={`${t.clientName ?? 'quote'}-${i}`}
                   className="border-border rounded-xl border bg-white/60 p-5"
                 >
                   <p className="text-sm italic leading-relaxed text-[var(--charcoal-soft)]">
@@ -431,9 +431,18 @@ export function ProjectDetailPage({
                         className="size-10 rounded-full object-cover"
                       />
                     ) : null}
-                    <cite className="text-xs font-semibold not-italic text-[var(--charcoal)]">
-                      {t.clientName}
-                    </cite>
+                    {t.clientName || t.clientDesignation ? (
+                      <div>
+                        {t.clientName ? (
+                          <cite className="block text-xs font-semibold not-italic text-[var(--charcoal)]">
+                            {t.clientName}
+                          </cite>
+                        ) : null}
+                        {t.clientDesignation ? (
+                          <p className="text-xs text-[var(--slate-soft)]">{t.clientDesignation}</p>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </footer>
                 </blockquote>
               ))}

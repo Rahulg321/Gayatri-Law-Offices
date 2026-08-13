@@ -99,20 +99,18 @@ export const adminPortfolioProjectFormSchema = z
   })
   .superRefine((data, ctx) => {
     data.testimonials.forEach((t, i) => {
-      const hasAny = Boolean(t.quote.trim() || t.clientName.trim() || t.clientPhotoUrl?.trim())
+      const hasAny = Boolean(
+        t.quote.trim() ||
+        t.clientName?.trim() ||
+        t.clientDesignation?.trim() ||
+        t.clientPhotoUrl?.trim(),
+      )
       if (!hasAny) return
       if (!t.quote.trim()) {
         ctx.addIssue({
           code: 'custom',
           message: 'Testimonial quote is required.',
           path: ['testimonials', i, 'quote'],
-        })
-      }
-      if (!t.clientName.trim()) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Testimonial client name is required.',
-          path: ['testimonials', i, 'clientName'],
         })
       }
     })

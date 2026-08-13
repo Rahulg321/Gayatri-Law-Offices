@@ -88,7 +88,8 @@ function projectDefaults(initial: PortfolioProject | null): ProjectFormValues {
     testimonials: initial?.testimonials?.length
       ? initial.testimonials.map((t) => ({
           quote: t.quote,
-          clientName: t.clientName,
+          clientName: t.clientName ?? '',
+          clientDesignation: t.clientDesignation ?? '',
           clientPhotoUrl: t.clientPhotoUrl ?? '',
         }))
       : [],
@@ -174,10 +175,11 @@ function ProjectEditForm({
             sizeBytes: a.sizeBytes ?? null,
           }))
         const testimonials = value.testimonials
-          .filter((t) => t.quote.trim() && t.clientName.trim())
+          .filter((t) => t.quote.trim())
           .map((t) => ({
             quote: t.quote.trim(),
-            clientName: t.clientName.trim(),
+            clientName: t.clientName?.trim() || undefined,
+            clientDesignation: t.clientDesignation?.trim() || undefined,
             clientPhotoUrl: t.clientPhotoUrl?.trim() || undefined,
           }))
 
@@ -967,51 +969,81 @@ function ProjectEditForm({
           </TabsContent>
           <TabsContent value="publishing" forceMount className="mt-6 space-y-8 data-[state=inactive]:hidden">
 
-        <fieldset className="border-border space-y-4 rounded-xl border p-4">
-          <legend className="px-1 text-sm font-semibold">Testimonials</legend>
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--charcoal)]">Testimonials</h3>
+            <p className="text-muted-foreground text-xs">
+              Optional client quotes for the case study. A quote alone is enough; name and designation are optional.
+            </p>
+          </div>
           <form.Field name="testimonials" mode="array">
             {(field) => (
-              <div className="border-border mt-2 space-y-6 rounded-xl border p-4">
+              <div className="space-y-5">
                 {field.state.value.map((item, idx) => (
-                  <div key={`t-${idx}`} className="border-border relative space-y-3 rounded-lg border p-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="absolute right-2 top-2"
-                      onClick={() => field.handleChange(field.state.value.filter((_, i) => i !== idx))}
-                    >
-                      Remove
-                    </Button>
-                    <FieldLabel className="text-xs">Quote</FieldLabel>
-                    <Textarea
-                      rows={3}
-                      value={item.quote}
-                      onChange={(e) => {
-                        const next = [...field.state.value]
-                        next[idx] = { ...next[idx], quote: e.target.value }
-                        field.handleChange(next)
-                      }}
-                    />
-                    <FieldLabel className="text-xs">Client name</FieldLabel>
-                    <Input
-                      value={item.clientName}
-                      onChange={(e) => {
-                        const next = [...field.state.value]
-                        next[idx] = { ...next[idx], clientName: e.target.value }
-                        field.handleChange(next)
-                      }}
-                    />
-                    <ImageField
-                      label="Client photo URL (optional)"
-                      value={item.clientPhotoUrl ?? ''}
-                      onChange={(url) => {
-                        const next = [...field.state.value]
-                        next[idx] = { ...next[idx], clientPhotoUrl: url }
-                        field.handleChange(next)
-                      }}
-                      uploadTarget={{ kind: 'portfolio', projectSlug }}
-                    />
+                  <div key={`t-${idx}`} className="border-t border-border pt-5 first:border-t-0 first:pt-0">
+                    <div className="mb-3 flex items-center justify-between gap-2">
+                      <p className="text-xs font-semibold tracking-wide text-[var(--charcoal-soft)] uppercase">
+                        Testimonial {idx + 1}
+                      </p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-destructive"
+                        onClick={() => field.handleChange(field.state.value.filter((_, i) => i !== idx))}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                    <div className="space-y-3">
+                      <div>
+                        <FieldLabel className="text-xs">Quote</FieldLabel>
+                        <Textarea
+                          rows={3}
+                          value={item.quote}
+                          onChange={(e) => {
+                            const next = [...field.state.value]
+                            next[idx] = { ...next[idx], quote: e.target.value }
+                            field.handleChange(next)
+                          }}
+                        />
+                      </div>
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div>
+                          <FieldLabel className="text-xs">Client name</FieldLabel>
+                          <Input
+                            value={item.clientName ?? ''}
+                            onChange={(e) => {
+                              const next = [...field.state.value]
+                              next[idx] = { ...next[idx], clientName: e.target.value }
+                              field.handleChange(next)
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <FieldLabel className="text-xs">Client designation</FieldLabel>
+                          <Input
+                            value={item.clientDesignation ?? ''}
+                            placeholder="e.g. General Counsel, Acme Corp"
+                            onChange={(e) => {
+                              const next = [...field.state.value]
+                              next[idx] = { ...next[idx], clientDesignation: e.target.value }
+                              field.handleChange(next)
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <ImageField
+                        label="Client photo (optional)"
+                        value={item.clientPhotoUrl ?? ''}
+                        onChange={(url) => {
+                          const next = [...field.state.value]
+                          next[idx] = { ...next[idx], clientPhotoUrl: url }
+                          field.handleChange(next)
+                        }}
+                        uploadTarget={{ kind: 'portfolio', projectSlug }}
+                      />
+                    </div>
                   </div>
                 ))}
                 <Button
@@ -1019,7 +1051,10 @@ function ProjectEditForm({
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    field.handleChange([...field.state.value, { quote: '', clientName: '', clientPhotoUrl: '' }])
+                    field.handleChange([
+                      ...field.state.value,
+                      { quote: '', clientName: '', clientDesignation: '', clientPhotoUrl: '' },
+                    ])
                   }
                 >
                   Add testimonial
@@ -1027,7 +1062,7 @@ function ProjectEditForm({
               </div>
             )}
           </form.Field>
-        </fieldset>
+        </div>
 
         <fieldset className="border-border rounded-xl border p-4">
           <legend className="px-1 text-sm font-semibold">Publishing</legend>

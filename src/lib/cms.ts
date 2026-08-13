@@ -272,7 +272,7 @@ export function mapPortfolioProject(row: PortfolioProjectRow): PortfolioProject 
       (a) => a.fileUrl.trim() && a.filename.trim(),
     ),
     testimonials: parseJsonArrayItems(row.testimonialsJson, portfolioTestimonialSchema).filter(
-      (t) => t.quote.trim() && t.clientName.trim(),
+      (t) => t.quote.trim(),
     ),
     tags: parseJsonArray(row.tags),
     scope: parseJsonArray(row.scope),

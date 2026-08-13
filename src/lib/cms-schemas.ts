@@ -50,7 +50,8 @@ export const portfolioAttachmentSchema = z.object({
 
 export const portfolioTestimonialSchema = z.object({
   quote: z.string().max(5000),
-  clientName: z.string().max(200),
+  clientName: z.string().max(200).optional().nullable(),
+  clientDesignation: z.string().max(200).optional().nullable(),
   clientPhotoUrl: z.string().max(2000).optional().nullable(),
 })
 

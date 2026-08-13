@@ -51,10 +51,11 @@ function normalizePortfolioProject(data: ProjectInput): ProjectInput {
   const testimonials = data.testimonials
     .map((t) => ({
       quote: t.quote.trim(),
-      clientName: t.clientName.trim(),
-      clientPhotoUrl: t.clientPhotoUrl?.trim() ? t.clientPhotoUrl.trim() : undefined,
+      clientName: t.clientName?.trim() || undefined,
+      clientDesignation: t.clientDesignation?.trim() || undefined,
+      clientPhotoUrl: t.clientPhotoUrl?.trim() || undefined,
     }))
-    .filter((t) => t.quote.length > 0 && t.clientName.length > 0)
+    .filter((t) => t.quote.length > 0)
 
   return {
     ...data,
