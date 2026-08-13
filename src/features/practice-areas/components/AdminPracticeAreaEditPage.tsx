@@ -1,0 +1,340 @@
+import { Link, useNavigate, useRouter } from '@tanstack/react-router'
+import { useForm, useStore } from '@tanstack/react-form'
+import { useMemo, useState } from 'react'
+import type { z } from 'zod'
+import { SeoFields } from '#/components/shared/SeoFields'
+import { StringListField } from '#/components/shared/StringListField'
+import { Button } from '#/components/ui/button'
+import { Field, FieldError, FieldLabel } from '#/components/ui/field'
+import { Input } from '#/components/ui/input'
+import { Switch } from '#/components/ui/switch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
+import { Textarea } from '#/components/ui/textarea'
+import type { PracticeArea } from '#/lib/cms'
+import { adminDeletePracticeArea } from '#/features/practice-areas/server/mutations/delete-practice-area'
+import { adminSavePracticeArea } from '#/features/practice-areas/server/mutations/save-practice-area'
+import { adminPracticeAreaFormSchema } from '#/features/practice-areas/schemas'
+import { invalidateCmsRoutes } from '#/lib/cms-route-cache'
+import { syncSlugFromTitle } from '#/lib/sync-slug-from-title'
+
+type PracticeAreaFormValues = z.infer<typeof adminPracticeAreaFormSchema>
+
+function practiceAreaDefaults(initial: PracticeArea | null): PracticeAreaFormValues {
+  return {
+    slug: initial?.slug ?? '',
+    title: initial?.title ?? '',
+    short: initial?.short ?? '',
+    description: initial?.description ?? '',
+    icon: initial?.icon ?? '📄',
+    benefits: initial?.benefits?.length ? initial.benefits : [''],
+    published: initial?.published ?? true,
+    sortOrder: initial?.sortOrder ?? 0,
+    metaTitle: initial?.metaTitle ?? '',
+    metaDescription: initial?.metaDescription ?? '',
+    ogImageUrl: initial?.ogImageUrl ?? '',
+  }
+}
+
+export function AdminPracticeAreaEditPage({
+  slug,
+  initial,
+}: {
+  slug: string
+  initial: PracticeArea | null
+}) {
+  return (
+    <div>
+      <PracticeAreaEditForm key={slug} initial={initial} isNew={slug === 'new'} />
+    </div>
+  )
+}
+
+function PracticeAreaEditForm({
+  initial,
+  isNew,
+}: {
+  initial: PracticeArea | null
+  isNew: boolean
+}) {
+  const router = useRouter()
+  const navigate = useNavigate()
+  const [error, setError] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+
+  const form = useForm({
+    defaultValues: practiceAreaDefaults(initial),
+    validators: {
+      onSubmit: adminPracticeAreaFormSchema,
+      onBlur: adminPracticeAreaFormSchema,
+    },
+    onSubmit: async ({ value }) => {
+      setSaving(true)
+      setError(null)
+      try {
+        await adminSavePracticeArea({
+          data: {
+            ...value,
+            benefits: value.benefits.filter(Boolean),
+            icon: value.icon.trim() || '📄',
+            metaTitle: value.metaTitle || null,
+            metaDescription: value.metaDescription || null,
+            ogImageUrl: value.ogImageUrl || null,
+          },
+        })
+        await invalidateCmsRoutes(router)
+        await navigate({ to: '/admin/practice-areas' })
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Save failed')
+      } finally {
+        setSaving(false)
+      }
+    },
+  })
+
+  const fieldMeta = useStore(form.store, (state) => state.fieldMeta)
+  const formErrors = useStore(form.store, (state) => state.errors)
+  const validationErrors = useMemo(() => {
+    type ErrorItem = { message?: string } | undefined
+    const out: string[] = []
+    for (const meta of Object.values(fieldMeta)) {
+      for (const err of (meta?.errors ?? []) as ErrorItem[]) {
+        if (err?.message) out.push(err.message)
+      }
+    }
+    for (const err of formErrors as ErrorItem[]) {
+      if (err?.message) out.push(err.message)
+    }
+    return out
+  }, [fieldMeta, formErrors])
+
+  return (
+    <div>
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-3xl font-semibold">
+          {isNew ? 'New practice area' : 'Edit practice area'}
+        </h1>
+        <Link to="/admin/practice-areas" className="text-accent text-sm hover:underline">
+          Back to list
+        </Link>
+      </div>
+      <form
+        noValidate
+        className="max-w-2xl space-y-6"
+        onSubmit={(e) => {
+          e.preventDefault()
+          void form.handleSubmit()
+        }}
+      >
+        <Tabs defaultValue="content" className="w-full gap-4">
+          <TabsList variant="line" className="w-full flex-wrap justify-start">
+            <TabsTrigger value="content">Content</TabsTrigger>
+            <TabsTrigger value="publishing">Publishing</TabsTrigger>
+            <TabsTrigger value="seo">SEO</TabsTrigger>
+          </TabsList>
+          <TabsContent value="content" className="mt-6 space-y-6">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <form.Field name="slug">
+            {(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Slug</FieldLabel>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    disabled={!isNew}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                  />
+                  {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                </Field>
+              )
+            }}
+          </form.Field>
+          <form.Field name="icon">
+            {(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Icon</FieldLabel>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                  />
+                  {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                </Field>
+              )
+            }}
+          </form.Field>
+        </div>
+        <form.Field name="title">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Title</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => {
+                    const title = e.target.value
+                    field.handleChange(title)
+                    if (isNew) syncSlugFromTitle(form, title)
+                  }}
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+        <form.Field name="short">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Short description</FieldLabel>
+                <Textarea
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  rows={2}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+        <form.Field name="description">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Full description</FieldLabel>
+                <Textarea
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  rows={5}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </Field>
+            )
+          }}
+        </form.Field>
+        <form.Field name="benefits">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <div className="space-y-1">
+                <StringListField
+                  label="Benefits"
+                  values={field.state.value}
+                  onChange={(v) => field.handleChange(v)}
+                />
+                {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+              </div>
+            )
+          }}
+        </form.Field>
+          </TabsContent>
+          <TabsContent value="publishing" className="mt-6 space-y-6">
+            <div className="flex flex-wrap items-center gap-6">
+              <form.Field name="published">
+                {(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field orientation="horizontal" data-invalid={isInvalid}>
+                      <Switch
+                        id="admin-pa-published"
+                        name={field.name}
+                        checked={field.state.value}
+                        onCheckedChange={(v) => field.handleChange(v)}
+                        aria-invalid={isInvalid}
+                      />
+                      <FieldLabel htmlFor="admin-pa-published">Published</FieldLabel>
+                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                    </Field>
+                  )
+                }}
+              </form.Field>
+              <form.Field name="sortOrder">
+                {(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Sort order</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type="number"
+                        className="w-24"
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => {
+                          const n = Number(e.target.value)
+                          field.handleChange(Number.isNaN(n) ? 0 : n)
+                        }}
+                        aria-invalid={isInvalid}
+                      />
+                      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+                    </Field>
+                  )
+                }}
+              </form.Field>
+            </div>
+          </TabsContent>
+          <TabsContent value="seo" className="mt-6 space-y-6">
+            <SeoFields form={form} />
+          </TabsContent>
+        </Tabs>
+        {validationErrors.length > 0 ? (
+          <div className="border-destructive/30 bg-destructive/5 rounded-lg border p-4">
+            <p className="text-destructive text-sm font-semibold">
+              Please fix the following before saving:
+            </p>
+            <ul className="text-destructive mt-2 list-disc space-y-1 pl-5 text-sm">
+              {validationErrors.map((msg, i) => (
+                <li key={i}>{msg}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {error ? <p className="text-destructive text-sm">{error}</p> : null}
+        <div className="flex gap-3">
+          <Button type="submit" disabled={saving} className="bg-accent text-accent-foreground hover:bg-accent/90">
+            {saving ? 'Saving…' : 'Save'}
+          </Button>
+          {!isNew ? (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={async () => {
+                if (!confirm('Delete this practice area?')) return
+                await adminDeletePracticeArea({ data: form.getFieldValue('slug') })
+                await invalidateCmsRoutes(router)
+                await navigate({ to: '/admin/practice-areas' })
+              }}
+            >
+              Delete
+            </Button>
+          ) : null}
+        </div>
+      </form>
+    </div>
+  )
+}

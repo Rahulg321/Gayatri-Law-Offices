@@ -299,3 +299,33 @@ export function seoDescription(
 ) {
   return metaDescription?.trim() || fallback
 }
+
+/** Trim empty SEO fields down to null before persisting. */
+export function normalizeSeo<T extends {
+  metaTitle?: string | null
+  metaDescription?: string | null
+  ogImageUrl?: string | null
+}>(data: T) {
+  return {
+    ...data,
+    metaTitle: data.metaTitle?.trim() || null,
+    metaDescription: data.metaDescription?.trim() || null,
+    ogImageUrl: data.ogImageUrl?.trim() || null,
+  }
+}
+
+export function computeReordered<T extends { slug: string; sortOrder: number }>(
+  list: T[],
+  slug: string,
+  direction: 'up' | 'down',
+): T[] | null {
+  const index = list.findIndex((item) => item.slug === slug)
+  const target = direction === 'up' ? index - 1 : index + 1
+  if (index === -1 || target < 0 || target >= list.length) {
+    return null
+  }
+  const reordered = [...list]
+  const [moved] = reordered.splice(index, 1)
+  reordered.splice(target, 0, moved)
+  return reordered
+}

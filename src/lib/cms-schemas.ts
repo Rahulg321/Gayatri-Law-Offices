@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import {
-  blogPostStatuses,
   portfolioProjectStatuses,
   portfolioProjectTypes,
 } from '#/db/schema'
@@ -11,59 +10,13 @@ export const slugSchema = z
   .max(120)
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug must be lowercase letters, numbers, and hyphens')
 
-const seoSchema = z.object({
+export const seoSchema = z.object({
   metaTitle: z.string().max(200).optional().nullable(),
   metaDescription: z.string().max(500).optional().nullable(),
   ogImageUrl: z.string().max(2000).optional().nullable(),
 })
 
-export const blogPostStatusSchema = z.enum(blogPostStatuses)
-
 export const twitterCardSchema = z.enum(['summary_large_image', 'summary'])
-
-const blogCoreSchema = z.object({
-  slug: slugSchema,
-  title: z.string().min(1).max(200),
-  excerpt: z.string().min(1).max(1000),
-  category: z.string().min(1).max(100),
-  categoryParent: z.string().max(100).optional().nullable(),
-  publishedAt: z.string().min(1).max(40),
-  readTime: z.string().min(1).max(50),
-  bodyMarkdown: z.string(),
-  status: blogPostStatusSchema,
-  tags: z.array(z.string().min(1)),
-  seriesSlug: z.string().max(120).optional().nullable(),
-  seriesTitle: z.string().max(200).optional().nullable(),
-  authorName: z.string().max(200).optional().nullable(),
-  authorImageUrl: z.string().max(2000).optional().nullable(),
-  authorBio: z.string().max(2000).optional().nullable(),
-  featuredImageUrl: z.string().max(2000).optional().nullable(),
-  canonicalUrl: z.string().max(2000).optional().nullable(),
-  twitterCard: twitterCardSchema,
-})
-
-export const practiceAreaSchema = z
-  .object({
-    slug: slugSchema,
-    title: z.string().min(1).max(200),
-    short: z.string().min(1).max(500),
-    description: z.string().min(1),
-    icon: z.string().max(20).default('📄'),
-    benefits: z.array(z.string().min(1)),
-    published: z.boolean(),
-    sortOrder: z.number().int().min(0),
-  })
-  .merge(seoSchema)
-
-export const blogPostSchema = blogCoreSchema.merge(seoSchema).superRefine((data, ctx) => {
-  if (data.status === 'scheduled' && !data.publishedAt.trim()) {
-    ctx.addIssue({
-      code: 'custom',
-      message: 'Scheduled posts need a publish date.',
-      path: ['publishedAt'],
-    })
-  }
-})
 
 export const portfolioProjectStatusSchema = z.enum(portfolioProjectStatuses)
 
@@ -101,179 +54,14 @@ export const portfolioTestimonialSchema = z.object({
   clientPhotoUrl: z.string().max(2000).optional().nullable(),
 })
 
-const portfolioJsonFieldsSchema = z.object({
-  skills: z.array(z.string()),
-  metrics: z.array(z.string()),
-  gallery: z.array(portfolioGalleryItemSchema),
-  videos: z.array(portfolioVideoSchema),
-  links: z.array(portfolioLinkSchema),
-  attachments: z.array(portfolioAttachmentSchema),
-  testimonials: z.array(portfolioTestimonialSchema),
-})
-
-export const portfolioProjectSchema = z
-  .object({
-    slug: slugSchema,
-    title: z.string().min(1).max(200),
-    category: z.string().min(1).max(100),
-    excerpt: z.string().min(1).max(1200),
-    year: z.string().min(1).max(10),
-    duration: z.string().min(1).max(100),
-    role: z.string().min(1).max(200),
-    summary: z.string(),
-    bodyMarkdown: z.string(),
-    featuredImageUrl: z.string().max(2000).optional().nullable(),
-    startDate: z.string().max(40).optional().nullable(),
-    endDate: z.string().max(40).optional().nullable(),
-    ongoing: z.boolean(),
-    projectStatus: portfolioProjectStatusSchema,
-    projectType: portfolioProjectTypeSchema,
-    featured: z.boolean(),
-    clientName: z.string().max(200).optional().nullable(),
-    clientUrl: z.string().max(2000).optional().nullable(),
-    challengesMarkdown: z.string(),
-    teamSize: z.string().max(120).optional().nullable(),
-    budgetRange: z.string().max(120).optional().nullable(),
-    canonicalUrl: z.string().max(2000).optional().nullable(),
-    twitterCard: twitterCardSchema,
-    tags: z.array(z.string()),
-    scope: z.array(z.string().min(1)),
-    deliverables: z.array(z.string().min(1)),
-    outcomes: z.array(z.string().min(1)),
-    tools: z.array(z.string().min(1)),
-    published: z.boolean(),
-    sortOrder: z.number().int().min(0),
-  })
-  .merge(portfolioJsonFieldsSchema)
-  .merge(seoSchema)
-
 /** Admin UI shape: SEO strings (often empty); list fields may include blank rows until save. */
-const adminSeoFormFields = {
+export const adminSeoFormFields = {
   metaTitle: z.string().max(200),
   metaDescription: z.string().max(500),
   ogImageUrl: z.string().max(2000),
   canonicalUrl: z.string().max(2000),
   twitterCard: twitterCardSchema,
 } as const
-
-export const adminBlogFormSchema = z
-  .object({
-    slug: slugSchema,
-    title: z.string().min(1).max(200),
-    excerpt: z.string().min(1).max(1000),
-    category: z.string().min(1).max(100),
-    categoryParent: z.string().max(100),
-    publishedAt: z.string().min(1).max(40),
-    readTime: z.string().min(1).max(50),
-    bodyMarkdown: z.string(),
-    status: blogPostStatusSchema,
-    tags: z.array(z.string()),
-    seriesSlug: z.string().max(120),
-    seriesTitle: z.string().max(200),
-    authorName: z.string().max(200),
-    authorImageUrl: z.string().max(2000),
-    authorBio: z.string().max(2000),
-    featuredImageUrl: z.string().max(2000),
-    ...adminSeoFormFields,
-  })
-  .superRefine((data, ctx) => {
-    if (data.status === 'scheduled' && !data.publishedAt.trim()) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Scheduled posts need a publish date.',
-        path: ['publishedAt'],
-      })
-    }
-  })
-
-export const adminPracticeAreaFormSchema = z
-  .object({
-    slug: slugSchema,
-    title: z.string().min(1).max(200),
-    short: z.string().min(1).max(500),
-    description: z.string().min(1),
-    icon: z.string().max(20),
-    benefits: z.array(z.string()),
-    published: z.boolean(),
-    sortOrder: z.number().int().min(0),
-    metaTitle: z.string().max(200),
-    metaDescription: z.string().max(500),
-    ogImageUrl: z.string().max(2000),
-  })
-  .superRefine((data, ctx) => {
-    const filtered = data.benefits.map((s) => s.trim()).filter(Boolean)
-    if (filtered.length === 0) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Add at least one benefit.',
-        path: ['benefits'],
-      })
-    }
-  })
-
-export const adminPortfolioProjectFormSchema = z
-  .object({
-    slug: slugSchema,
-    title: z.string().min(1).max(200),
-    category: z.string().min(1).max(100),
-    excerpt: z.string().min(1).max(1200),
-    year: z.string().min(1).max(10),
-    duration: z.string().min(1).max(100),
-    role: z.string().min(1).max(200),
-    summary: z.string(),
-    bodyMarkdown: z.string(),
-    featuredImageUrl: z.string().max(2000),
-    startDate: z.string().max(40),
-    endDate: z.string().max(40),
-    ongoing: z.boolean(),
-    projectStatus: portfolioProjectStatusSchema,
-    projectType: portfolioProjectTypeSchema,
-    featured: z.boolean(),
-    clientName: z.string().max(200),
-    clientUrl: z.string().max(2000),
-    challengesMarkdown: z.string(),
-    teamSize: z.string().max(120),
-    budgetRange: z.string().max(120),
-    skills: z.array(z.string()),
-    metrics: z.array(z.string()),
-    gallery: z.array(portfolioGalleryItemSchema),
-    videos: z.array(portfolioVideoSchema),
-    links: z.array(portfolioLinkSchema),
-    attachments: z.array(portfolioAttachmentSchema),
-    testimonials: z.array(portfolioTestimonialSchema),
-    tags: z.array(z.string()),
-    scope: z.array(z.string()),
-    deliverables: z.array(z.string()),
-    outcomes: z.array(z.string()),
-    tools: z.array(z.string()),
-    published: z.boolean(),
-    sortOrder: z.number().int().min(0),
-    metaTitle: z.string().max(200),
-    metaDescription: z.string().max(500),
-    ogImageUrl: z.string().max(2000),
-    canonicalUrl: z.string().max(2000),
-    twitterCard: twitterCardSchema,
-  })
-  .superRefine((data, ctx) => {
-    data.testimonials.forEach((t, i) => {
-      const hasAny = Boolean(t.quote.trim() || t.clientName.trim() || t.clientPhotoUrl?.trim())
-      if (!hasAny) return
-      if (!t.quote.trim()) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Testimonial quote is required.',
-          path: ['testimonials', i, 'quote'],
-        })
-      }
-      if (!t.clientName.trim()) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Testimonial client name is required.',
-          path: ['testimonials', i, 'clientName'],
-        })
-      }
-    })
-  })
 
 export const cmsBlogUploadSchema = z.object({
   postSlug: z.string().max(120),
@@ -289,11 +77,7 @@ export const cmsPortfolioUploadSchema = z.object({
   dataBase64: z.string().min(1),
 })
 
-export const contactInquiryFormSchema = z.object({
-  name: z.string().trim().min(2, 'Name must be at least 2 characters.'),
-  email: z.string().trim().email('Enter a valid email address.'),
-  phone: z.string(),
-  firm: z.string(),
-  service: z.string().min(1, 'Select a service.'),
-  message: z.string().trim().min(10, 'Message must be at least 10 characters.'),
+export const moveDirectionSchema = z.object({
+  slug: slugSchema,
+  direction: z.enum(['up', 'down']),
 })

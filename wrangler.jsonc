@@ -14,7 +14,6 @@
       "database_name": "gayatri-law-offices-db",
       "database_id": "f72eac8b-bb8c-4657-920a-87ee3fd100e4",
       "migrations_dir": "drizzle",
-      "remote": true,
     },
   ],
   "r2_buckets": [

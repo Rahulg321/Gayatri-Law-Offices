@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Separator } from './ui/separator'
+import { Separator } from '#/components/ui/separator'
 
 const QUICK_LINKS = [
   { to: '/', label: 'Home' },

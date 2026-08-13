@@ -16,7 +16,7 @@ function readWranglerDatabaseId(): string {
   }
 }
 
-function useRemoteD1(): boolean {
+function isRemoteD1Target(): boolean {
   return process.env.DRIZZLE_STUDIO_TARGET !== 'local'
 }
 
@@ -25,7 +25,7 @@ const databaseId = process.env.D1_DATABASE_ID?.trim() || readWranglerDatabaseId(
 const token = (
   process.env.DRIZZLE_CLOUDFLARE_API_TOKEN ?? process.env.CLOUDFLARE_API_TOKEN
 )?.trim()
-const remote = useRemoteD1()
+const remote = isRemoteD1Target()
 
 if (remote) {
   if (!token) {
@@ -46,7 +46,7 @@ Missing DRIZZLE_CLOUDFLARE_API_TOKEN in .env.local
 
    Database ID (optional): ${databaseId}  (from wrangler.jsonc)
 
-To browse local Miniflare SQLite instead (often empty when using remote: true):
+To browse local Miniflare SQLite (same DB as bun run dev):
    bun run db:studio:local
 `)
     process.exit(1)
@@ -66,7 +66,7 @@ export default defineConfig(
   remote && accountId && token
     ? {
       out: './drizzle',
-      schema: './src/db/schema.ts',
+      schema: './src/db/schema/index.ts',
       dialect: 'sqlite',
       driver: 'd1-http',
       dbCredentials: {
@@ -77,7 +77,7 @@ export default defineConfig(
     }
     : {
       out: './drizzle',
-      schema: './src/db/schema.ts',
+      schema: './src/db/schema/index.ts',
       dialect: 'sqlite',
       dbCredentials: {
         url:

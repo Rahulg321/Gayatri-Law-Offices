@@ -1,5 +1,5 @@
 import type { ReactFormExtendedApi } from "@tanstack/react-form";
-import { AssetUrlPreview } from "#/components/admin/AssetUrlPreview";
+import { AssetUrlPreview } from "#/components/shared/AssetUrlPreview";
 import { Field, FieldError, FieldLabel } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import { Textarea } from "#/components/ui/textarea";
@@ -22,7 +22,6 @@ type SeoShape = {
 type SeoFormApi<TFormData extends SeoShape> = Pick<
   ReactFormExtendedApi<
     TFormData,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     any,
     any,

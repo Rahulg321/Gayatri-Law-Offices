@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react'
-import { AssetUrlPreview } from '#/components/admin/AssetUrlPreview'
+import { AssetUrlPreview } from '#/components/shared/AssetUrlPreview'
 import { Button } from '#/components/ui/button'
 import { Field, FieldLabel } from '#/components/ui/field'
 import { Input } from '#/components/ui/input'
-import { adminUploadCmsBlogAsset, adminUploadCmsPortfolioAsset } from '#/lib/cms-admin'
+import { adminUploadCmsBlogAsset } from '#/features/blogs/server/mutations/upload-blog-asset'
+import { adminUploadCmsPortfolioAsset } from '#/features/projects/server/mutations/upload-portfolio-asset'
 
 export type ImageFieldUploadTarget =
   | { kind: 'blog'; postSlug: string }

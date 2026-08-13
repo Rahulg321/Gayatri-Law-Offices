@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { Button } from "./ui/button";
+import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 
 const SERVICES_CHILDREN = [

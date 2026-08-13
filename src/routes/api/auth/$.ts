@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { auth } from '#/lib/auth.server'
+import { auth } from '#/lib/auth'
 
 function withAuthNoStore(response: Response): Response {
   const headers = new Headers(response.headers)

@@ -34,14 +34,14 @@ Configured in `wrangler.jsonc`. Types in `worker-configuration.d.ts` (regenerate
 
 | Binding | Type | Resource |
 |---------|------|----------|
-| `DB` | `D1Database` | `gayatri-law-offices-db` ( **`remote: true`** — local dev uses the same Cloudflare D1 as production, not a local SQLite copy ) |
+| `DB` | `D1Database` | `gayatri-law-offices-db` (local Miniflare SQLite in `bun run dev`; production D1 on deploy) |
 | `ASSETS` | `R2Bucket` | `gayatri-law-offices-assets` |
 
 **Workers Cache:** enabled via `"cache": { "enabled": true }` in `wrangler.jsonc`. Public CMS HTML sets `Cloudflare-CDN-Cache-Control` + `Cache-Tag: cms` in `src/lib/cms-route-cache.ts`. CMS writes purge via `purgePublicCmsWorkersCache()` in `src/lib/cms-workers-cache.server.ts`. Admin/auth responses use `Cache-Control: private, no-store`. Verify with `Cf-Cache-Status` after deploy.
 
 Access bindings with `import { env } from 'cloudflare:workers'` — not `process.env` at module scope.
 
-**Local dev + D1:** `DB` is configured with `remote: true` in `wrangler.jsonc`, so `bun run dev` talks to the **remote** database. Writes hit real data and billing applies. To use a local simulated D1 instead, remove `remote: true` or run with remote bindings disabled per [Wrangler docs](https://developers.cloudflare.com/workers/development-testing/#remote-bindings).
+**Local dev + D1:** `bun run dev` uses Miniflare’s **local** SQLite D1 (no `remote: true` on the binding). Apply schema with `bun run db:migrate:local`. Writes stay on disk under `.wrangler/` and do not hit production. To talk to the real Cloudflare D1 instead, add `"remote": true` to the D1 binding per [Wrangler docs](https://developers.cloudflare.com/workers/development-testing/#remote-bindings).
 
 ### SQL (D1 + Drizzle)
 
@@ -72,8 +72,8 @@ Optional S3 API fallback (local scripts / no binding): set in `.env.local` or `.
 
 1. Edit `src/db/schema.ts`
 2. `bun run db:generate` — generate SQL into `drizzle/`
-3. `bun run db:migrate:remote` — apply migrations to **remote** D1 (this matches what you use in dev and production)
-4. `bun run db:migrate:local` — optional; only for Miniflare’s **local** simulated D1 (when not using `remote: true`)
+3. `bun run db:migrate:local` — apply migrations to **local** Miniflare D1 (what `bun run dev` uses)
+4. `bun run db:migrate:remote` — apply migrations to **remote** / production D1 (needed before deploy)
 
 **Drizzle Studio (remote D1):** add to `.env.local` (see `.env.example`):
 
@@ -82,7 +82,7 @@ Optional S3 API fallback (local scripts / no binding): set in `.env.local` or `.
 
 Prefer `DRIZZLE_CLOUDFLARE_API_TOKEN` over `CLOUDFLARE_API_TOKEN` in `.env.local`. Wrangler loads `CLOUDFLARE_API_TOKEN` during `bun run dev`; a D1-only token causes edge-preview **auth error 10000**. The `dev` script clears that var so Wrangler uses OAuth; or use a token with **Workers** permissions if you keep `CLOUDFLARE_API_TOKEN`.
 
-`bun run db:studio` targets the same remote D1 as dev (`remote: true` in `wrangler.jsonc`). Without the token, Drizzle Kit falls back to an empty local SQLite file and Studio shows no rows.
+`bun run db:studio` targets **remote** production D1 (needs `DRIZZLE_CLOUDFLARE_API_TOKEN`). Use `bun run db:studio:local` to inspect the Miniflare SQLite that `bun run dev` uses.
 
 ## Server vs client
 

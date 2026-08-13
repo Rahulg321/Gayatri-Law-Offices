@@ -3,7 +3,6 @@ import { env as cloudflareEnv } from 'cloudflare:workers'
 import crypto from 'node:crypto'
 
 declare global {
-  // eslint-disable-next-line no-var
   var __env__: Env | undefined
 }
 
@@ -159,16 +158,14 @@ export async function uploadCmsFileBuffer(
 function bodyBytes(
   buffer: Buffer | Uint8Array,
 ): Uint8Array | ArrayBuffer {
-  if (buffer instanceof Uint8Array && buffer.byteOffset === 0) {
-    return buffer
+  const view = buffer as Uint8Array
+  if (view.byteOffset === 0) {
+    return view
   }
-  if (buffer instanceof Uint8Array) {
-    return buffer.buffer.slice(
-      buffer.byteOffset,
-      buffer.byteOffset + buffer.byteLength,
-    )
-  }
-  return new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+  return view.buffer.slice(
+    view.byteOffset,
+    view.byteOffset + view.byteLength,
+  ) as ArrayBuffer
 }
 
 export function publicUrlForKey(key: string): string | null {
@@ -217,7 +214,7 @@ async function putObject(
   const res = await s3.fetch(url, {
     method: 'PUT',
     headers: { 'Content-Type': contentType },
-    body,
+    body: body as BodyInit,
   })
   if (!res.ok) {
     const text = await res.text().catch(() => '')

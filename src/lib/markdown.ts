@@ -1,3 +1,4 @@
+import type { Root } from 'hast'
 import { toString } from 'hast-util-to-string'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeRaw from 'rehype-raw'
@@ -34,11 +35,9 @@ export async function renderMarkdown(content: string): Promise<MarkdownResult> {
       properties: { className: ['anchor'] },
     })
     .use(() => (tree) => {
-      visit(tree, 'element', (node) => {
-        if (
-          node.type === 'element' &&
-          ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(node.tagName)
-        ) {
+      const root = tree as unknown as Root
+      visit(root, 'element', (node) => {
+        if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(node.tagName)) {
           const id =
             typeof node.properties?.id === 'string'
               ? node.properties.id
