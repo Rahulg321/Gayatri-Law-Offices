@@ -13,13 +13,13 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
         <div className="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(184,134,11,0.16),transparent_60%)]" />
         <div className="pointer-events-none absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(139,69,19,0.08),transparent_60%)]" />
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">
-          Trusted by 150+ Law Firms Worldwide
+          {/*Trusted by 150+ Law Firms Worldwide*/}TRUSTED LEGAL SUPPORT FOR U.S. LAW FIRMS
         </Badge>
         <h1 className="display-title mb-6 max-w-4xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl lg:text-6xl">
           Expert Legal Process Outsourcing From India
         </h1>
         <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Cost-effective, high-quality support for global law firms and legal departments. Contract drafting, document review, litigation support, and more — delivered with precision and confidentiality.
+        Practical, cost-effective support for U.S. law firms and legal teams — from litigation support and document review to legal research and corporate assistance.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link to="/contact">
@@ -113,7 +113,7 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
           <Badge variant="outline" className="mb-3 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Our Services</Badge>
           <h2 className="display-title text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Comprehensive LPO Solutions</h2>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-            From contract drafting to litigation support — every service backed by experienced legal professionals and rigorous quality control.
+          From contract support to litigation preparation — organized, reliable legal process support built around accuracy, confidentiality, and attorney direction.
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -147,7 +147,7 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
       <section className="mt-14 sm:mt-20">
         <div className="mb-10 sm:mb-14">
           <Badge variant="outline" className="mb-3 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Client Testimonials</Badge>
-          <h2 className="display-title text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Trusted by Law Firms Worldwide</h2>
+          <h2 className="display-title text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Trusted Legal Support for Growing Practices</h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-3">
           {testimonials.slice(0, 3).map((t, i) => (
@@ -172,9 +172,9 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
 
       <section className="island-shell mt-14 rounded-[2.5rem] px-6 py-12 text-center sm:mt-20 sm:px-12 sm:py-16">
         <Badge variant="outline" className="mb-3 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Get Started</Badge>
-        <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Ready to Transform Your Legal Workflow?</h2>
+        <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Ready to Strengthen Your Legal Workflow?</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-          Let's discuss how Gayatri Law Offices can help your firm reduce costs, scale efficiently, and deliver exceptional results for your clients.
+        Let's discuss how Gayatri Law Offices can support your firm with reliable legal process outsourcing, reduce operational costs, and help your team manage demanding workloads efficiently.
         </p>
         <Link to="/contact">
           <Button className="group cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] hover:shadow-[0_4px_18px_rgba(184,134,11,0.4)] active:scale-[0.97]">

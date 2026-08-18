@@ -53,15 +53,15 @@ export function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Phone</p>
-                <p className="text-[var(--charcoal-soft)]">+91 98765 43210</p>
+                <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">WhatsApp</p>
-                <p className="text-[var(--charcoal-soft)]">+91 98765 43210</p>
+                <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Office</p>
-                <p className="text-[var(--charcoal-soft)]">Mumbai, Maharashtra, India</p>
+                <p className="text-[var(--charcoal-soft)]">Ludhiana, Punjab, India</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Hours</p>
