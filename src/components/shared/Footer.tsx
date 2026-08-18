@@ -123,7 +123,7 @@ export default function Footer() {
           </ul>
           <div className="mt-5 space-y-1.5 text-sm">
             <p className="text-[var(--charcoal-soft)]">info@gayatrilawoffices.com</p>
-            <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
+            <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
             <p className="text-[var(--charcoal-soft)]">Ludhiana, India</p>
           </div>
         </div>

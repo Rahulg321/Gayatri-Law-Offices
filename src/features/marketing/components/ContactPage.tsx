@@ -53,11 +53,11 @@ export function ContactPage() {
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Phone</p>
-                <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
+                <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">WhatsApp</p>
-                <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
+                <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Office</p>
