@@ -13,13 +13,15 @@ const QUICK_LINKS = [
 ]
 
 const SERVICES = [
-  { slug: 'contract-drafting', label: 'Contract Drafting & Review' },
-  { slug: 'document-review', label: 'Document Review & e-Discovery' },
-  { slug: 'legal-research', label: 'Legal Research & Writing' },
   { slug: 'litigation-support', label: 'Litigation Support' },
-  { slug: 'due-diligence', label: 'Due Diligence' },
-  { slug: 'ip-support', label: 'Intellectual Property' },
-  { slug: 'paralegal-services', label: 'Paralegal Services' },
+  { slug: 'document-review', label: 'eDiscovery & Document Review' },
+  { slug: 'court-filing-docket-support', label: 'Court Filing & Docket Support' },
+  { slug: 'discovery-support', label: 'Discovery Support' },
+  { slug: 'document-production', label: 'Document Production' },
+  { slug: 'legal-research-case-support', label: 'Legal Research & Case Support' },
+  { slug: 'case-legal-operations', label: 'Case & Legal Operations' },
+  { slug: 'legal-transcription-records', label: 'Legal Transcription & Records' },
+  { slug: 'legal-website-technology-support', label: 'Legal Website & Technology Support' },
 ]
 
 const LEGAL_LINKS = [
@@ -29,8 +31,8 @@ const LEGAL_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { href: '#', label: 'LinkedIn', icon: 'in' },
-  { href: '#', label: 'X (Twitter)', icon: '𝕏' },
+  { href: 'https://www.linkedin.com/company/gayatri-legal-solutions/', label: 'LinkedIn', icon: 'in' },
+  { href: 'linkedin.com/in/gayatri-gupta-377060233', label: 'X (Twitter)', icon: '𝕏' },
 ]
 
 export default function Footer() {
@@ -121,8 +123,8 @@ export default function Footer() {
           </ul>
           <div className="mt-5 space-y-1.5 text-sm">
             <p className="text-[var(--charcoal-soft)]">info@gayatrilawoffices.com</p>
-            <p className="text-[var(--charcoal-soft)]">+91 98765 43210</p>
-            <p className="text-[var(--charcoal-soft)]">Mumbai, India</p>
+            <p className="text-[var(--charcoal-soft)]">+91 79738 96618</p>
+            <p className="text-[var(--charcoal-soft)]">Ludhiana, India</p>
           </div>
         </div>
       </div>

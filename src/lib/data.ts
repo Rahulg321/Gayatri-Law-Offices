@@ -1,70 +1,148 @@
 export const services = [
   {
-    slug: 'contract-drafting',
-    title: 'Contract Drafting & Review',
-    short: 'Commercial contracts, NDAs, vendor agreements, lease abstractions, and redlining.',
-    description: 'Our experienced legal professionals draft, review, and manage contracts of all types. From simple NDAs to complex commercial agreements, we ensure accuracy, compliance, and risk mitigation.',
-    benefits: ['40-60% cost reduction vs in-house', '4-hour turnaround on standard NDAs', 'Multi-jurisdictional expertise (US/UK/EU)', 'Secure, encrypted document handling'],
-    icon: '📄',
-  },
-  {
-    slug: 'document-review',
-    title: 'Document Review & e-Discovery',
-    short: 'Litigation document review, privilege logs, data collection and coding.',
-    description: 'Comprehensive document review and e-discovery services for litigation, investigations, and regulatory matters. Our team handles large volumes with precision and speed.',
-    benefits: ['Scalable teams for peak litigation periods', 'Privilege review by qualified professionals', 'Platform-agnostic (Relativity, Reveal, Everlaw)', '20-50% faster turnaround than traditional review'],
-    icon: '🔍',
-  },
-  {
-    slug: 'legal-research',
-    title: 'Legal Research & Writing',
-    short: 'Case law research, legal memoranda, briefs, and opinion drafting.',
-    description: 'Thorough legal research and professional writing services. Our researchers are trained in US, UK, and EU legal systems, providing well-reasoned analysis and clear memos.',
-    benefits: ['Common law and civil law expertise', 'Westlaw / LexisNexis proficient', 'Rigorous Bluebook / OSCOLA citation', 'Memo turnaround: 24-72 hours'],
-    icon: '📚',
-  },
-  {
     slug: 'litigation-support',
     title: 'Litigation Support',
-    short: 'Pleadings, deposition summaries, discovery assistance, and trial preparation.',
-    description: 'End-to-end litigation support from case intake to trial preparation. We assist with pleadings, discovery management, deposition digests, exhibit organization, and trial binders.',
-    benefits: ['Deposition summaries within 48 hours', 'Exhibit and trial binder preparation', 'Discovery response drafting', 'Medical records chronology'],
+    short:
+      'Discovery assistance, case organization, exhibits, deposition support, and trial preparation.',
+    description:
+      'Comprehensive litigation support for attorneys and law firms, including case organization, discovery assistance, exhibit preparation, deposition support, and trial preparation.',
+    benefits: [
+      'Discovery and case organization',
+      'Deposition summary and support',
+      'Exhibit and trial preparation',
+      'Case chronology and timeline support',
+    ],
     icon: '⚖️',
   },
+
   {
-    slug: 'due-diligence',
-    title: 'Due Diligence',
-    short: 'M&A, corporate, and regulatory due diligence support.',
-    description: 'Comprehensive due diligence services for mergers, acquisitions, investments, and regulatory compliance. We review contracts, identify risks, and prepare detailed diligence reports.',
-    benefits: ['Multi-disciplinary review teams', 'Risk flagging and executive summaries', 'Data room organization', 'Compliance checklist management'],
-    icon: '📋',
+    slug: 'ediscovery-document-review',
+    title: 'eDiscovery & Document Review',
+    short:
+      'Document review, coding, redaction, privilege support, and preparation of litigation productions.',
+    description:
+      'Organized document review and eDiscovery support for litigation and investigations, including document coding, redaction, privilege review support, and production preparation.',
+    benefits: [
+      'Document review and organization',
+      'Privilege and confidentiality review support',
+      'Redaction and coding',
+      'Production preparation and quality control',
+    ],
+    icon: '🔍',
   },
+
   {
-    slug: 'ip-support',
-    title: 'Intellectual Property Support',
-    short: 'Patent and trademark filings, prior art searches, portfolio management.',
-    description: 'IP support services including patent prior art searches, trademark availability searches, filing assistance, and portfolio docketing and management.',
-    benefits: ['USPTO and EUIPO filing support', 'Prior art search and analysis', 'Trademark watch services', 'IP portfolio docketing'],
-    icon: '💡',
-  },
-  {
-    slug: 'paralegal-services',
-    title: 'Paralegal & Administrative',
-    short: 'Transcription, billing, case management, and administrative support.',
-    description: 'Reliable paralegal and administrative support for busy law practices. From legal transcription to case file management and billing support — we handle the details so you can focus on clients.',
-    benefits: ['Certified paralegal professionals', 'Case management software proficient', 'Legal billing and time entry', 'Document formatting and filing'],
-    icon: '🗂️',
-  },
-  {
-    slug: 'specialized-areas',
-    title: 'Specialized Practice Areas',
-    short: 'Corporate, real estate, immigration, bankruptcy, family law, and compliance.',
-    description: 'Specialized support across multiple practice areas. Our team includes professionals with domain expertise in corporate law, real estate conveyancing, immigration processing, bankruptcy filings, and regulatory compliance.',
-    benefits: ['Domain-specialist professionals', 'Jurisdiction-specific knowledge', 'Compliance with local bar rules', 'Custom workflows per practice area'],
+    slug: 'court-filing-docket-support',
+    title: 'Court Filing & Docket Support',
+    short:
+      'Filing preparation, e-filing assistance, court portal support, document preparation, and filing tracking.',
+    description:
+      'Administrative and paralegal support for court filings, including document preparation, e-filing assistance, court portal navigation, filing confirmations, and deadline tracking.',
+    benefits: [
+      'Court filing preparation',
+      'Electronic filing assistance',
+      'Filing confirmation and tracking',
+      'Deadline and docket organization',
+    ],
     icon: '🏛️',
   },
-]
 
+  {
+    slug: 'discovery-support',
+    title: 'Discovery Support',
+    short:
+      'Support with RFPs, interrogatories, requests for admission, document collection, and discovery organization.',
+    description:
+      'Discovery support for attorneys and litigation teams, including requests for production, interrogatories, requests for admission, document collection, response organization, and production preparation.',
+    benefits: [
+      'RFP and interrogatory support',
+      'Discovery response organization',
+      'Document collection and categorization',
+      'Production preparation',
+    ],
+    icon: '📋',
+  },
+
+  {
+    slug: 'document-production',
+    title: 'Document Production',
+    short:
+      'Bates stamping, redaction, load files, exhibit indexing, file conversion, and production quality control.',
+    description:
+      'End-to-end document production support, including Bates stamping, redaction, exhibit indexing, file conversion, production organization, and quality control.',
+    benefits: [
+      'Bates stamping and numbering',
+      'Redaction support',
+      'Exhibit and document indexing',
+      'Production quality control',
+    ],
+    icon: '📄',
+  },
+
+  {
+    slug: 'legal-research-case-support',
+    title: 'Legal Research & Case Support',
+    short:
+      'Case law research, case summaries, chronologies, timelines, and research support for attorneys.',
+    description:
+      'Attorney-directed legal research and case support, including case law research, case summaries, legal research organization, chronologies, timelines, and supporting documentation.',
+    benefits: [
+      'Case law and legal research',
+      'Case summaries and issue tracking',
+      'Chronologies and timelines',
+      'Attorney-directed research support',
+    ],
+    icon: '📚',
+  },
+
+  {
+    slug: 'case-legal-operations',
+    title: 'Case & Legal Operations',
+    short:
+      'Case management, document organization, deadline tracking, intake workflows, and administrative support.',
+    description:
+      'Practical legal operations support that helps firms keep cases and workflows organized, including case management, document organization, deadline tracking, intake processes, and administrative coordination.',
+    benefits: [
+      'Case and matter organization',
+      'Document management',
+      'Deadline and task tracking',
+      'Legal intake and workflow support',
+    ],
+    icon: '📁',
+  },
+
+  {
+    slug: 'legal-transcription-records',
+    title: 'Legal Transcription & Records',
+    short:
+      'Audio transcription, medical records, document indexing, summaries, and chronology preparation.',
+    description:
+      'Legal transcription and records support for litigation and case preparation, including audio transcription, medical-record organization, document indexing, summaries, and chronology preparation.',
+    benefits: [
+      'Legal and deposition transcription',
+      'Medical record organization',
+      'Document indexing and summaries',
+      'Chronology and timeline preparation',
+    ],
+    icon: '🎧',
+  },
+
+  {
+    slug: 'legal-website-technology-support',
+    title: 'Legal Website & Technology Support',
+    short:
+      'WordPress development, legal intake forms, website maintenance, SEO, and workflow technology support.',
+    description:
+      'Technology and website support for law firms and legal professionals, including WordPress development, legal intake forms, website maintenance, SEO support, content management, and workflow improvements.',
+    benefits: [
+      'WordPress website development',
+      'Legal intake form setup',
+      'Website maintenance and content updates',
+      'SEO and workflow technology support',
+    ],
+    icon: '💻',
+  },
+]
 export const testimonials = [
   {
     quote: 'Gayatri Law Offices transformed our contract review process. What used to take our associates two weeks now takes three days — at a fraction of the cost. The quality is exceptional.',
@@ -345,14 +423,42 @@ export const teamMembers = [
 ]
 
 export const timelineEvents = [
-  { year: '2018', title: 'Founded', description: 'Gayatri Law Offices established in Mumbai with a vision to provide world-class LPO services to international law firms.' },
-  { year: '2019', title: 'First International Client', description: 'Signed our first US-based law firm client, delivering contract review services across 500+ commercial agreements.' },
-  { year: '2020', title: 'Team Expansion', description: 'Grew from 5 to 25 legal professionals. Added dedicated research and litigation support divisions.' },
-  { year: '2021', title: 'ISO 27001 Certification', description: 'Achieved ISO 27001 certification for information security management, reinforcing our commitment to data protection.' },
-  { year: '2022', title: '100+ Clients Milestone', description: 'Crossed the 100-client mark, serving law firms across 15 countries including the US, UK, EU, and Australia.' },
-  { year: '2023', title: 'AI Integration', description: 'Integrated AI-assisted review tools into our workflows, improving efficiency while maintaining rigorous human quality control.' },
-  { year: '2024', title: 'European Expansion', description: 'Opened dedicated EU compliance desk to serve GDPR-sensitive client engagements across European jurisdictions.' },
-  { year: '2025', title: '200+ Team Members', description: 'Scaled to over 200 legal professionals, becoming one of India\'s most trusted boutique LPO providers.' },
+  {
+    year: '2021',
+    title: 'Legal Foundation',
+    description:
+      'Built a foundation in legal practice and documentation through legal education and professional legal work.',
+  },
+  {
+    year: '2023',
+    title: 'U.S. Legal Support',
+    description:
+      'Began providing remote paralegal and litigation support to U.S.-based law firms across family law, personal injury, probate, and civil litigation.',
+  },
+  {
+    year: '2024',
+    title: 'Large-Scale Litigation',
+    description:
+      'Expanded into high-volume litigation and mass-tort case review, supporting large caseloads and document-intensive matters.',
+  },
+  {
+    year: '2024',
+    title: 'Legal Technology',
+    description:
+      'Worked with an international legal innovation company on legal technology evaluation, usability research, knowledge systems, and legal-tech market analysis.',
+  },
+  {
+    year: '2025',
+    title: 'Expanded Litigation Support',
+    description:
+      'Continued supporting U.S. attorneys with eDiscovery, deposition summaries, discovery, family law, probate, legal research, and case management workflows.',
+  },
+  {
+    year: '2026',
+    title: 'Integrated Legal Process Support',
+    description:
+      'Expanded the service offering around litigation support, document production, discovery, legal research, records management, and legal workflow technology.',
+  },
 ]
 
 export const faqs = [
@@ -399,8 +505,8 @@ export const processSteps = [
 ]
 
 export const stats = [
-  { value: '150+', label: 'Clients Worldwide' },
-  { value: '20+', label: 'Countries Served' },
-  { value: '200+', label: 'Team Members' },
-  { value: '50K+', label: 'Documents Handled' },
+  { value: '3000+', label: 'LEGAL SUPPORT HOURS' },
+  { value: '3', label: 'COUNTRIES SERVED' },
+  { value: '15+', label: 'LAW FIRMS SERVED' },
+  { value: '5k+', label: 'DOCUMENTS HANDLED' },
 ]

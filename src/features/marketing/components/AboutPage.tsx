@@ -12,7 +12,7 @@ export function AboutPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Our Story</Badge>
         <h1 className="display-title mb-6 max-w-4xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Bridging Legal Expertise Across Continents</h1>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Founded in 2018, Gayatri Law Offices was built on a simple belief: that global law firms deserve access to world-class legal talent without the prohibitive costs of traditional models.
+          Gayatri Law Offices provides dependable legal process and litigation support to law firms and legal teams handling document-heavy, deadline-driven matters. We specialize in document review, contract drafting, legal research, and litigation preparation.
         </p>
       </section>
 
@@ -23,9 +23,9 @@ export function AboutPage() {
         </div>
         <div className="grid gap-6 sm:grid-cols-3">
           {[
-            { title: 'Confidentiality First', desc: 'Bank-grade encryption, strict NDAs, and ISO 27001 certified processes protect every client engagement.' },
-            { title: 'Quality Without Compromise', desc: 'Multi-layer review by qualified legal professionals ensures every deliverable meets the highest standards.' },
-            { title: 'Cultural Alignment', desc: 'Our professionals are trained in US, UK, and EU legal conventions — we speak your language, literally and professionally.' },
+            { title: 'Confidentiality First', desc: 'Legal work requires careful handling of sensitive information. Our workflows emphasize organized documentation, confidentiality, and secure handling of client materials.' },
+            { title: 'Quality Without Compromise', desc: 'Every assignment is approached with attention to detail, clear organization, and attorney-ready work product.' },
+            { title: 'Practical Legal Support', desc: 'We focus on the work that keeps legal teams moving — research, discovery, document preparation, case organization, filing support, and records management.' },
           ].map((v, i) => (
             <Card key={v.title} className="rise-in feature-card" style={{ animationDelay: `${100 + i * 100}ms` }}>
               <CardHeader><CardTitle className="text-base font-semibold text-[var(--charcoal)]">{v.title}</CardTitle></CardHeader>
@@ -42,12 +42,36 @@ export function AboutPage() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { title: 'Remote-First Excellence', desc: 'Built for remote collaboration from day one — our workflows are optimized for seamless virtual engagement with clients across time zones.' },
-            { title: 'Domain-Specific Expertise', desc: 'Our professionals specialize in specific practice areas, not generalist pools. You get an expert, not just a pair of hands.' },
-            { title: 'Scalable Teams', desc: 'Scale up or down as your caseload demands. From solo support to 50+ person document review teams — we flex to your needs.' },
-            { title: 'AI-Assisted, Human-Validated', desc: 'We leverage AI tools for efficiency, but every output is reviewed by a qualified legal professional. Technology enhances — it never replaces.' },
-            { title: 'Transparent Pricing', desc: 'Fixed-fee, hourly, or retainer — you choose the model that works for you. No hidden costs, no surprise bills.' },
-            { title: '24/7 Productivity', desc: 'The India time zone advantage means work continues while you sleep. Wake up to completed deliverables.' },
+            {
+              title: 'Remote-First Excellence',
+              desc:
+                'Built for remote collaboration with law firms and legal teams across jurisdictions, with organized workflows designed for seamless communication.',
+            },
+            {
+              title: 'Litigation-Focused Expertise',
+              desc:
+                'Our experience spans litigation support, eDiscovery, family law, probate, personal injury, mass tort, legal research, and document-heavy legal workflows.',
+            },
+            {
+              title: 'Scalable Support',
+              desc:
+                'Whether you need help with a single document set or ongoing case support, workflows can be structured around the needs of your practice.',
+            },
+            {
+              title: 'Technology-Enabled, Human-Reviewed',
+              desc:
+                'We use legal technology and workflow tools to improve organization and efficiency while keeping human review at the center of legal work.',
+            },
+            {
+              title: 'Transparent Workflows',
+              desc:
+                'Clear instructions, organized files, documented processes, and defined deliverables help attorneys maintain visibility over outsourced work.',
+            },
+            {
+              title: 'Deadline-Driven Support',
+              desc:
+                'Our legal support experience is built around deadlines, court requirements, high-volume document work, and the need for reliable turnaround.',
+            },
           ].map((d, i) => (
             <Card key={d.title} className="rise-in feature-card" style={{ animationDelay: `${100 + i * 80}ms` }}>
               <CardHeader><CardTitle className="text-base font-semibold text-[var(--charcoal)]">{d.title}</CardTitle></CardHeader>
@@ -90,7 +114,7 @@ export function AboutPage() {
       <section className="island-shell mt-14 rounded-[2.5rem] px-6 py-12 text-center sm:mt-20 sm:px-12 sm:py-16">
         <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Let's Build Something Great Together</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-          Whether you're a solo practitioner or an AmLaw 100 firm, we have the expertise and scale to support your practice.
+          Whether you need litigation support, eDiscovery assistance, legal research, document production, or ongoing case support, we can help your legal team work more efficiently.
         </p>
         <Link to="/contact">
           <Button className="group cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] hover:shadow-[0_4px_18px_rgba(184,134,11,0.4)] active:scale-[0.97]">

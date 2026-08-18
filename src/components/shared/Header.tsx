@@ -6,13 +6,15 @@ import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
 
 const SERVICES_CHILDREN = [
-  { slug: "contract-drafting", label: "Contract Drafting" },
-  { slug: "document-review", label: "Document Review" },
-  { slug: "legal-research", label: "Legal Research" },
-  { slug: "litigation-support", label: "Litigation Support" },
-  { slug: "due-diligence", label: "Due Diligence" },
-  { slug: "ip-support", label: "IP Support" },
-  { slug: "paralegal-services", label: "Paralegal Services" },
+  { slug: 'litigation-support', label: 'Litigation Support' },
+  { slug: 'document-review', label: 'eDiscovery & Document Review' },
+  { slug: 'court-filing-docket-support', label: 'Court Filing & Docket Support' },
+  { slug: 'discovery-support', label: 'Discovery Support' },
+  { slug: 'document-production', label: 'Document Production' },
+  { slug: 'legal-research-case-support', label: 'Legal Research & Case Support' },
+  { slug: 'case-legal-operations', label: 'Case & Legal Operations' },
+  { slug: 'legal-transcription-records', label: 'Legal Transcription & Records' },
+  { slug: 'legal-website-technology-support', label: 'Legal Website & Technology Support' },
 ] as const;
 
 const NAV_LINKS = [

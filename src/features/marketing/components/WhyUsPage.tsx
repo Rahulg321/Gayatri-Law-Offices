@@ -10,9 +10,9 @@ export function WhyUsPage() {
       <section className="island-shell rise-in-blur relative overflow-hidden rounded-[2.5rem] px-6 py-12 sm:px-12 sm:py-20">
         <div className="pointer-events-none absolute -left-32 -top-32 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(184,134,11,0.12),transparent_60%)]" />
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Why Choose Us</Badge>
-        <h1 className="display-title mb-6 max-w-3xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">The Smarter Way to Scale Your Legal Practice</h1>
+        <h1 className="display-title mb-6 max-w-3xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Experienced Legal Support. Built for the Demands of Modern Practice.</h1>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          We combine India's exceptional legal talent with rigorous quality processes and secure infrastructure — delivering results that rival in-house teams at a fraction of the cost.
+        Gayatri Law Offices delivers dependable legal process and paralegal support across litigation, discovery, research, drafting, and case management — helping law firms improve efficiency while maintaining the quality and attention to detail their matters require.
         </p>
       </section>
 
@@ -20,12 +20,36 @@ export function WhyUsPage() {
         <h2 className="display-title mb-8 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Why Leading Firms Choose Us</h2>
         <div className="grid gap-5 sm:grid-cols-2">
           {[
-            { title: '40-60% Cost Savings', desc: 'Compared to in-house associates or domestic paralegals, our services deliver substantial cost reduction without sacrificing quality.' },
-            { title: 'Scalable On Demand', desc: 'Need 2 reviewers or 50? Our team scales to match your caseload — no hiring delays, no overhead.' },
-            { title: '24/7 Productivity', desc: 'The India time zone advantage means your work continues while you sleep — faster turnaround on every project.' },
-            { title: 'ISO 27001 Certified', desc: 'Our information security management is independently audited and certified — your client data is protected at every step.' },
-            { title: 'Domain Experts', desc: 'We don\u2019t do generalist pools. Your work is handled by professionals with specific expertise in your practice area.' },
-            { title: 'Flexible Engagement', desc: 'Fixed-fee, hourly, or retainer — choose the model that fits your budget and workflow. No long-term commitments required.' },
+            {
+              title: '40–60% Cost Savings',
+              desc:
+                'Access experienced legal support at a significantly lower cost than expanding an in-house team or relying solely on domestic legal staffing — without compromising on quality.',
+            },
+            {
+              title: 'Scalable On Demand',
+              desc:
+                'Need 2 reviewers or 50? Our team scales to match your caseload — no hiring delays, no overhead.',
+            },
+            {
+              title: '24/7 Workflow Continuity',
+              desc:
+                'Our India-based team helps keep work moving across time zones, allowing your firm to make progress on research, document review, case preparation, and other time-sensitive assignments beyond regular business hours.',
+            },
+            {
+              title: 'Confidential & Secure',
+              desc:
+                'We understand the sensitivity of legal work and follow structured processes for handling, organizing, and managing confidential client documents and case information.',
+            },
+            {
+              title: 'Domain Experts',
+              desc:
+                'Your work is handled by professionals with practical experience across litigation, eDiscovery, legal research, family law, probate, personal injury, contracts, and other legal workflows.',
+            },
+            {
+              title: 'Flexible Engagement',
+              desc:
+                'Fixed-fee, hourly, or retainer - Choose an engagement model that fits your workload and budget, whether you need support for a specific project, ongoing assistance, or a dedicated legal support workflow.',
+            },
           ].map((item, i) => (
             <Card key={item.title} className="feature-card rise-in" style={{ animationDelay: `${i * 80}ms` }}>
               <CardHeader><CardTitle className="text-base font-semibold text-[var(--charcoal)]">{item.title}</CardTitle></CardHeader>
@@ -55,11 +79,11 @@ export function WhyUsPage() {
       <section className="island-shell mt-14 rounded-[2.5rem] px-6 py-12 text-center sm:mt-20 sm:px-12 sm:py-16">
         <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Ready to Experience the Difference?</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-          Start with a pilot project and see firsthand why 150+ law firms trust Gayatri Law Offices.
+          Whether you need litigation support, eDiscovery, legal research, or day-to-day paralegal assistance, Gayatri Law Offices provides experienced professionals who deliver accurate, dependable work when you need it.
         </p>
         <Link to="/contact">
           <Button className="group cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] active:scale-[0.97]">
-            Start Your Pilot Project
+            Schedule a Consultation
             <span className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/15 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </span>
