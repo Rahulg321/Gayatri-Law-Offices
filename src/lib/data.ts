@@ -145,21 +145,21 @@ export const services = [
 ]
 export const testimonials = [
   {
-    quote: 'Gayatri Law Offices transformed our contract review process. What used to take our associates two weeks now takes three days — at a fraction of the cost. The quality is exceptional.',
+    quote: 'Gayatri Legal Solutions transformed our contract review process. What used to take our associates two weeks now takes three days — at a fraction of the cost. The quality is exceptional.',
     author: 'Sarah Mitchell',
     title: 'Managing Partner',
     firm: 'Mitchell & Associates, New York',
     metrics: 'Turnaround reduced by 75%',
   },
   {
-    quote: 'We were skeptical about outsourcing legal work, but GLO proved us wrong. Their document review team handled 50,000+ documents for our M&A deal with zero errors. Truly world-class.',
+    quote: 'We were skeptical about outsourcing legal work, but GLS proved us wrong. Their document review team handled 50,000+ documents for our M&A deal with zero errors. Truly world-class.',
     author: 'James Harrington',
     title: 'Senior Partner',
     firm: 'Harrington Wells LLP, London',
     metrics: '50,000+ documents reviewed',
   },
   {
-    quote: 'The legal research team at GLO consistently delivers well-reasoned, thoroughly cited memoranda. As a solo practitioner, having this kind of support has been a game-changer for my practice.',
+    quote: 'The legal research team at GLS consistently delivers well-reasoned, thoroughly cited memoranda. As a solo practitioner, having this kind of support has been a game-changer for my practice.',
     author: 'Dr. Maria Fernandez',
     title: 'Solo Practitioner',
     firm: 'Law Office of Maria Fernandez, Madrid',
@@ -399,7 +399,7 @@ export const teamMembers = [
   {
     name: 'Priya Sharma',
     role: 'Founder & Managing Director',
-    bio: 'With 15+ years of experience as a remote paralegal and legal consultant for US law firms, Priya founded Gayatri Law Offices to bridge the gap between global legal demand and India\'s exceptional legal talent.',
+    bio: 'With 15+ years of experience as a remote paralegal and legal consultant for US law firms, Priya founded Gayatri Legal Solutions to bridge the gap between global legal demand and India\'s exceptional legal talent.',
     initials: 'PS',
   },
   {

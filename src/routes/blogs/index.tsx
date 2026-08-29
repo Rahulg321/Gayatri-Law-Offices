@@ -20,7 +20,7 @@ export const Route = createFileRoute("/blogs/")({
       {
         name: "description",
         content:
-          "Insights on legal process outsourcing trends, practice area guides, and tips for law firms. Stay informed with Gayatri Law Offices.",
+          "Insights on legal process outsourcing trends, practice area guides, and tips for law firms. Stay informed with Gayatri Legal Solutions.",
       },
     ],
   }),

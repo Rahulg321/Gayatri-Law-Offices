@@ -4,8 +4,8 @@ import { TestimonialsPage } from '#/features/marketing/components/TestimonialsPa
 export const Route = createFileRoute('/testimonials')({
   head: () => ({
     meta: [
-      { title: 'Client Testimonials & Case Studies — Gayatri Law Offices' },
-      { name: 'description', content: 'See what 150+ law firms say about Gayatri Law Offices. Real testimonials and case studies from our LPO clients worldwide.' },
+      { title: 'Client Testimonials & Case Studies — Gayatri Legal Solutions' },
+      { name: 'description', content: 'See what 150+ law firms say about Gayatri Legal Solutions. Real testimonials and case studies from our LPO clients worldwide.' },
     ],
   }),
   component: TestimonialsPage,

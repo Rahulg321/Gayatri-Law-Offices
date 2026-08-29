@@ -12,7 +12,7 @@ export function AboutPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Our Story</Badge>
         <h1 className="display-title mb-6 max-w-4xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Bridging Legal Expertise Across Continents</h1>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Gayatri Law Offices provides dependable legal process and litigation support to law firms and legal teams handling document-heavy, deadline-driven matters. We specialize in document review, contract drafting, legal research, and litigation preparation.
+          Gayatri Legal Solutions provides dependable legal process and litigation support to law firms and legal teams handling document-heavy, deadline-driven matters. We specialize in document review, contract drafting, legal research, and litigation preparation.
         </p>
       </section>
 

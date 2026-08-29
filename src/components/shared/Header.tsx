@@ -4,6 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { Button } from "#/components/ui/button";
 import { cn } from "#/lib/utils";
+import { SITE_NAME, SITE_NAME_SHORT } from "#/lib/site";
 
 const SERVICES_CHILDREN = [
   { slug: 'litigation-support', label: 'Litigation Support' },
@@ -72,8 +73,8 @@ export default function Header() {
               aria-hidden
             />
             <span className="truncate sm:max-w-none">
-              <span className="sm:hidden">Gayatri Law</span>
-              <span className="hidden sm:inline">Gayatri Law Offices</span>
+              <span className="sm:hidden">{SITE_NAME_SHORT}</span>
+              <span className="hidden sm:inline">{SITE_NAME}</span>
             </span>
           </Link>
 

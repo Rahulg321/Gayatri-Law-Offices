@@ -11,7 +11,7 @@ export function TestimonialsPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Testimonials</Badge>
         <h1 className="display-title mb-6 text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Trusted by Law Firms Worldwide</h1>
         <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Don't take our word for it. Hear from the law firms and legal departments that rely on Gayatri Law Offices every day.
+          Don't take our word for it. Hear from the law firms and legal departments that rely on Gayatri Legal Solutions every day.
         </p>
       </section>
 

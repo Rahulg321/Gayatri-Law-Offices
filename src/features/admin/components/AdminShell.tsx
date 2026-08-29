@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useThemeMode } from "#/components/shared/ThemeToggle";
 import { Button } from "#/components/ui/button";
+import { SITE_NAME } from "#/lib/site";
 import {
   Sidebar,
   SidebarContent,
@@ -107,7 +108,7 @@ export function AdminShell({
               Admin
             </p>
             <p className="text-sm text-sidebar-foreground/80 group-data-[collapsible=icon]:sr-only">
-              Gayatri Law Offices
+              {SITE_NAME}
             </p>
           </div>
         </SidebarHeader>

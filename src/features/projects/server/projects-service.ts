@@ -248,7 +248,7 @@ export async function seedPortfolioProjectsIfEmpty(): Promise<void> {
         published: true,
         sortOrder: i,
         twitterCard: 'summary_large_image',
-        metaTitle: `${project.title} — Projects | Gayatri Law Offices`,
+        metaTitle: `${project.title} — Projects | Gayatri Legal Solutions`,
         metaDescription: project.excerpt,
       })),
     )

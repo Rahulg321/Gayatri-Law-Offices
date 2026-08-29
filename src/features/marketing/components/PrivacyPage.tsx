@@ -9,7 +9,7 @@ export function PrivacyPage() {
         <p className="mb-4 text-sm text-[var(--slate-soft)]">Last updated: May 2026</p>
 
         <div className="prose prose-lg max-w-none text-[var(--charcoal-soft)] space-y-6">
-          <p>Gayatri Law Offices ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
+          <p>Gayatri Legal Solutions ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.</p>
 
           <h2 className="display-title text-2xl font-semibold text-[var(--charcoal)]">1. Information We Collect</h2>
           <p>We may collect information that you voluntarily provide when you fill out contact forms, request quotes, or communicate with us. This includes your name, email address, phone number, law firm name, and details about your project requirements.</p>

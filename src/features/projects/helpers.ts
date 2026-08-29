@@ -14,7 +14,7 @@ export function portfolioProjectHeadMeta(project: PortfolioProject, siteOrigin?:
     (siteOrigin ? `${siteOrigin.replace(/\/+$/, '')}/projects/${project.slug}` : undefined)
 
   const meta = [
-    { title: `${title} — Gayatri Law Offices` },
+    { title: `${title} — Gayatri Legal Solutions` },
     { name: 'description', content: description },
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },

@@ -24,9 +24,9 @@ export const Route = createFileRoute('/services/$slug')({
     const description = seoDescription(svc.short, svc.metaDescription)
     return {
       meta: [
-        { title: `${title} — LPO Services | Gayatri Law Offices` },
+        { title: `${title} — LPO Services | Gayatri Legal Solutions` },
         { name: 'description', content: description },
-        { property: 'og:title', content: `${title} — Gayatri Law Offices` },
+        { property: 'og:title', content: `${title} — Gayatri Legal Solutions` },
         { property: 'og:description', content: description },
         ...(svc.ogImageUrl
           ? [{ property: 'og:image', content: svc.ogImageUrl }]

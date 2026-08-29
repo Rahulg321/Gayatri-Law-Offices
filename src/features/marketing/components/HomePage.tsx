@@ -178,7 +178,7 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
         <Badge variant="outline" className="mb-3 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Get Started</Badge>
         <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Ready to Strengthen Your Legal Workflow?</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-        Let's discuss how Gayatri Law Offices can support your firm with reliable legal process outsourcing, reduce operational costs, and help your team manage demanding workloads efficiently.
+        Let's discuss how Gayatri Legal Solutions can support your firm with reliable legal process outsourcing, reduce operational costs, and help your team manage demanding workloads efficiently.
         </p>
         <Link to="/contact">
           <Button className="group cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] hover:shadow-[0_4px_18px_rgba(184,134,11,0.4)] active:scale-[0.97]">

@@ -16,9 +16,9 @@ export const Route = createFileRoute('/')({
   },
   head: () => ({
     meta: [
-      { title: 'Gayatri Law Offices — Expert Legal Process Outsourcing from India' },
+      { title: 'Gayatri Legal Solutions — Expert Legal Process Outsourcing from India' },
       { name: 'description', content: 'Cost-effective, high-quality legal process outsourcing services for law firms worldwide. Contract drafting, document review, litigation support, and more.' },
-      { property: 'og:title', content: 'Gayatri Law Offices — Expert Legal Process Outsourcing from India' },
+      { property: 'og:title', content: 'Gayatri Legal Solutions — Expert Legal Process Outsourcing from India' },
       { property: 'og:description', content: 'Cost-effective, high-quality LPO services for global law firms.' },
     ],
     scripts: [{
@@ -26,7 +26,7 @@ export const Route = createFileRoute('/')({
       children: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Organization',
-        name: 'Gayatri Law Offices',
+        name: 'Gayatri Legal Solutions',
         url: 'https://gayatrilegalsolutions.com',
       }),
     }],

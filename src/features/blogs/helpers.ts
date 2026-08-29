@@ -17,7 +17,7 @@ export function blogPostHeadMeta(post: BlogPost, siteOrigin?: string) {
     (siteOrigin ? `${siteOrigin.replace(/\/+$/, '')}/blogs/${post.slug}` : undefined)
 
   const meta = [
-    { title: `${title} — Gayatri Law Offices` },
+    { title: `${title} — Gayatri Legal Solutions` },
     { name: 'description', content: description },
     { property: 'og:title', content: title },
     { property: 'og:description', content: description },

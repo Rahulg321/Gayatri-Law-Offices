@@ -10,7 +10,7 @@ export function FAQPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">FAQ</Badge>
         <h1 className="display-title mb-6 text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Frequently Asked Questions</h1>
         <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Everything you need to know about working with Gayatri Law Offices.
+          Everything you need to know about working with Gayatri Legal Solutions.
         </p>
       </section>
 

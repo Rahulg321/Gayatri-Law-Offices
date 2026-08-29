@@ -134,7 +134,7 @@ export async function seedBlogPostsIfEmpty(): Promise<void> {
         status: 'published' as const,
         tags: '[]',
         twitterCard: 'summary_large_image',
-        metaTitle: `${post.title} — Gayatri Law Offices`,
+        metaTitle: `${post.title} — Gayatri Legal Solutions`,
         metaDescription: post.excerpt,
       })),
     )

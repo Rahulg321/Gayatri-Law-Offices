@@ -1,4 +1,4 @@
-# Gayatri Law Offices — agent crawl policy
+# Gayatri Legal Solutions — agent crawl policy
 # Content Signals (https://contentsignals.org/): search, AI input, and training are allowed.
 
 User-agent: *

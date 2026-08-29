@@ -160,7 +160,7 @@ export type PortfolioProject = {
   ogImageUrl: string | null
 }
 
-const DEFAULT_AUTHOR_NAME = 'Gayatri Law Offices'
+const DEFAULT_AUTHOR_NAME = 'Gayatri Legal Solutions'
 
 export function categoryBreadcrumb(category: string, categoryParent: string | null): string {
   if (categoryParent?.trim()) {

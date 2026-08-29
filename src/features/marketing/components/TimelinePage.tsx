@@ -8,7 +8,7 @@ export function TimelinePage() {
     <main className="page-wrap px-4 pb-16 pt-28 sm:pt-32">
       <section className="text-center">
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Our Journey</Badge>
-        <h1 className="display-title mb-6 text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">The Gayatri Law Offices Story</h1>
+        <h1 className="display-title mb-6 text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">The Gayatri Legal Solutions Story</h1>
         <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
           From a vision to reality — follow our journey from a startup in Mumbai to one of India's most trusted boutique LPO providers.
         </p>
@@ -44,7 +44,7 @@ export function TimelinePage() {
       <section className="island-shell mt-16 rounded-[2.5rem] px-6 py-12 text-center sm:px-12 sm:py-16">
         <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Be Part of Our Next Chapter</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-          Join the growing number of law firms that trust Gayatri Law Offices with their most important work.
+          Join the growing number of law firms that trust Gayatri Legal Solutions with their most important work.
         </p>
         <Link to="/contact">
           <button className="group cursor-pointer inline-flex items-center gap-2 rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] hover:shadow-[0_4px_18px_rgba(184,134,11,0.4)] active:scale-[0.97]">

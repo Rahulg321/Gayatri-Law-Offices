@@ -6,7 +6,7 @@ export function buildRobotsTxt(origin: string = SITE_CANONICAL_ORIGIN): string {
     (ua) => `User-agent: ${ua}\nAllow: /\n`,
   ).join('\n')
 
-  return `# Gayatri Law Offices — agent crawl policy
+  return `# Gayatri Legal Solutions — agent crawl policy
 # Content Signals (https://contentsignals.org/): search, AI input, and training are allowed.
 
 User-agent: *

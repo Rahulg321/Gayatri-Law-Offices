@@ -16,7 +16,7 @@ export const Route = createFileRoute('/projects/')({
   },
   head: () => ({
     meta: [
-      { title: 'Experience & Projects — Gayatri Law Offices' },
+      { title: 'Experience & Projects — Gayatri Legal Solutions' },
       {
         name: 'description',
         content:

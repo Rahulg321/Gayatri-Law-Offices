@@ -9,10 +9,10 @@ export function TermsPage() {
         <p className="mb-4 text-sm text-[var(--slate-soft)]">Last updated: May 2026</p>
 
         <div className="prose prose-lg max-w-none text-[var(--charcoal-soft)] space-y-6">
-          <p>These Terms of Service ("Terms") govern your use of the Gayatri Law Offices website and services. By accessing our website or engaging our services, you agree to these Terms.</p>
+          <p>These Terms of Service ("Terms") govern your use of the Gayatri Legal Solutions website and services. By accessing our website or engaging our services, you agree to these Terms.</p>
 
           <h2 className="display-title text-2xl font-semibold text-[var(--charcoal)]">1. No Attorney-Client Relationship</h2>
-          <p>Use of this website or submission of an inquiry does not create an attorney-client relationship. Gayatri Law Offices provides legal support and outsourcing services to licensed attorneys and law firms. We do not provide legal advice directly to end clients.</p>
+          <p>Use of this website or submission of an inquiry does not create an attorney-client relationship. Gayatri Legal Solutions provides legal support and outsourcing services to licensed attorneys and law firms. We do not provide legal advice directly to end clients.</p>
 
           <h2 className="display-title text-2xl font-semibold text-[var(--charcoal)]">2. Service Engagements</h2>
           <p>All service engagements are governed by a separate written agreement that includes scope of work, deliverables, fees, confidentiality provisions, and other terms specific to the engagement.</p>
@@ -24,7 +24,7 @@ export function TermsPage() {
           <p>The information on this website is for general informational purposes only and does not constitute legal advice. While we strive for accuracy, we make no representations or warranties about the completeness or accuracy of the content.</p>
 
           <h2 className="display-title text-2xl font-semibold text-[var(--charcoal)]">5. Limitation of Liability</h2>
-          <p>To the fullest extent permitted by applicable law, Gayatri Law Offices shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of this website.</p>
+          <p>To the fullest extent permitted by applicable law, Gayatri Legal Solutions shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of this website.</p>
 
           <h2 className="display-title text-2xl font-semibold text-[var(--charcoal)]">6. Governing Law</h2>
           <p>These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.</p>

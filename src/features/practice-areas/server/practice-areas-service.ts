@@ -117,7 +117,7 @@ export async function seedPracticeAreasIfEmpty(): Promise<void> {
         benefits: stringifyJsonArray([...svc.benefits]),
         published: true,
         sortOrder: i,
-        metaTitle: `${svc.title} — LPO Services | Gayatri Law Offices`,
+        metaTitle: `${svc.title} — LPO Services | Gayatri Legal Solutions`,
         metaDescription: svc.short,
       })),
     )

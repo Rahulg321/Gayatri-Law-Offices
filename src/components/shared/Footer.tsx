@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Separator } from '#/components/ui/separator'
+import { SITE_NAME } from '#/lib/site'
 
 const QUICK_LINKS = [
   { to: '/', label: 'Home' },
@@ -47,7 +48,7 @@ export default function Footer() {
             className="inline-flex items-center gap-2 text-base font-semibold text-[var(--charcoal)] no-underline"
           >
             <span className="h-2.5 w-2.5 rounded-full bg-[linear-gradient(135deg,var(--gold),var(--gold-light))]" />
-            Gayatri Law Offices
+            {SITE_NAME}
           </Link>
           <p className="mt-3 text-sm leading-relaxed">
             Expert legal process outsourcing services from India. Cost-effective, high-quality support for law firms and legal departments worldwide.
@@ -133,7 +134,7 @@ export default function Footer() {
 
       <div className="page-wrap flex flex-col items-center justify-between gap-3 text-center text-xs sm:flex-row">
         <p className="m-0 text-[var(--slate-soft)]">
-          &copy; {year} Gayatri Law Offices. All rights reserved.
+          &copy; {year} {SITE_NAME}. All rights reserved.
         </p>
         <p className="m-0 text-[var(--slate-soft)]">
           Confidentiality guaranteed. NDAs standard on all engagements.

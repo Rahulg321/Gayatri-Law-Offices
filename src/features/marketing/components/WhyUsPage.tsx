@@ -12,7 +12,7 @@ export function WhyUsPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Why Choose Us</Badge>
         <h1 className="display-title mb-6 max-w-3xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Experienced Legal Support. Built for the Demands of Modern Practice.</h1>
         <p className="max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-        Gayatri Law Offices delivers dependable legal process and paralegal support across litigation, discovery, research, drafting, and case management — helping law firms improve efficiency while maintaining the quality and attention to detail their matters require.
+        Gayatri Legal Solutions delivers dependable legal process and paralegal support across litigation, discovery, research, drafting, and case management — helping law firms improve efficiency while maintaining the quality and attention to detail their matters require.
         </p>
       </section>
 
@@ -79,7 +79,7 @@ export function WhyUsPage() {
       <section className="island-shell mt-14 rounded-[2.5rem] px-6 py-12 text-center sm:mt-20 sm:px-12 sm:py-16">
         <h2 className="display-title mb-4 text-3xl font-semibold tracking-tight text-[var(--charcoal)] sm:text-4xl">Ready to Experience the Difference?</h2>
         <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--charcoal-soft)] sm:text-base">
-          Whether you need litigation support, eDiscovery, legal research, or day-to-day paralegal assistance, Gayatri Law Offices provides experienced professionals who deliver accurate, dependable work when you need it.
+          Whether you need litigation support, eDiscovery, legal research, or day-to-day paralegal assistance, Gayatri Legal Solutions provides experienced professionals who deliver accurate, dependable work when you need it.
         </p>
         <Link to="/contact">
           <Button className="group cursor-pointer rounded-full bg-[var(--gold)] px-8 py-3 text-base font-semibold text-white shadow-[0_2px_12px_rgba(184,134,11,0.3)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[var(--gold-deep)] active:scale-[0.97]">

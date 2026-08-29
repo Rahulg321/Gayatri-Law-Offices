@@ -28,7 +28,7 @@ export function buildOpenApiDocument(origin: string = SITE_CANONICAL_ORIGIN) {
     info: {
       title: `${SITE_NAME} Public API`,
       version: '1.0.0',
-      summary: 'Public, unauthenticated status API for Gayatri Law Offices.',
+      summary: 'Public, unauthenticated status API for Gayatri Legal Solutions.',
       description:
         'Machine-readable status for agents. Contact and CMS mutations are not exposed here. Errors use RFC 9457 application/problem+json.',
       contact: {
