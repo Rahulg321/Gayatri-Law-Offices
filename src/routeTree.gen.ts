@@ -14,6 +14,7 @@ import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -32,6 +33,7 @@ import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs/$slug'
+import { Route as ApiOpenapiDotyamlRouteImport } from './routes/api/openapi[.]yaml'
 import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as DotwellKnownApiCatalogRouteImport } from './routes/[.]well-known/api-catalog'
@@ -68,6 +70,11 @@ const TermsRoute = TermsRouteImport.update({
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -160,6 +167,11 @@ const BlogsSlugRoute = BlogsSlugRouteImport.update({
   path: '/blogs/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOpenapiDotyamlRoute = ApiOpenapiDotyamlRouteImport.update({
+  id: '/api/openapi.yaml',
+  path: '/api/openapi.yaml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
   path: '/api/$',
@@ -232,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
@@ -240,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/api/openapi.yaml': typeof ApiOpenapiDotyamlRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -268,6 +282,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
@@ -276,6 +291,7 @@ export interface FileRoutesByTo {
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/api/openapi.yaml': typeof ApiOpenapiDotyamlRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -306,6 +322,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
@@ -314,6 +331,7 @@ export interface FileRoutesById {
   '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/$': typeof ApiSplatRoute
+  '/api/openapi.yaml': typeof ApiOpenapiDotyamlRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -345,6 +363,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/robots.txt'
+    | '/sitemap.xml'
     | '/team'
     | '/terms'
     | '/testimonials'
@@ -353,6 +372,7 @@ export interface FileRouteTypes {
     | '/.well-known/api-catalog'
     | '/admin/login'
     | '/api/$'
+    | '/api/openapi.yaml'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -381,6 +401,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/robots.txt'
+    | '/sitemap.xml'
     | '/team'
     | '/terms'
     | '/testimonials'
@@ -389,6 +410,7 @@ export interface FileRouteTypes {
     | '/.well-known/api-catalog'
     | '/admin/login'
     | '/api/$'
+    | '/api/openapi.yaml'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -418,6 +440,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/resources'
     | '/robots.txt'
+    | '/sitemap.xml'
     | '/team'
     | '/terms'
     | '/testimonials'
@@ -426,6 +449,7 @@ export interface FileRouteTypes {
     | '/.well-known/api-catalog'
     | '/admin/login'
     | '/api/$'
+    | '/api/openapi.yaml'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -456,6 +480,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
   TestimonialsRoute: typeof TestimonialsRoute
@@ -463,6 +488,7 @@ export interface RootRouteChildren {
   WhyUsRoute: typeof WhyUsRoute
   DotwellKnownApiCatalogRoute: typeof DotwellKnownApiCatalogRoute
   ApiSplatRoute: typeof ApiSplatRoute
+  ApiOpenapiDotyamlRoute: typeof ApiOpenapiDotyamlRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -509,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/robots.txt': {
@@ -635,6 +668,13 @@ declare module '@tanstack/react-router' {
       path: '/blogs/$slug'
       fullPath: '/blogs/$slug'
       preLoaderRoute: typeof BlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/openapi.yaml': {
+      id: '/api/openapi.yaml'
+      path: '/api/openapi.yaml'
+      fullPath: '/api/openapi.yaml'
+      preLoaderRoute: typeof ApiOpenapiDotyamlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/$': {
@@ -771,6 +811,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
   TestimonialsRoute: TestimonialsRoute,
@@ -778,6 +819,7 @@ const rootRouteChildren: RootRouteChildren = {
   WhyUsRoute: WhyUsRoute,
   DotwellKnownApiCatalogRoute: DotwellKnownApiCatalogRoute,
   ApiSplatRoute: ApiSplatRoute,
+  ApiOpenapiDotyamlRoute: ApiOpenapiDotyamlRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
@@ -793,10 +835,11 @@ export const routeTree = rootRouteImport
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

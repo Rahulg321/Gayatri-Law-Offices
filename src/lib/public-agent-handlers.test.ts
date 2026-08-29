@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   handleOpenApi,
+  handleOpenApiYaml,
   handlePublicStatus,
   handleUnknownApi,
 } from '#/lib/public-agent-handlers'
@@ -47,5 +48,16 @@ describe('public agent HTTP handlers', () => {
     expect(response.headers.get('allow')).toContain('GET')
     const body = await response.json() as { code: string }
     expect(body.code).toBe('method_not_allowed')
+  })
+
+  it('serves OpenAPI YAML at GET /api/openapi.yaml', async () => {
+    const response = handleOpenApiYaml(
+      new Request('https://gayatrilegalsolutions.com/api/openapi.yaml'),
+    )
+    expect(response.status).toBe(200)
+    expect(response.headers.get('content-type')).toContain('application/yaml')
+    expect(response.headers.get('vary')).toMatch(/Accept/)
+    const body = await response.text()
+    expect(body).toContain('openapi: 3.1.0')
   })
 })

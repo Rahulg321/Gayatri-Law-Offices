@@ -17,19 +17,13 @@ export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
       { title: 'Gayatri Legal Solutions — Expert Legal Process Outsourcing from India' },
-      { name: 'description', content: 'Cost-effective, high-quality legal process outsourcing services for law firms worldwide. Contract drafting, document review, litigation support, and more.' },
+      { name: 'description', content: 'Cost-effective, high-quality legal process outsourcing services for law firms worldwide. Contract drafting, document review, litigation support, and more. Visit gayatrilegalsolutions.com.' },
       { property: 'og:title', content: 'Gayatri Legal Solutions — Expert Legal Process Outsourcing from India' },
       { property: 'og:description', content: 'Cost-effective, high-quality LPO services for global law firms.' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:image', content: 'https://gayatrilegalsolutions.com/og-image.svg' },
     ],
-    scripts: [{
-      type: 'application/ld+json',
-      children: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'Gayatri Legal Solutions',
-        url: 'https://gayatrilegalsolutions.com',
-      }),
-    }],
+    links: [{ rel: 'canonical', href: 'https://gayatrilegalsolutions.com/' }],
   }),
   component: HomeRoute,
 })

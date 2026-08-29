@@ -13,6 +13,6 @@ describe('buildOpenApiDocument', () => {
     expect(spec.components.responses.Problem.content['application/problem+json'].schema).toEqual({
       $ref: '#/components/schemas/Problem',
     })
-    expect(spec.servers[0]?.url).toBe('https://gayatrilegalsolutions.com')
+    expect(spec.paths['/api/openapi.yaml']?.get?.operationId).toBe('getOpenApiYaml')
   })
 })

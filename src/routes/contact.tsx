@@ -7,6 +7,7 @@ export const Route = createFileRoute('/contact')({
       { title: 'Contact Us — Get a Free Quote | Gayatri Legal Solutions' },
       { name: 'description', content: 'Get in touch for a free consultation and quote. Contact Gayatri Legal Solutions for contract drafting, document review, litigation support, and more.' },
     ],
+    links: [{ rel: 'canonical', href: 'https://gayatrilegalsolutions.com/contact' }],
   }),
   component: ContactPage,
 })

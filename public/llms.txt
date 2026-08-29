@@ -30,7 +30,8 @@ Gayatri Legal Solutions delivers confidential, high-quality legal support with m
 
 ## Machine-readable API
 
-- [OpenAPI 3.1](https://gayatrilegalsolutions.com/openapi.json): Public API description
+- [OpenAPI 3.1](https://gayatrilegalsolutions.com/openapi.json): Public API description (YAML at https://gayatrilegalsolutions.com/api/openapi.yaml)
+- [Sitemap](https://gayatrilegalsolutions.com/sitemap.xml): Indexable URLs
 - [Service status](https://gayatrilegalsolutions.com/api/v1/status): JSON availability
 - [API catalog](https://gayatrilegalsolutions.com/.well-known/api-catalog): RFC 9727 catalog
 - Errors use RFC 9457 `application/problem+json` with `code`, `message`, and `resolution`

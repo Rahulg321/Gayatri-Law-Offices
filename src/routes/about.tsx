@@ -8,6 +8,7 @@ export const Route = createFileRoute('/about')({
       { name: 'description', content: 'Learn about Gayatri Legal Solutions — our founding story, mission, values, and the team behind India\'s trusted legal process outsourcing provider.' },
       { property: 'og:title', content: 'About Gayatri Legal Solutions — Our Story & Mission' },
     ],
+    links: [{ rel: 'canonical', href: 'https://gayatrilegalsolutions.com/about' }],
   }),
   component: AboutPage,
 })

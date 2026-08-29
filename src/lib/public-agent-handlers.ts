@@ -1,16 +1,18 @@
+import { appendVary, NEGOTIATION_VARY } from '#/lib/accept'
 import { apiNotFoundResponse, methodNotAllowedResponse } from '#/lib/http-problem'
 import { buildLlmsTxt } from '#/lib/llms-txt'
 import { buildApiCatalog, buildOpenApiDocument } from '#/lib/openapi'
 import { buildRobotsTxt } from '#/lib/robots-txt'
 import { SITE_NAME, originFromRequest } from '#/lib/site'
+import { toYaml } from '#/lib/yaml'
 
 function textResponse(body: string, contentType: string): Response {
-  return new Response(body, {
-    headers: {
-      'Content-Type': contentType,
-      'Cache-Control': 'public, max-age=0, must-revalidate',
-    },
+  const headers = new Headers({
+    'Content-Type': contentType,
+    'Cache-Control': 'public, max-age=0, must-revalidate',
   })
+  appendVary(headers, [...NEGOTIATION_VARY])
+  return new Response(body, { headers })
 }
 
 export function handleRobotsTxt(request: Request): Response {
@@ -34,6 +36,16 @@ export function handleOpenApi(request: Request): Response {
   return textResponse(
     JSON.stringify(buildOpenApiDocument(originFromRequest(request))),
     'application/openapi+json; charset=utf-8',
+  )
+}
+
+export function handleOpenApiYaml(request: Request): Response {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return methodNotAllowedResponse(request, 'GET, HEAD')
+  }
+  return textResponse(
+    `${toYaml(buildOpenApiDocument(originFromRequest(request)))}\n`,
+    'application/yaml; charset=utf-8',
   )
 }
 

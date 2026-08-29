@@ -1,4 +1,4 @@
-import { SITE_CANONICAL_ORIGIN, SITE_NAME } from '#/lib/site'
+import { SITE_CANONICAL_ORIGIN, SITE_EMAIL, SITE_NAME } from '#/lib/site'
 
 const problemSchema = {
   type: 'object',
@@ -34,7 +34,7 @@ export function buildOpenApiDocument(origin: string = SITE_CANONICAL_ORIGIN) {
       contact: {
         name: SITE_NAME,
         url: `${origin}/contact`,
-        email: 'info@gayatrilawoffices.com',
+        email: SITE_EMAIL,
       },
     },
     servers: [{ url: origin, description: 'Public website origin' }],
@@ -70,6 +70,24 @@ export function buildOpenApiDocument(origin: string = SITE_CANONICAL_ORIGIN) {
               description: 'OpenAPI 3.1 document',
               content: {
                 'application/openapi+json': {
+                  schema: { type: 'object', additionalProperties: true },
+                },
+              },
+            },
+            '405': { $ref: '#/components/responses/Problem' },
+          },
+        },
+      },
+      '/api/openapi.yaml': {
+        get: {
+          operationId: 'getOpenApiYaml',
+          tags: ['Status'],
+          summary: 'Return this OpenAPI document as YAML',
+          responses: {
+            '200': {
+              description: 'OpenAPI 3.1 YAML',
+              content: {
+                'application/yaml': {
                   schema: { type: 'object', additionalProperties: true },
                 },
               },
@@ -119,6 +137,10 @@ export function buildApiCatalog(origin: string = SITE_CANONICAL_ORIGIN) {
           {
             href: `${origin}/openapi.json`,
             type: 'application/openapi+json',
+          },
+          {
+            href: `${origin}/api/openapi.yaml`,
+            type: 'application/yaml',
           },
         ],
         item: [

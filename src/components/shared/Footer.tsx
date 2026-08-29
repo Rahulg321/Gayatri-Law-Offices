@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Separator } from '#/components/ui/separator'
-import { SITE_NAME } from '#/lib/site'
+import { SITE_EMAIL, SITE_NAME, SITE_PHONE } from '#/lib/site'
 
 const QUICK_LINKS = [
   { to: '/', label: 'Home' },
@@ -123,9 +123,9 @@ export default function Footer() {
             ))}
           </ul>
           <div className="mt-5 space-y-1.5 text-sm">
-            <p className="text-[var(--charcoal-soft)]">info@gayatrilawoffices.com</p>
-            <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
-            <p className="text-[var(--charcoal-soft)]">Ludhiana, India</p>
+            <p className="text-[var(--charcoal-soft)]">{SITE_EMAIL}</p>
+            <p className="text-[var(--charcoal-soft)]">{SITE_PHONE}</p>
+            <p className="text-[var(--charcoal-soft)]">Ludhiana, Punjab, India</p>
           </div>
         </div>
       </div>

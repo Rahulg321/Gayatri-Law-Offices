@@ -15,6 +15,8 @@ import {
 } from '#/components/ui/select'
 import { Textarea } from '#/components/ui/textarea'
 import { contactInquiryFormSchema } from '#/features/marketing/schemas'
+import { CONTACT_INTRO } from '#/features/marketing/trust-copy'
+import { SITE_EMAIL, SITE_PHONE } from '#/lib/site'
 import { services as servicesData } from '#/lib/data'
 
 export function ContactPage() {
@@ -24,7 +26,7 @@ export function ContactPage() {
         <Badge variant="outline" className="mb-4 rounded-full border-[var(--gold)]/30 px-3 py-1 text-[10px] tracking-[0.2em] text-[var(--gold)] uppercase">Get in Touch</Badge>
         <h1 className="display-title mb-6 text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl">Let's Discuss Your Needs</h1>
         <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-          Whether you need a one-time project or ongoing support, we are here to help. Reach out for a free consultation and customized quote.
+          {CONTACT_INTRO}
         </p>
       </section>
 
@@ -49,15 +51,15 @@ export function ContactPage() {
             <CardContent className="space-y-4 text-sm">
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Email</p>
-                <p className="text-[var(--charcoal-soft)]">info@gayatrilawoffices.com</p>
+                <p className="text-[var(--charcoal-soft)]">{SITE_EMAIL}</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Phone</p>
-                <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
+                <p className="text-[var(--charcoal-soft)]">{SITE_PHONE}</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">WhatsApp</p>
-                <p className="text-[var(--charcoal-soft)]">+91 09876 54321</p>
+                <p className="text-[var(--charcoal-soft)]">{SITE_PHONE}</p>
               </div>
               <div>
                 <p className="font-semibold text-[var(--charcoal)]">Office</p>

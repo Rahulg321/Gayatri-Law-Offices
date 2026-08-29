@@ -7,6 +7,7 @@ export const Route = createFileRoute('/privacy')({
       { title: 'Privacy Policy — Gayatri Legal Solutions' },
       { name: 'description', content: 'Privacy Policy for Gayatri Legal Solutions — how we collect, use, and protect your personal information.' },
     ],
+    links: [{ rel: 'canonical', href: 'https://gayatrilegalsolutions.com/privacy' }],
   }),
   component: PrivacyPage,
 })

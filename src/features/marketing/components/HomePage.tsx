@@ -23,7 +23,7 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
           <p>{HOME_NOSCRIPT_TEXT}</p>
         </noscript>
         <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
-        Practical, cost-effective support for U.S. law firms and legal teams — from litigation support and document review to legal research and corporate assistance.
+          Practical, cost-effective support for U.S. law firms and legal teams — from litigation support and document review to legal research and corporate assistance. Gayatri Legal Solutions (gayatrilegalsolutions.com) delivers confidential LPO from India.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link to="/contact">

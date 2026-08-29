@@ -1,3 +1,5 @@
+import { appendVary, NEGOTIATION_VARY } from '#/lib/accept'
+
 /** RFC 9457 Problem Details plus the code / message / resolution fields agents expect. */
 
 export const PROBLEM_JSON = 'application/problem+json; charset=utf-8'
@@ -124,6 +126,7 @@ export function httpProblemResponse(
   const headers = new Headers(extraHeaders)
   headers.set('Content-Type', PROBLEM_JSON)
   headers.set('Cache-Control', 'private, no-store')
+  appendVary(headers, [...NEGOTIATION_VARY])
   return new Response(JSON.stringify(problem), {
     status: problem.status,
     headers,

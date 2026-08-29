@@ -33,6 +33,7 @@ export function publicCmsCacheHeaders(): Record<string, string> {
     'Cache-Control': 'public, max-age=0, must-revalidate',
     'Cloudflare-CDN-Cache-Control': `public, max-age=${PUBLIC_CMS_S_MAXAGE_SEC}, stale-while-revalidate=${PUBLIC_CMS_SWR_SEC}`,
     'Cache-Tag': PUBLIC_CMS_CACHE_TAG,
+    Vary: 'Accept, Accept-Encoding',
   }
 }
 

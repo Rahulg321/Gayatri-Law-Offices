@@ -33,7 +33,8 @@ ${SITE_NAME} delivers confidential, high-quality legal support with multi-jurisd
 
 ## Machine-readable API
 
-- [OpenAPI 3.1](${origin}/openapi.json): Public API description
+- [OpenAPI 3.1](${origin}/openapi.json): Public API description (YAML at ${origin}/api/openapi.yaml)
+- [Sitemap](${origin}/sitemap.xml): Indexable URLs
 - [Service status](${origin}/api/v1/status): JSON availability
 - [API catalog](${origin}/.well-known/api-catalog): RFC 9727 catalog
 - Errors use RFC 9457 \`application/problem+json\` with \`code\`, \`message\`, and \`resolution\`
