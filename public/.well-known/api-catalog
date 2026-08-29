@@ -1,0 +1,19 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://gayatrilegalsolutions.com/",
+      "service-desc": [
+        {
+          "href": "https://gayatrilegalsolutions.com/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "item": [
+        {
+          "href": "https://gayatrilegalsolutions.com/api/v1/status",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

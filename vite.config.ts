@@ -17,7 +17,7 @@ const config = defineConfig({
 
       sitemap: {
         enabled: true,
-        host: 'https://gayatrilawoffices.in',
+        host: 'https://gayatrilegalsolutions.com',
       },
     }),
     viteReact(),

@@ -1,4 +1,68 @@
+# Gayatri Law Offices — agent crawl policy
+# Content Signals (https://contentsignals.org/): search, AI input, and training are allowed.
+
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes, use=full
 Allow: /
 
-Sitemap: https://gayatri-law-offices.pages.dev/sitemap.xml
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: ora-agent
+Allow: /
+
+Disallow: /admin
+Disallow: /api/auth/
+
+Sitemap: https://gayatrilegalsolutions.com/sitemap.xml

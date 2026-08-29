@@ -1,0 +1,4 @@
+export const HOME_H1 = 'Expert Legal Process Outsourcing From India'
+
+/** Plain-text fallback for agents and browsers that do not run JavaScript. */
+export const HOME_NOSCRIPT_TEXT = `${HOME_H1}. Gayatri Law Offices provides cost-effective, high-quality legal process outsourcing from India for law firms and legal departments worldwide. Our teams draft and review commercial contracts, support document review and e-discovery, produce legal research and memoranda, assist litigation teams with depositions and trial preparation, run due diligence for corporate transactions, and support intellectual property and paralegal workflows. Engagements are delivered under confidentiality, with quality control and turnaround commitments suited to US, UK, EU, and India matters. Visit /services for the catalog, /contact for a consultation, /openapi.json for the public API, and /llms.txt for an agent reading list.`

@@ -27,7 +27,7 @@ export const Route = createFileRoute('/')({
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'Gayatri Law Offices',
-        url: 'https://gayatri-law-offices.pages.dev',
+        url: 'https://gayatrilegalsolutions.com',
       }),
     }],
   }),

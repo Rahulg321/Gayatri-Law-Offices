@@ -19,7 +19,7 @@ export const Route = createRootRoute({
       { property: 'og:title', content: 'Gayatri Law Offices — Expert Legal Process Outsourcing from India' },
       { property: 'og:description', content: 'Cost-effective, high-quality LPO services for global law firms. Contract drafting, document review, litigation support, and more.' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://gayatri-law-offices.pages.dev' },
+      { property: 'og:url', content: 'https://gayatrilegalsolutions.com' },
       { property: 'og:site_name', content: 'Gayatri Law Offices' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'Gayatri Law Offices — Expert Legal Process Outsourcing from India' },
@@ -27,7 +27,9 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      { rel: 'canonical', href: 'https://gayatri-law-offices.pages.dev' },
+      { rel: 'canonical', href: 'https://gayatrilegalsolutions.com' },
+      { rel: 'service-desc', href: '/openapi.json', type: 'application/openapi+json' },
+      { rel: 'describedby', href: '/llms.txt', type: 'text/plain' },
       { rel: 'icon', href: '/favicon.ico' },
     ],
     scripts: [
@@ -38,7 +40,7 @@ export const Route = createRootRoute({
           '@type': 'Organization',
           name: 'Gayatri Law Offices',
           description: 'Expert legal process outsourcing services from India, providing cost-effective contract drafting, document review, litigation support, and legal research for law firms worldwide.',
-          url: 'https://gayatri-law-offices.pages.dev',
+          url: 'https://gayatrilegalsolutions.com',
           areaServed: ['US', 'UK', 'EU', 'India'],
           knowsAbout: [
             'Legal Process Outsourcing',

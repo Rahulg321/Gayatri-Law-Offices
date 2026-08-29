@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '#/com
 import { Badge } from '#/components/ui/badge'
 import { portfolioSocialImage, type PortfolioProject } from '#/lib/cms'
 import { services, testimonials, stats } from '#/lib/data'
+import { HOME_H1, HOME_NOSCRIPT_TEXT } from '#/features/marketing/home-content'
 
 export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProject[] }) {
   return (
@@ -16,8 +17,11 @@ export function HomePage({ featuredProjects }: { featuredProjects: PortfolioProj
           {/*Trusted by 150+ Law Firms Worldwide*/}TRUSTED LEGAL SUPPORT FOR U.S. LAW FIRMS
         </Badge>
         <h1 className="display-title mb-6 max-w-4xl text-4xl leading-[1.06] font-semibold tracking-tight text-[var(--charcoal)] sm:text-5xl lg:text-6xl">
-          Expert Legal Process Outsourcing From India
+          {HOME_H1}
         </h1>
+        <noscript>
+          <p>{HOME_NOSCRIPT_TEXT}</p>
+        </noscript>
         <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--charcoal-soft)] sm:text-lg">
         Practical, cost-effective support for U.S. law firms and legal teams — from litigation support and document review to legal research and corporate assistance.
         </p>

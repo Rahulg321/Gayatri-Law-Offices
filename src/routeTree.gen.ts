@@ -14,8 +14,11 @@ import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as OpenapiDotjsonRouteImport } from './routes/openapi[.]json'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -29,10 +32,14 @@ import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects/$slug'
 import { Route as BlogsSlugRouteImport } from './routes/blogs/$slug'
+import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as DotwellKnownApiCatalogRouteImport } from './routes/[.]well-known/api-catalog'
 import { Route as AdminProjectsIndexRouteImport } from './routes/admin/projects/index'
 import { Route as AdminPracticeAreasIndexRouteImport } from './routes/admin/practice-areas/index'
 import { Route as AdminBlogsIndexRouteImport } from './routes/admin/blogs/index'
+import { Route as ApiV1StatusRouteImport } from './routes/api/v1/status'
+import { Route as ApiV1SplatRouteImport } from './routes/api/v1/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AdminProjectsSlugRouteImport } from './routes/admin/projects/$slug'
 import { Route as AdminPracticeAreasSlugRouteImport } from './routes/admin/practice-areas/$slug'
@@ -63,6 +70,11 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -71,6 +83,16 @@ const ResourcesRoute = ResourcesRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenapiDotjsonRoute = OpenapiDotjsonRouteImport.update({
+  id: '/openapi.json',
+  path: '/openapi.json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -138,10 +160,20 @@ const BlogsSlugRoute = BlogsSlugRouteImport.update({
   path: '/blogs/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AdminRoute,
+} as any)
+const DotwellKnownApiCatalogRoute = DotwellKnownApiCatalogRouteImport.update({
+  id: '/.well-known/api-catalog',
+  path: '/.well-known/api-catalog',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminProjectsIndexRoute = AdminProjectsIndexRouteImport.update({
   id: '/projects/',
@@ -157,6 +189,16 @@ const AdminBlogsIndexRoute = AdminBlogsIndexRouteImport.update({
   id: '/blogs/',
   path: '/blogs/',
   getParentRoute: () => AdminRoute,
+} as any)
+const ApiV1StatusRoute = ApiV1StatusRouteImport.update({
+  id: '/api/v1/status',
+  path: '/api/v1/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1SplatRoute = ApiV1SplatRouteImport.update({
+  id: '/api/v1/$',
+  path: '/api/v1/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -185,14 +227,19 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/$': typeof ApiSplatRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -205,6 +252,8 @@ export interface FileRoutesByFullPath {
   '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
   '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/$': typeof ApiV1SplatRoute
+  '/api/v1/status': typeof ApiV1StatusRoute
   '/admin/blogs/': typeof AdminBlogsIndexRoute
   '/admin/practice-areas/': typeof AdminPracticeAreasIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -214,14 +263,19 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/$': typeof ApiSplatRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -234,6 +288,8 @@ export interface FileRoutesByTo {
   '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
   '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/$': typeof ApiV1SplatRoute
+  '/api/v1/status': typeof ApiV1StatusRoute
   '/admin/blogs': typeof AdminBlogsIndexRoute
   '/admin/practice-areas': typeof AdminPracticeAreasIndexRoute
   '/admin/projects': typeof AdminProjectsIndexRoute
@@ -245,14 +301,19 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/llms.txt': typeof LlmsDottxtRoute
+  '/openapi.json': typeof OpenapiDotjsonRoute
   '/privacy': typeof PrivacyRoute
   '/resources': typeof ResourcesRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
   '/team': typeof TeamRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/timeline': typeof TimelineRoute
   '/why-us': typeof WhyUsRoute
+  '/.well-known/api-catalog': typeof DotwellKnownApiCatalogRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/$': typeof ApiSplatRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -265,6 +326,8 @@ export interface FileRoutesById {
   '/admin/practice-areas/$slug': typeof AdminPracticeAreasSlugRoute
   '/admin/projects/$slug': typeof AdminProjectsSlugRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/v1/$': typeof ApiV1SplatRoute
+  '/api/v1/status': typeof ApiV1StatusRoute
   '/admin/blogs/': typeof AdminBlogsIndexRoute
   '/admin/practice-areas/': typeof AdminPracticeAreasIndexRoute
   '/admin/projects/': typeof AdminProjectsIndexRoute
@@ -277,14 +340,19 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/faq'
+    | '/llms.txt'
+    | '/openapi.json'
     | '/privacy'
     | '/resources'
+    | '/robots.txt'
     | '/team'
     | '/terms'
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/.well-known/api-catalog'
     | '/admin/login'
+    | '/api/$'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -297,6 +365,8 @@ export interface FileRouteTypes {
     | '/admin/practice-areas/$slug'
     | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/api/v1/$'
+    | '/api/v1/status'
     | '/admin/blogs/'
     | '/admin/practice-areas/'
     | '/admin/projects/'
@@ -306,14 +376,19 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/faq'
+    | '/llms.txt'
+    | '/openapi.json'
     | '/privacy'
     | '/resources'
+    | '/robots.txt'
     | '/team'
     | '/terms'
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/.well-known/api-catalog'
     | '/admin/login'
+    | '/api/$'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -326,6 +401,8 @@ export interface FileRouteTypes {
     | '/admin/practice-areas/$slug'
     | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/api/v1/$'
+    | '/api/v1/status'
     | '/admin/blogs'
     | '/admin/practice-areas'
     | '/admin/projects'
@@ -336,14 +413,19 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/faq'
+    | '/llms.txt'
+    | '/openapi.json'
     | '/privacy'
     | '/resources'
+    | '/robots.txt'
     | '/team'
     | '/terms'
     | '/testimonials'
     | '/timeline'
     | '/why-us'
+    | '/.well-known/api-catalog'
     | '/admin/login'
+    | '/api/$'
     | '/blogs/$slug'
     | '/projects/$slug'
     | '/resources/$slug'
@@ -356,6 +438,8 @@ export interface FileRouteTypes {
     | '/admin/practice-areas/$slug'
     | '/admin/projects/$slug'
     | '/api/auth/$'
+    | '/api/v1/$'
+    | '/api/v1/status'
     | '/admin/blogs/'
     | '/admin/practice-areas/'
     | '/admin/projects/'
@@ -367,13 +451,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
+  OpenapiDotjsonRoute: typeof OpenapiDotjsonRoute
   PrivacyRoute: typeof PrivacyRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   TeamRoute: typeof TeamRoute
   TermsRoute: typeof TermsRoute
   TestimonialsRoute: typeof TestimonialsRoute
   TimelineRoute: typeof TimelineRoute
   WhyUsRoute: typeof WhyUsRoute
+  DotwellKnownApiCatalogRoute: typeof DotwellKnownApiCatalogRoute
+  ApiSplatRoute: typeof ApiSplatRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   ProjectsSlugRoute: typeof ProjectsSlugRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -381,6 +470,8 @@ export interface RootRouteChildren {
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiV1SplatRoute: typeof ApiV1SplatRoute
+  ApiV1StatusRoute: typeof ApiV1StatusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -420,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources': {
       id: '/resources'
       path: '/resources'
@@ -432,6 +530,20 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/openapi.json': {
+      id: '/openapi.json'
+      path: '/openapi.json'
+      fullPath: '/openapi.json'
+      preLoaderRoute: typeof OpenapiDotjsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -525,12 +637,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/.well-known/api-catalog': {
+      id: '/.well-known/api-catalog'
+      path: '/.well-known/api-catalog'
+      fullPath: '/.well-known/api-catalog'
+      preLoaderRoute: typeof DotwellKnownApiCatalogRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/projects/': {
       id: '/admin/projects/'
@@ -552,6 +678,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/blogs/'
       preLoaderRoute: typeof AdminBlogsIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/api/v1/status': {
+      id: '/api/v1/status'
+      path: '/api/v1/status'
+      fullPath: '/api/v1/status'
+      preLoaderRoute: typeof ApiV1StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/$': {
+      id: '/api/v1/$'
+      path: '/api/v1/$'
+      fullPath: '/api/v1/$'
+      preLoaderRoute: typeof ApiV1SplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -626,13 +766,18 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
+  OpenapiDotjsonRoute: OpenapiDotjsonRoute,
   PrivacyRoute: PrivacyRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   TeamRoute: TeamRoute,
   TermsRoute: TermsRoute,
   TestimonialsRoute: TestimonialsRoute,
   TimelineRoute: TimelineRoute,
   WhyUsRoute: WhyUsRoute,
+  DotwellKnownApiCatalogRoute: DotwellKnownApiCatalogRoute,
+  ApiSplatRoute: ApiSplatRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   ProjectsSlugRoute: ProjectsSlugRoute,
   ServicesSlugRoute: ServicesSlugRoute,
@@ -640,6 +785,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsIndexRoute: ProjectsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiV1SplatRoute: ApiV1SplatRoute,
+  ApiV1StatusRoute: ApiV1StatusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
